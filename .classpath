@@ -15,5 +15,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-servlet-1.18.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsr311-api-1.1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-multipart-1.18.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mimepull-1.3.jar"/>
+	<classpathentry kind="lib" path="/Developer/guice-3.0/guice-3.0.jar"/>
+	<classpathentry kind="lib" path="/Developer/guice-3.0/guice-servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="/Developer/jersey-archive-1.18/contribs/jersey-guice-1.18.jar"/>
+	<classpathentry kind="lib" path="/Developer/guava-17.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

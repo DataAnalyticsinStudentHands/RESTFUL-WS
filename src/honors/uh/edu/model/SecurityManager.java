@@ -3,14 +3,14 @@ package honors.uh.edu.model;
 import java.sql.Connection;
 import java.util.ArrayList;
  
-import honors.uh.edu.pojo.UserVO;
+import honors.uh.edu.pojo.User;
 import honors.uh.edu.dao.DbConnection; 
 import honors.uh.edu.dao.LoginHandler;
  
 public class SecurityManager {
 
-	public ArrayList<UserVO> getAllUsersList()throws Exception {
-		ArrayList<UserVO> userList = null;
+	public ArrayList<User> getAllUsersList()throws Exception {
+		ArrayList<User> userList = null;
 		try {
 			DbConnection database= new DbConnection();
 			Connection connection = database.getConnection();
