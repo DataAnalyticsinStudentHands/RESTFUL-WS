@@ -18,13 +18,13 @@ public class LoginService {
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String login(@FormParam("username") String username,
-			@FormParam("password") int id) {
+			@FormParam("password") String id) {
 
 		return getAllUsersList(username, id);
 
 	}
 
-	public String getAllUsersList(String username,int id)
+	public String getAllUsersList(String username,String id)
 	{
 		//String userListData = null;
 		try
@@ -35,7 +35,7 @@ public class LoginService {
 			for (User user : userList) {
 				if(user.getFirstName().equals(username))
 				{
-					if(user.getId() == id)
+					if(user.getLastName() == id)
 					{
 						return "Logged in User:"+username;
 					}

@@ -20,7 +20,7 @@ public class LoginHandler {
 			while (rs.next()) {
 				User user = new User();
 				user.setFirstName(rs.getString("username"));
-				user.setId(rs.getInt("password"));
+				user.setLastName(rs.getString("password"));
 				userList.add(user);
 			}
 			return userList;
