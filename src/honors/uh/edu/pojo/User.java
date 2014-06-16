@@ -3,8 +3,6 @@ package honors.uh.edu.pojo;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-// from http://www.vogella.com/articles/REST/
-// JAX-RS supports an automatic mapping from JAXB annotated class to XML and JSON
 public class User {
 
     private String firstName;
@@ -25,4 +23,9 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
+  //  @Override
+	//public String toString() {
+		//return "User [firstname=" + firstName + ", lastname=" + lastName + "]";
+	//}
 }
