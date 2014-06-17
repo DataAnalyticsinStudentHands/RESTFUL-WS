@@ -7,5 +7,12 @@ Collection of RESTful web service implementation for core DASH functions. The so
 
 2. AngularJS consumes the web service.
 
+Description of the Java backend
+================================
+
+Jersey is the Java reference implementation for providing REST.
+
+
+
 
 
