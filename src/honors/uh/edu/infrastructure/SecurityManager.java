@@ -1,4 +1,4 @@
-package honors.uh.edu.model;
+package honors.uh.edu.infrastructure;
 
 import java.sql.Connection;
 import java.util.ArrayList;

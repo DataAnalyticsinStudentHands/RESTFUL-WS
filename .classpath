@@ -9,8 +9,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Developer/jersey-archive-1.18/contribs/jersey-guice-1.18.jar"/>
 	<classpathentry kind="lib" path="/Developer/guice-3.0/guice-3.0.jar"/>
 	<classpathentry kind="lib" path="/Developer/guice-3.0/guice-servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="/Developer/jackson-jaxrs-1.9.13.jar"/>
 	<classpathentry kind="lib" path="/Developer/guava-17.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

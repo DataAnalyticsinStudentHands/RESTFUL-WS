@@ -1,14 +1,14 @@
 package honors.uh.edu.rest;
 
 import java.util.ArrayList;
- 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
- 
-import honors.uh.edu.model.SecurityManager;
+
+import honors.uh.edu.infrastructure.SecurityManager;
 import honors.uh.edu.pojo.User;
  
 @Path("/WebService")
