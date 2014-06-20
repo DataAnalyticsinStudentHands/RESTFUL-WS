@@ -31,7 +31,7 @@ public class DashApplicationSetup extends GuiceServletContextListener {
                 super.configureServlets();
 
                 // Configuring Jersey via Guice:
-                ResourceConfig resourceConfig = new PackagesResourceConfig("honors.uh.edu/rest");
+                ResourceConfig resourceConfig = new PackagesResourceConfig("honors.uh.edu");
                 for (Class<?> resource : resourceConfig.getClasses()) {
                     bind(resource);
                 }
@@ -39,7 +39,7 @@ public class DashApplicationSetup extends GuiceServletContextListener {
              // hook Jackson into Jersey as the POJO <-> JSON mapper
                 bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
                 
-                serve("/rest/*").with(GuiceContainer.class);
+                serve("/services/*").with(GuiceContainer.class);
                 
                // filter("/rest/*").through(ResponseCorsFilter.class);
             }
