@@ -200,11 +200,6 @@
 			<version>1.17.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.ext</groupId>
-			<artifactId>jersey-spring3</artifactId>
-			<version>2.9</version>
-		</dependency>
-		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm-commons</artifactId>
 			<version>3.3.1</version>
@@ -248,11 +243,6 @@
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-multipart</artifactId>
 			<version>1.18.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-			<version>1.1.1</version>
 		</dependency>
 		
   </dependencies>
