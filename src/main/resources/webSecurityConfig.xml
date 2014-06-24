@@ -7,24 +7,27 @@
       http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-    <http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
-        <intercept-url pattern="/api/**" access="isAuthenticated()" />
-
-        <sec:form-login authentication-success-handler-ref="mySuccessHandler" authentication-failure-handler-ref="myFailureHandler" />
-
-        <logout />
+    <http create-session="stateless" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
+        <intercept-url pattern="/rest/**" access="isAuthenticated()" />
+		<http-basic />
     </http>
 
-    <beans:bean id="mySuccessHandler" class="honors.uh.edu.security.MySavedRequestAwareAuthenticationSuccessHandler" />
-    <beans:bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
-
+	
+   
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
-            <user-service>
-                <user name="temporary" password="temporary" authorities="ROLE_ADMIN" />
-                <user name="user" password="userPass" authorities="ROLE_USER" />
-            </user-service>
+            <jdbc-user-service data-source-ref="securityDataSource"/>
         </authentication-provider>
     </authentication-manager>
+    
+   
+    <beans:bean name="securityDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <beans:property name="url" value="jdbc:mysql://localhost:3306/test" />
+	    <beans:property name="username" value="root" />
+	    <beans:property name="password" value="" />
+	</beans:bean>
+	
+    
 
 </beans:beans>
