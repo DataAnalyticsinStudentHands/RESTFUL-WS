@@ -18,17 +18,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- Spring child -->
-	<servlet>
-		<servlet-name>api</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>api</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -61,5 +50,6 @@
     <listener>
         <listener-class>honors.uh.edu.infrastructure.DashApplicationSetup</listener-class>
     </listener>
-
+    
+    
 </web-app>

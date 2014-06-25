@@ -8,7 +8,7 @@
       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <http create-session="stateless" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
-        <intercept-url pattern="/rest/**" access="isAuthenticated()" />
+        <intercept-url pattern="/services/**" access="isAuthenticated()" />
 		<http-basic />
     </http>
 
