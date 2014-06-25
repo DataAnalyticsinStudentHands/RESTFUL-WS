@@ -1,5 +1,8 @@
 package honors.uh.edu.repositories.impl.mock;
 
+import com.google.common.collect.Ordering;
+import com.google.common.primitives.Ints;
+import com.google.inject.Singleton;
 import honors.uh.edu.pojo.NullUser;
 import honors.uh.edu.pojo.User;
 import honors.uh.edu.repositories.contract.UserRepository;
@@ -7,79 +10,73 @@ import honors.uh.edu.repositories.contract.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Ordering;
-import com.google.common.primitives.Ints;
-import com.google.inject.Singleton;
-
 @Singleton
 public class UserMockRepositoryImpl extends GenericMockRepository<User> implements UserRepository {
 
-	private List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
-	public UserMockRepositoryImpl() {
-		users = createUsers();
-	}
+    public UserMockRepositoryImpl() {
+        this.users = this.createUsers();
+    }
 
-	@Override
-	public User getById(final int id) {
-		for (final User u : users) {
-			if (u.getId() == id) {
-				return u;
-			}
-		}
-		return new NullUser();
-	}
+    public User getById(int id) {
+        for (User u : this.users) {
+            if (u.getId() == id) {
+                return u;
+            }
+        }
+        return new NullUser();
+    }
 
-	@Override
-	public List<User> getAll() {
-		return users;
-	}
+    public List<User> getAll() {
+        return this.users;
+    }
 
-	@Override
-	public User create(final User user) {
-		user.setId(getCurrentMaxId() + 1);
-		users.add(user);
-		return user;
-	}
+    @Override
+    public User create(User user) {
+        user.setId(getCurrentMaxId() + 1);
+        this.users.add(user);
+        return user;
+    }
 
-	@Override
-	public User update(final User user) {
-		final User byId = getById(user.getId());
-		byId.setFirstName(user.getFirstName());
-		byId.setLastName(user.getLastName());
-		return byId;
-	}
+    @Override
+    public User update(User user) {
+        User byId = this.getById(user.getId());
+        byId.setFirstName(user.getFirstName());
+        byId.setLastName(user.getLastName());
+        return byId;
+    }
 
-	@Override
-	public void remove(final int id) {
-		final User byId = getById(id);
-		users.remove(byId);
-	}
+    @Override
+    public void remove(int id) {
+        User byId = this.getById(id);
+        this.users.remove(byId);
+    }
 
-	@Override
-	public int getNumberOfUsers() {
-		return users.size();
-	}
+    @Override
+    public int getNumberOfUsers() {
+        return this.users.size();
+    }
 
-	private List<User> createUsers() {
-		final int numberOfUsers = 10;
-		for (int i = 0; i < numberOfUsers; i++) {
-			final User user = new User();
-			user.setId(i + 1);
-			user.setFirstName("Foo" + (i + 1));
-			user.setLastName("Bar" + (i + 1));
-			users.add(user);
-		}
-		return users;
-	}
+    private List<User> createUsers() {
+        int numberOfUsers = 10;
+        for (int i = 0; i < numberOfUsers; i++) {
+            User user = new User();
+            user.setId(i + 1);
+            user.setFirstName("Foo" + (i + 1));
+            user.setLastName("Bar" + (i + 1));
+            this.users.add(user);
+        }
+        return this.users;
+    }
 
-	private int getCurrentMaxId() {
-		final Ordering<User> ordering = new Ordering<User>() {
-			@Override
-			public int compare(final User left, final User right) {
-				return Ints.compare(left.getId(), right.getId());
-			}
-		};
-		return ordering.max(users).getId();
-	}
+    private int getCurrentMaxId() {
+        Ordering<User> ordering = new Ordering<User>() {
+            @Override
+            public int compare(User left, User right) {
+                return Ints.compare(left.getId(), right.getId());
+            }
+        };
+        return ordering.max(this.users).getId();
+    }
 }
