@@ -17,8 +17,7 @@ public class DummyServiceImpl implements DummyService {
     }
 
     @Override
-    public User getDefaultUser() {
-        Object defaultUser = this.dummyRepository.getDefaultUser();
+    public User getDefaultUser() {        
         return this.dummyRepository.getDefaultUser();
     }
 

@@ -15,7 +15,7 @@ public class LoginHandler {
 			// String uname = request.getParameter("uname");
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT * FROM user");
-			// ps.setString(1,uname);
+			
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				User user = new User();

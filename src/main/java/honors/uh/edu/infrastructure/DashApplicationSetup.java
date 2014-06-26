@@ -8,7 +8,7 @@ import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import honors.uh.edu.rest.ResponseCorsFilter;
+//import honors.uh.edu.rest.ResponseCorsFilter;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
 // This is the entry point for Guice Dependency Injection when called from a servlet container using web.xml
@@ -16,7 +16,7 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 // You should have something similar in your web.xml:  s
 //
 //      <listener>
-//              <listener-class>ngdemo.infrastructure.NgDemoApplicationSetup</listener-class>
+//              <listener-class>honors.uh.edu.infrastructure.DASHApplicationSetup</listener-class>
 //      </listener>
 public class DashApplicationSetup extends GuiceServletContextListener {
 

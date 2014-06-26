@@ -8,7 +8,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import honors.uh.edu.infrastructure.SecurityManager;
 import honors.uh.edu.pojo.User;
  
 @Path("/WebService")
@@ -30,8 +29,8 @@ public class LoginService {
 		try
 		{
 			ArrayList<User> userList = null;
-			SecurityManager securityManager= new SecurityManager();
-			userList = securityManager.getAllUsersList();
+			//SecurityManager securityManager= new SecurityManager();
+			//userList = securityManager.getAllUsersList();
 			for (User user : userList) {
 				if(user.getFirstName().equals(username))
 				{

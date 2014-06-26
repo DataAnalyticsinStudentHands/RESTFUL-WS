@@ -1,10 +1,10 @@
-package honors.uh.edu.repositories.impl.mock;
+package honors.uh.edu.repositories.impl.DB;
 
 import honors.uh.edu.repositories.contract.Repository;
 
 import java.util.List;
 
-public abstract class GenericMockRepository<T> implements Repository<T> {
+public abstract class GenericDBRepository<T> implements Repository<T> {
 
     @Override
     public List<T> getAll() {

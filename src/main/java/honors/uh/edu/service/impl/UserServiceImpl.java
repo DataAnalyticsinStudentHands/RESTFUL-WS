@@ -2,6 +2,7 @@ package honors.uh.edu.service.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import honors.uh.edu.pojo.User;
 import honors.uh.edu.repositories.contract.UserRepository;
 import honors.uh.edu.service.contract.UserService;
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List getAllUsers() {
+    public List<User> getAllUsers() {
         return this.userRepository.getAll();
     }
 
@@ -46,6 +47,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getNumberOfUsers() {
-        return this.userRepository.getNumberOfUsers();
+        return this.userRepository.getNumberOfUsers();        
     }
+
+	@Override
+	public List<User> getByName(String name) {		
+		return this.userRepository.getByName(name);
+	}
 }

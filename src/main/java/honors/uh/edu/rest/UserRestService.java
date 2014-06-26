@@ -26,8 +26,9 @@ public class UserRestService {
     }
 
     @GET
+    @Path("{dbName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAllUsersInJSON() {
+    public List<User> getAllUsersInJSON(@PathParam("dbName") String dbName) {
         return userService.getAllUsers();
     }
 

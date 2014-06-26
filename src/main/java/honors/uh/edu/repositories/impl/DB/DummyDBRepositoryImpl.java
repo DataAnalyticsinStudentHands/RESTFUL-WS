@@ -1,9 +1,9 @@
-package honors.uh.edu.repositories.impl.mock;
+package honors.uh.edu.repositories.impl.DB;
 
 import honors.uh.edu.pojo.User;
 import honors.uh.edu.repositories.contract.DummyRepository;
 
-public class DummyMockRepositoryImpl extends GenericMockRepository<User> implements DummyRepository {
+public class DummyDBRepositoryImpl extends GenericDBRepository<User> implements DummyRepository {
 
     @Override
     public User getDefaultUser() {
