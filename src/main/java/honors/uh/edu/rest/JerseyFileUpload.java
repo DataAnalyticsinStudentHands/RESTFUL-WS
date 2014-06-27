@@ -28,33 +28,33 @@ public class JerseyFileUpload {
 	@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(FormDataMultiPart form) {
+	public Response uploadFile(final FormDataMultiPart form) {
 
-		 FormDataBodyPart filePart = form.getField("file");
+		final FormDataBodyPart filePart = form.getField("file");
 
-		 ContentDisposition headerOfFilePart =  filePart.getContentDisposition();
+		final ContentDisposition headerOfFilePart =  filePart.getContentDisposition();
 
-		 InputStream fileInputStream = filePart.getValueAs(InputStream.class);
+		final InputStream fileInputStream = filePart.getValueAs(InputStream.class);
 
-		 String filePath = SERVER_UPLOAD_LOCATION_FOLDER + headerOfFilePart.getFileName();
+		final String filePath = SERVER_UPLOAD_LOCATION_FOLDER + headerOfFilePart.getFileName();
 
 		// save the file to the server
 		saveFile(fileInputStream, filePath);
 
-		String output = "File saved to server location using FormDataMultiPart : " + filePath;
+		final String output = "File saved to server location using FormDataMultiPart : " + filePath;
 
 		return Response.status(200).entity(output).build();
 
 	}
 
 	// save uploaded file to a defined location on the server
-	private void saveFile(InputStream uploadedInputStream, String serverLocation) {
+	private void saveFile(final InputStream uploadedInputStream, final String serverLocation) {
 
 		try {
 			OutputStream outpuStream = new FileOutputStream(new File(
 					serverLocation));
 			int read = 0;
-			byte[] bytes = new byte[1024];
+			final byte[] bytes = new byte[1024];
 
 			outpuStream = new FileOutputStream(new File(serverLocation));
 			while ((read = uploadedInputStream.read(bytes)) != -1) {
@@ -65,7 +65,7 @@ public class JerseyFileUpload {
 			outpuStream.close();
 
 			uploadedInputStream.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 
 			e.printStackTrace();
 		}
