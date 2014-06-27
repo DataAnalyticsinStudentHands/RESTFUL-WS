@@ -85,5 +85,16 @@ CREATE TABLE IF NOT EXISTS `acl_object_identity` (
   KEY `foreign_fk_3` (`owner_sid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;# MySQL returned an empty result set (i.e. zero rows).
 ```
+6. Then do this to set the contraints
+```
+ALTER TABLE `acl_entry`
+  ADD CONSTRAINT `foreign_fk_4` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`),
+  ADD CONSTRAINT `foreign_fk_5` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`);
+  
+ ALTER TABLE `acl_object_identity`
+  ADD CONSTRAINT `foreign_fk_1` FOREIGN KEY (`parent_object`) REFERENCES `acl_object_identity` (`id`),
+  ADD CONSTRAINT `foreign_fk_2` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`),
+  ADD CONSTRAINT `foreign_fk_3` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`);
+```
 
 
