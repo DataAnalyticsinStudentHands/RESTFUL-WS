@@ -13,9 +13,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Singleton;
+
 @Singleton
 public class UserDBRepositoryImpl extends GenericDBRepository<User> implements
-		UserRepository {
+UserRepository {
 
 	@Override
 	public List<User> getAll() {
