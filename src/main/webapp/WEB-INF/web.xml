@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>DASH Web Application</display-name>
-  
-  	<!-- Spring root -->
-	<context-param>
-		<param-name>contextClass</param-name>
-		<param-value>
-         org.springframework.web.context.support.AnnotationConfigWebApplicationContext
-      </param-value>
-	</context-param>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>DASH Web Application</display-name>
+	
+	<!-- CORS filter  -->
+	<filter>
+	   <filter-name>CorsFilter</filter-name>
+	   <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+	  <init-param>
+	    <param-name>cors.allowed.origins</param-name>
+	    <param-value>*</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>cors.allowed.methods</param-name>
+	    <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>cors.allowed.headers</param-name>
+	    <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,authorization</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>cors.exposed.headers</param-name>
+	    <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials,authorization</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>cors.support.credentials</param-name>
+	    <param-value>true</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>cors.preflight.maxage</param-name>
+	    <param-value>10</param-value>
+	  </init-param>
+	</filter>
+
+	 <filter-mapping>
+	   <filter-name>CorsFilter</filter-name>
+	   <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+   
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>honors.uh.edu</param-value>
+		<param-value>classpath:spring/applicationContext.xml</param-value>
 	</context-param>
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<!-- Spring Security -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-  <filter>
-   <filter-name>CorsFilter</filter-name>
-   <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
-   <init-param>
-        <param-name>cors.allowed.origins</param-name>
-        <param-value>*</param-value>
-    </init-param>
-    <init-param>
-        <param-name>cors.allowed.methods</param-name>
-        <param-value>GET,POST,PUT,DELETE</param-value>
-    </init-param>
- </filter>
  
- <filter-mapping>
-   <filter-name>CorsFilter</filter-name>
-   <url-pattern>/*</url-pattern>
- </filter-mapping>
-
-    <filter>
-        <filter-name>guiceFilter</filter-name>
-        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>guiceFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <listener>
-        <listener-class>honors.uh.edu.infrastructure.DashApplicationSetup</listener-class>
-    </listener>
-    
-    
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>
+			org.glassfish.jersey.servlet.ServletContainer
+		</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>honors.uh.edu.DashApplicationSetup</param-value>			
+		</init-param>		
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+ 
+	<resource-ref>
+        <description>Database resource for DASH rest web application </description>
+        <res-ref-name>jdbc/testApp</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>	   
 </web-app>
+
+
+

@@ -1,63 +1,63 @@
-package honors.uh.edu.pojo;
+package honors.uh.edu.dao;
 
-import honors.uh.edu.dao.UserEntity;
-import honors.uh.edu.helpers.DateISO8601Adapter;
+import honors.uh.edu.pojo.User;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.beanutils.BeanUtils;
 
 /**
- * User resource placeholder for json/xml representation
- *
+ * User entity
  * @author plindner
  *
  */
-@SuppressWarnings("restriction")
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class User implements Serializable {
-	
-	private static final long serialVersionUID = -8039686696076337053L;
+@Entity
+@Table(name="users")
+public class UserEntity implements Serializable {
+
+	private static long serialVersionUID = -8039686696076337053L;
 
 	/** id of the user */
-	@XmlElement(name = "id")
+	@Id
+	@GeneratedValue
+	@Column(name="id")
 	private Long id;
 
 	/** username of the user */
-	@XmlElement(name = "username")
+	@Column(name = "username")
 	private String username;
 
 	/** password of the user */
-	@XmlElement(name = "password")
+	@Column(name="password")
 	private String password;
 
 	/** firstname of the user */
-	@XmlElement(name = "firstName")
+	@Column(name = "firstName")
 	private String firstName;
 
 	/** lastname of the user */
-	@XmlElement(name = "lastName")
+	@Column(name = "lastName")
 	private String lastName;
 
 	/** city of the user */
-	@XmlElement(name = "city")
+	@Column(name = "city")
 	private String city;
 
 	/** home phone number of the user */
-	@XmlElement(name = "homePhone")
+	@Column(name = "homePhone")
 	private String homePhone;
 
 	/** cellPhone number of the user */
-	@XmlElement(name = "cellPhone")
+	@Column(name = "cellPhone")
 	private String cellPhone;
 
 	/** email address of the user */
@@ -65,31 +65,19 @@ public class User implements Serializable {
 	private String email;
 
 	/** path to stored picture of the user */
-	@XmlElement(name = "picturePath")
+	@Column(name = "picturePath")
 	private String picturePath;
 
 	/** insertion date in the database */
-	@XmlElement(name = "insertionDate")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
+	@Column(name="insertion_date")
 	private Date insertionDate;
 
-	public User( UserEntity userEntity) {
-		try {
-			BeanUtils.copyProperties(this, userEntity);
-		} catch ( IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch ( InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	public UserEntity(){}
 
-	public User( String username,  String password,
-			 String firstName,  String lastName,  String city,
-			 String homePhone,  String cellPhone,  String email,
-			 String picturePath) {
+	public UserEntity( String username,  String password,
+			String firstName,  String lastName,  String city,
+			String homePhone,  String cellPhone,  String email,
+			String picturePath) {
 
 		this.username = username;
 		this.password = password;
@@ -103,14 +91,23 @@ public class User implements Serializable {
 
 	}
 
-	public User() {
+	public UserEntity(User user) {
+		try {
+			BeanUtils.copyProperties(this, user);
+		} catch ( IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch ( InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername( String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -118,7 +115,7 @@ public class User implements Serializable {
 		return password;
 	}
 
-	public void setPassword( String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -126,7 +123,7 @@ public class User implements Serializable {
 		return firstName;
 	}
 
-	public void setFirstName( String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -142,7 +139,7 @@ public class User implements Serializable {
 		return city;
 	}
 
-	public void setCity( String city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
@@ -150,7 +147,7 @@ public class User implements Serializable {
 		return homePhone;
 	}
 
-	public void setHomePhone( String homePhone) {
+	public void setHomePhone(String homePhone) {
 		this.homePhone = homePhone;
 	}
 
@@ -158,7 +155,7 @@ public class User implements Serializable {
 		return cellPhone;
 	}
 
-	public void setCellPhone( String cellPhone) {
+	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
 
@@ -166,7 +163,7 @@ public class User implements Serializable {
 		return email;
 	}
 
-	public void setEmail( String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
@@ -174,7 +171,7 @@ public class User implements Serializable {
 		return picturePath;
 	}
 
-	public void setPicture( String picturePath) {
+	public void setPicture(String picturePath) {
 		this.picturePath = picturePath;
 	}
 
@@ -190,10 +187,8 @@ public class User implements Serializable {
 		return insertionDate;
 	}
 
-	public void setInsertionDate( Date insertionDate) {
+	public void setInsertionDate(Date insertionDate) {
 		this.insertionDate = insertionDate;
 	}
-
-
 
 }
