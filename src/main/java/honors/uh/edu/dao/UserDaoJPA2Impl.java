@@ -15,17 +15,17 @@ import javax.persistence.TypedQuery;
 
 public class UserDaoJPA2Impl implements UserDao {
 
-	@PersistenceContext(unitName = "dashRestPersistence")
+	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
 
 	@Override
 	public List<UserEntity> getUsers(String orderByInsertionDate) {
 		String sqlString = null;
 		if(orderByInsertionDate != null){
-			sqlString = "SELECT p FROM Users p" + " ORDER BY p.insertionDate "
-					+ orderByInsertionDate;
+			sqlString = "SELECT u FROM UserEntity u"
+					+ " ORDER BY u.insertionDate " + orderByInsertionDate;
 		} else {
-			sqlString = "SELECT p FROM Users p";
+			sqlString = "SELECT u FROM UserEntity u";
 		}
 		TypedQuery<UserEntity> query = entityManager.createQuery(sqlString,
 				UserEntity.class);
@@ -42,7 +42,7 @@ public class UserDaoJPA2Impl implements UserDao {
 		calendar.add(Calendar.DATE, -numberOfDaysToLookBack);//substract the number of days to look back
 		Date dateToLookBackAfter = calendar.getTime();
 
-		String qlString = "SELECT p FROM Users p where p.insertionDate > :dateToLookBackAfter ORDER BY p.insertionDate DESC";
+		String qlString = "SELECT u FROM UserEntity u where u.insertionDate > :dateToLookBackAfter ORDER BY u.insertionDate DESC";
 		TypedQuery<UserEntity> query = entityManager.createQuery(qlString,
 				UserEntity.class);
 		query.setParameter("dateToLookBackAfter", dateToLookBackAfter, TemporalType.DATE);
@@ -54,7 +54,7 @@ public class UserDaoJPA2Impl implements UserDao {
 	public UserEntity getUserById(Long id) {
 
 		try {
-			String qlString = "SELECT p FROM Users p WHERE p.id = ?1";
+			String qlString = "SELECT u FROM UserEntity u WHERE u.id = ?1";
 			TypedQuery<UserEntity> query = entityManager.createQuery(qlString,
 					UserEntity.class);
 			query.setParameter(1, id);
@@ -69,7 +69,7 @@ public class UserDaoJPA2Impl implements UserDao {
 	public UserEntity getUserByName(String name) {
 
 		try {
-			String qlString = "SELECT p FROM Users p WHERE p.username = ?1";
+			String qlString = "SELECT u FROM UserEntity u WHERE u.username = ?1";
 			TypedQuery<UserEntity> query = entityManager.createQuery(qlString,
 					UserEntity.class);
 			query.setParameter(1, name);

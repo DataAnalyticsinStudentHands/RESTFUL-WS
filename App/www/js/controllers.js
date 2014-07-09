@@ -14,14 +14,6 @@ app.run(function ($rootScope, $templateCache) {
     });
 });
 
-
-app.controller('DummyCtrl', ['$scope', 'DummyFactory', function ($scope, DummyFactory) {
-    $scope.bla = 'bla from controller';
-    DummyFactory.get({}, function (dummyFactory) {
-        $scope.firstname = dummyFactory.firstName;
-    })
-}]);
-
 app.controller('UserListCtrl', ['$scope', 'UsersFactory', 'UserFactory', '$location',
     function ($scope, UsersFactory, UserFactory, $location) {
 

@@ -24,7 +24,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @Table(name="users")
 public class UserEntity implements Serializable {
 
-	private static long serialVersionUID = -8039686696076337053L;
+	private static final long serialVersionUID = -8039686696076337053L;
 
 	/** id of the user */
 	@Id
@@ -65,11 +65,11 @@ public class UserEntity implements Serializable {
 	private String email;
 
 	/** path to stored picture of the user */
-	@Column(name = "picturePath")
+	@Column(name = "picture")
 	private String picturePath;
 
 	/** insertion date in the database */
-	@Column(name="insertion_date")
+	@Column(name = "insertation_date")
 	private Date insertionDate;
 
 	public UserEntity(){}
