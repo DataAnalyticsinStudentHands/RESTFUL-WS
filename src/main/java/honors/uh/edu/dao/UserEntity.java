@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -61,7 +60,7 @@ public class UserEntity implements Serializable {
 	private String cellPhone;
 
 	/** email address of the user */
-	@XmlElement(name = "email")
+	@Column(name = "email")
 	private String email;
 
 	/** path to stored picture of the user */
@@ -69,7 +68,7 @@ public class UserEntity implements Serializable {
 	private String picturePath;
 
 	/** insertion date in the database */
-	@Column(name = "insertation_date")
+	@Column(name = "insertion_date")
 	private Date insertionDate;
 
 	public UserEntity(){}

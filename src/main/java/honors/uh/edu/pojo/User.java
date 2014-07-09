@@ -25,7 +25,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {
-	
+
 	private static final long serialVersionUID = -8039686696076337053L;
 
 	/** id of the user */
@@ -74,7 +74,7 @@ public class User implements Serializable {
 	@UserDetailedView
 	private Date insertionDate;
 
-	public User( UserEntity userEntity) {
+	public User(UserEntity userEntity) {
 		try {
 			BeanUtils.copyProperties(this, userEntity);
 		} catch ( IllegalAccessException e) {
@@ -87,9 +87,9 @@ public class User implements Serializable {
 	}
 
 	public User( String username,  String password,
-			 String firstName,  String lastName,  String city,
-			 String homePhone,  String cellPhone,  String email,
-			 String picturePath) {
+			String firstName,  String lastName,  String city,
+			String homePhone,  String cellPhone,  String email,
+			String picturePath) {
 
 		this.username = username;
 		this.password = password;
@@ -100,7 +100,6 @@ public class User implements Serializable {
 		this.cellPhone = cellPhone;
 		this.email = email;
 		this.picturePath = picturePath;
-
 	}
 
 	public User() {

@@ -10,6 +10,7 @@
 
 	<properties>
 		<spring.version>4.0.3.RELEASE</spring.version>
+		<org.springframework.security.version>3.2.4.RELEASE</org.springframework.security.version>
 		<jersey.version>2.9</jersey.version>
 		<jackson.version>1.9.13</jackson.version>
 		<hibernate.version>4.2.7.Final</hibernate.version>
@@ -104,6 +105,26 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springframework.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework.security.version}</version>
+		</dependency>
+		
+		<!-- web -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- MySQL JDBC connector -->

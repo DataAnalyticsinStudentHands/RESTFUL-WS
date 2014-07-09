@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-3.2.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	
+
+	<!-- Declare intercept patterns -->
+    <security:http auto-config="true" create-session="stateless" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
+        <security:intercept-url pattern="/**" access="isAuthenticated()" />
+		<security:http-basic />
+    </security:http>
+	
+		
+	
+   <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:jdbc-user-service data-source-ref="securityDataSource"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+    
+   <!-- dataSource bean which defines the security DB connection -->
+    <beans:bean name="securityDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <beans:property name="url" value="jdbc:mysql://localhost:3306/testApp" />
+	    <beans:property name="username" value="sqluser" />
+	    <beans:property name="password" value="hs@SQL2011" />
+	</beans:bean>
+	
+    <beans:bean id="restAuthenticationEntryPoint"
+	  class="honors.uh.edu.security.RestAuthenticationEntryPoint">
+	  <beans:property name="realmName" value="Housuggest Secure"/>
+	</beans:bean>
+
+</beans:beans>

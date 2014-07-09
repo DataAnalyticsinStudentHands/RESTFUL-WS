@@ -10,7 +10,7 @@ CREATE TABLE `users` (
   `cellPhone` varchar(10) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `picture` varchar(200) DEFAULT NULL,
-  `insertation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `insertion_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
