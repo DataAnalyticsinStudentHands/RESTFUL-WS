@@ -6,6 +6,8 @@ import honors.uh.edu.pojo.User;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostFilter;
+
 /**
  *
  * @author plindner
@@ -35,6 +37,7 @@ public interface UserService {
 	 * @return list with users corresponding to search criteria
 	 * @throws AppException
 	 */
+	@PostFilter("hasPermission(filterObject, 'READ')")
 	public List<User> getUsers(String orderByInsertionDate,
 			Integer numberDaysToLookBack) throws AppException;
 

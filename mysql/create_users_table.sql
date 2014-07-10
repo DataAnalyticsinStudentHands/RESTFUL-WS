@@ -1,3 +1,5 @@
+--Do not use if making the tables for ACL Project.  For non-ACL only. Use ACLtest for ACL projects.
+
 CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
