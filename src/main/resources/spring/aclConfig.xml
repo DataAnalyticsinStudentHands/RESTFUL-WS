@@ -31,32 +31,24 @@
  </bean>
  
  <!-- Declare an acl service -->
- <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
-  <constructor-arg ref="dataSource"/>
-        <constructor-arg ref="lookupStrategy"/>
-        <constructor-arg ref="aclCache"/>
- </bean>
+ <bean id="aclService"
+		class="org.springframework.security.acls.jdbc.JdbcMutableAclService">
+		<constructor-arg ref="dashDS" />
+		<constructor-arg ref="lookupStrategy" />
+		<constructor-arg ref="aclCache" />
+		<property name="classIdentityQuery" value="SELECT @@IDENTITY"/>
+		<property name="sidIdentityQuery" value="SELECT @@IDENTITY"/>		
+	</bean>
   
  <!-- Declare a lookup strategy-->
  <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
-        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="dashDS"/>
         <constructor-arg ref="aclCache"/>
         <constructor-arg ref="aclAuthorizationStrategy"/>
         <constructor-arg ref="auditLogger"/>
     </bean>
      
-    <!-- Declare a datasource -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-   destroy-method="close"
-   p:driverClass="com.mysql.jdbc.Driver"
-   p:jdbcUrl="jdbc:mysql://localhost/test"
-   p:user="root"
-   p:password=""
-   p:acquireIncrement="5"
-   p:idleConnectionTestPeriod="60"
-   p:maxPoolSize="100"
-   p:maxStatements="50"
-   p:minPoolSize="10" />
+   
  
     <!-- Declare an acl cache-->  
    <bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">

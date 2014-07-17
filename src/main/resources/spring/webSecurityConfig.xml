@@ -37,5 +37,11 @@
 	  class="honors.uh.edu.security.RestAuthenticationEntryPoint">
 	  <property name="realmName" value="Housuggest Secure"/>
 	</bean>
+	
+	<bean id="authoritiesController" class="honors.uh.edu.security.AuthoritiesController">
+		<property name="dataSource" ref="dashDS"/>
+	</bean>
+		
+	
 
 </beans>

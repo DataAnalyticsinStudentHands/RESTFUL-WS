@@ -1,5 +1,7 @@
 package honors.uh.edu.dao;
 
+import honors.uh.edu.pojo.User;
+
 import java.util.List;
 
 /**
@@ -32,7 +34,8 @@ public interface UserDao {
 	 */
 	public UserEntity getUserByName(String name);
 
-	public void deleteUserById(Long id);
+
+	public void deleteUserById(User user);
 
 	public Long createUser(UserEntity user);
 
