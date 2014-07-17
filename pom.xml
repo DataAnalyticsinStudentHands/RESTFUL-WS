@@ -6,7 +6,7 @@
 	<artifactId>RESTFUL-WS</artifactId>
 	<packaging>war</packaging>
 	<name>RESTFUL-WS</name>
-	<description>REST-FUL web services for DASH backenend</description>
+	<description>REST-FUL web services for DASH backend</description>
 
 	<properties>
 		<spring.version>4.0.3.RELEASE</spring.version>
@@ -17,7 +17,12 @@
 		<jetty.version>9.0.7.v20131107</jetty.version> <!-- Adapt this to a version found on http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-maven-plugin/ -->
 		<logback.version>1.1.1</logback.version>
 		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
+		<commons-beanutils.version>1.9.1</commons-beanutils.version>
+		<mysql-connector-java.version>5.1.27</mysql-connector-java.version>
+		<tomcat-jdbc.version>7.0.35</tomcat-jdbc.version>
+		
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		
 	</properties>
 
 	<repositories>
@@ -124,21 +129,20 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- MySQL JDBC connector -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.27</version>			
+			<version>${mysql-connector-java.version}</version>
 		</dependency>
 
 		<!-- tomcat jdbc -->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>7.0.35</version>
+			<version>${tomcat-jdbc.version}</version>
 		</dependency>
 		
 		<!-- Spring ACL (c3p0 may be temporary) -->
@@ -153,16 +157,6 @@
 		<!-- ******* JPA/Hibernate ******** -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
@@ -172,7 +166,7 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>			
+			<version>${jersey.version}</version>
 		</dependency>			
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -183,25 +177,8 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.1</version>
+			<version>${commons-beanutils.version}</version>
 		</dependency>		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-external</artifactId>
-			<version>2.5.1</version>
-		</dependency>
 		
 		<!-- LogBack dependencies --> 
 		<dependency>
@@ -259,15 +236,37 @@
 	<build>
 		<plugins>
 			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-compiler-plugin</artifactId>
+        		<version>${maven-compiler-plugin.version}</version>
+        		<configuration>
+          			<source>1.7</source>
+          			<target>1.7</target>
+        		</configuration>
+        		<executions>
+                <execution>
+                    <id>default-testCompile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </execution>
+            </executions>
+      		</plugin>     		
+      		
+      		
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.17</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
-			
+    		
 		</plugins>
 	</build>
 	

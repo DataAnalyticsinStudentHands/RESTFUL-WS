@@ -21,7 +21,6 @@ import org.apache.commons.beanutils.BeanUtils;
  * @author plindner
  *
  */
-@SuppressWarnings("restriction")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {

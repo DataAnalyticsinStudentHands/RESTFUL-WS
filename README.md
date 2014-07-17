@@ -1,11 +1,28 @@
 RESTFUL-WS
 ==========
 
-Collection of RESTful web service implementation for core DASH functions. The source code is developed as Eclipse "Dynamic Web Project". The following assumptions have been made:
+Collection of RESTful web service implementation for core DASH functions. The source code is developed as Eclipse Maven project using facets "Dynamic Web Project" and "Java". The code has been tested for a default JRE Java 1.7 The following assumptions have been made:
 
 1. Java backend provides a RESTful web service.
 
 2. AngularJS consumes the web service.
+
+Description of the Tomcat 
+=========================
+We are using Tomcat 7. The following changes have been made to a standard Tomcat installation.
+
+a) Configure Tomcat To Support SSL Or Https
+
+in server.xml add:
+
+    <Connector SSLEnabled="true" clientAuth="false" keystoreFile="/path/to/certificate" keystorePass="***" maxThreads="150" port="8443" protocol="org.apache.coyote.http11.Http11Protocol" scheme="https" secure="true" sslProtocol="TLS"/>
+    
+ b) setup a shared lib folder for libraries shared by DASH RESTFUL-WS
+ 
+ in catalina.properties modify/add to the following to the shared.loader property
+ 
+ shared.loader=${catalina.base}/lib/shared/*.jar   
+    
 
 Description of the Java backend
 ================================
