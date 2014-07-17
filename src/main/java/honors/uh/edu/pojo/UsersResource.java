@@ -42,6 +42,8 @@ public class UsersResource {
 	@Autowired
 	private UserService userService;
 
+
+
 	/*
 	 * *********************************** CREATE ***********************************
 	 */
@@ -233,15 +235,17 @@ public class UsersResource {
 	 * *********************************** DELETE ***********************************
 	 */
 	@DELETE
-	@Path("{id}")
+	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response deleteUserById(@PathParam("id") Long id) {
-		userService.deleteUserById(id);
+	public Response deleteUser(User user)
+			throws AppException {
+		userService.deleteUser(user);
 		return Response.status(Response.Status.NO_CONTENT)// 204
 				.entity("User successfully removed from database").build();
 	}
 
 	@DELETE
+	@Path("admin")
 	@Produces({ MediaType.TEXT_HTML })
 	public Response deleteUsers() {
 		userService.deleteUsers();

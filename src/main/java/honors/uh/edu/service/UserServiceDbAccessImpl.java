@@ -6,6 +6,7 @@ import honors.uh.edu.errorhandling.AppException;
 import honors.uh.edu.filters.AppConstants;
 import honors.uh.edu.helpers.NullAwareBeanUtilsBean;
 import honors.uh.edu.pojo.User;
+import honors.uh.edu.security.AuthoritiesController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -15,12 +16,31 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Transactional;
 
-public class UserServiceDbAccessImpl implements UserService {
+
+public class UserServiceDbAccessImpl extends ApplicationObjectSupport implements
+UserService {
 
 	@Autowired
 	UserDao userDao;
+
+	@Autowired
+	private MutableAclService mutableAclService;
+
+	@Autowired
+	private AuthoritiesController authoritiesController;
+
+	public static final String userRole = "ROLE_USER";
 
 
 	/********************* Create related methods implementation ***********************/
@@ -42,7 +62,12 @@ public class UserServiceDbAccessImpl implements UserService {
 							AppConstants.DASH_POST_URL);
 		}
 
-		return userDao.createUser(new UserEntity(user));
+		long userId = userDao.createUser(new UserEntity(user));
+		user.setId(userId);
+		createUserACL(user, new PrincipalSid(user.getUsername()));
+		authoritiesController.create(user, userRole);
+
+		return userId;
 	}
 
 	private void validateInputForCreation(User user) throws AppException {
@@ -186,19 +211,26 @@ public class UserServiceDbAccessImpl implements UserService {
 	}
 
 	/********************* DELETE-related methods implementation ***********************/
+
 	@Override
 	@Transactional
-	public void deleteUserById(Long id) {
-		userDao.deleteUserById(id);
+	public void deleteUser(User user) {
+
+		userDao.deleteUserById(user);
+
 	}
 
 	@Override
 	@Transactional
+	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
+	// Users to delete
 	public void deleteUsers() {
 		userDao.deleteUsers();
 	}
 
 	@Override
+	// TODO: This doesnt need to exist. It is the exact same thing as
+	// getUserById(Long)
 	public User verifyUserExistenceById(Long id) {
 		UserEntity userById = userDao.getUserById(id);
 		if (userById == null) {
@@ -239,5 +271,46 @@ public class UserServiceDbAccessImpl implements UserService {
 		}
 
 	}
+
+	/****************** Methods for Acl *****************/
+
+
+
+	// Creates/Updates the ACL of user
+	// Is also an example of how to implement class specific ACL helper methods.
+	public void createUserACL(User user, Sid recipient) {
+		MutableAcl acl;
+		ObjectIdentity oid = new ObjectIdentityImpl(User.class,
+				user.getId());
+
+		try {
+			acl = (MutableAcl) mutableAclService.readAclById(oid);
+		} catch (NotFoundException nfe) {
+			acl = mutableAclService.createAcl(oid);
+		}
+		acl.insertAce(acl.getEntries().size(), BasePermission.READ, recipient,
+				true);
+		acl.insertAce(acl.getEntries().size(), BasePermission.WRITE, recipient,
+				true);
+		acl.insertAce(acl.getEntries().size(), BasePermission.DELETE,
+				recipient, true);
+		mutableAclService.updateAcl(acl);
+		acl.setOwner(recipient);
+		mutableAclService.updateAcl(acl);
+
+		logger.debug("Added permission " + "Read, Write, Delete" + " for Sid "
+				+ recipient
+				+ " contact " + user);
+
+	}
+
+	public void deleteACL(User user) {
+
+		ObjectIdentity oid = new ObjectIdentityImpl(User.class, user.getId());
+		mutableAclService.deleteAcl(oid, false);
+
+	}
+
+
 
 }

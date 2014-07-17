@@ -1,5 +1,7 @@
 package honors.uh.edu.dao;
 
+import honors.uh.edu.pojo.User;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -13,10 +15,13 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
-public class UserDaoJPA2Impl implements UserDao {
+
+public class UserDaoJPA2Impl implements
+UserDao {
 
 	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
+
 
 	@Override
 	public List<UserEntity> getUsers(String orderByInsertionDate) {
@@ -82,9 +87,10 @@ public class UserDaoJPA2Impl implements UserDao {
 
 
 	@Override
-	public void deleteUserById(Long id) {
+	public void deleteUserById(User userPojo) {
 
-		UserEntity user = entityManager.find(UserEntity.class, id);
+		UserEntity user = entityManager
+				.find(UserEntity.class, userPojo.getId());
 		entityManager.remove(user);
 
 	}
@@ -93,8 +99,10 @@ public class UserDaoJPA2Impl implements UserDao {
 	public Long createUser(UserEntity user) {
 
 		user.setInsertionDate(new Date());
-		entityManager.merge(user);
+		entityManager.persist(user);
 		entityManager.flush();// force insert to receive the id of the user
+
+		// Give admin over new user to the new user
 
 		return user.getId();
 	}
@@ -123,5 +131,7 @@ public class UserDaoJPA2Impl implements UserDao {
 			return 0;
 		}
 	}
+
+
 
 }

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
-import org.springframework.security.web.util.ELRequestMatcher;
-import org.springframework.security.web.util.RequestMatcher;
+import org.springframework.security.web.util.matcher.ELRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,7 +48,7 @@ BasicAuthenticationEntryPoint {
 
 	/**
 	 * Checks if this is a X-domain pre-flight request.
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -58,7 +58,7 @@ BasicAuthenticationEntryPoint {
 
 	/**
 	 * Checks if it is a rest request
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
