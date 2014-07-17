@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2014 at 04:50 PM
+-- Generation Time: Jul 17, 2014 at 06:35 PM
 -- Server version: 5.6.16-log
 -- PHP Version: 5.5.9
 
@@ -58,14 +58,15 @@ CREATE TABLE IF NOT EXISTS `acl_entry` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_uk_4` (`acl_object_identity`,`ace_order`),
   KEY `foreign_fk_5` (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `acl_entry`
 --
 
 INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`, `granting`, `audit_success`, `audit_failure`) VALUES
-(1, 10, 1, 4, 1, 1, 1, 1);
+(1, 10, 1, 4, 1, 1, 1, 1),
+(33, 10, 2, 4, 2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `acl_object_identity` (
   UNIQUE KEY `unique_uk_3` (`object_id_class`,`object_id_identity`),
   KEY `foreign_fk_1` (`parent_object`),
   KEY `foreign_fk_3` (`owner_sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `acl_object_identity`
@@ -105,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `acl_sid` (
   `sid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_uk_1` (`sid`,`principal`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `acl_sid`
@@ -131,8 +132,7 @@ CREATE TABLE IF NOT EXISTS `authorities` (
 --
 
 INSERT INTO `authorities` (`username`, `authority`) VALUES
-('steven', 'ROLE_USER'),
-('tyler', 'ROLE_USER');
+('tyler', 'ROLE_ADMIN');
 
 -- --------------------------------------------------------
 
@@ -155,16 +155,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `insertion_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`username`, `password`, `enabled`, `id`, `firstName`, `lastName`, `city`, `homePhone`, `cellPhone`, `email`, `picture`, `insertion_date`) VALUES
-('tyler', 'test', 1, 1, 'bobby', 'joe', NULL, NULL, NULL, NULL, NULL, '2014-07-09 16:41:51'),
-('steven', 'poop', 1, 2, 'bobby', 'joe', NULL, NULL, NULL, NULL, NULL, '2014-07-09 16:41:51'),
-('create', 'password', 1, 3, 'first', 'last', 'humble', '2818838208', NULL, NULL, NULL, '2014-07-09 16:41:51');
+('tyler', 'test', 1, 1, 'bobby', 'joe', NULL, NULL, NULL, NULL, NULL, '2014-07-09 16:41:51');
 
 --
 -- Constraints for dumped tables
@@ -174,28 +172,28 @@ INSERT INTO `users` (`username`, `password`, `enabled`, `id`, `firstName`, `last
 -- Constraints for table `acl_entry`
 --
 ALTER TABLE `acl_entry`
-  ADD CONSTRAINT `foreign_fk_4` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`),
-  ADD CONSTRAINT `foreign_fk_5` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`);
+  ADD CONSTRAINT `foreign_fk_5` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `foreign_fk_4` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`);
 
 --
 -- Constraints for table `acl_object_identity`
 --
 ALTER TABLE `acl_object_identity`
+  ADD CONSTRAINT `foreign_fk_3` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `foreign_fk_1` FOREIGN KEY (`parent_object`) REFERENCES `acl_object_identity` (`id`),
-  ADD CONSTRAINT `foreign_fk_2` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`),
-  ADD CONSTRAINT `foreign_fk_3` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`);
+  ADD CONSTRAINT `foreign_fk_2` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`);
 
 --
 -- Constraints for table `acl_sid`
 --
 ALTER TABLE `acl_sid`
-  ADD CONSTRAINT `acl_sid_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `users` (`username`) ON DELETE CASCADE;
+  ADD CONSTRAINT `acl_sid_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `authorities`
 --
 ALTER TABLE `authorities`
-  ADD CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
+  ADD CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

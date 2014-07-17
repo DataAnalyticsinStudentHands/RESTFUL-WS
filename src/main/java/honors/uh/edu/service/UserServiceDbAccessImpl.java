@@ -211,16 +211,11 @@ UserService {
 	}
 
 	/********************* DELETE-related methods implementation ***********************/
+
 	@Override
 	@Transactional
-	public void deleteUserById(Long id) {
-		User user;
+	public void deleteUser(User user) {
 
-		try {user = getUserById(id);}
- catch (AppException e) {
-			e.printStackTrace();
-			return;
-		}
 		userDao.deleteUserById(user);
 
 	}

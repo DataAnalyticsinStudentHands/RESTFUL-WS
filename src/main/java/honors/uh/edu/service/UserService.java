@@ -23,6 +23,7 @@ public interface UserService {
 	 */
 	public Long createUser(User user) throws AppException;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void createUsers(List<User> users) throws AppException;
 
 	/*
@@ -65,10 +66,10 @@ public interface UserService {
 	/*
 	 * ******************** Delete related methods **********************
 	 */
-	// Requires delete permissions on implementation level
-	// TODO: Change params to (User user) and add a PreAuthorize annotation
-	public void deleteUserById(Long id);
 
+
+	@PreAuthorize("hasPermission(#user, 'DELETE')")
+	public void deleteUser(User user);
 	/** removes all users */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteUsers();
