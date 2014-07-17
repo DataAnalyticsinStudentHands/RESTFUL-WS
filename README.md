@@ -44,16 +44,18 @@ For examples of using PreAuthorize, PostAuthorize, PreFilter, and PostFilter..
 See http://krams915.blogspot.com/2011/01/spring-security-3-full-acl-tutorial_1042.html
 
 Key things to remember:
+
 1. Authorization annotations should be included at the service level interface.
 
 2. Any methods that will delete a resource should accept an instance of the POJO as a parameter and apply a PreAuthorization annotation. Do not allow deletion of an object with just an id, it wont work right.  The have to give us a json of the object they want to delete. Example:
 
-I want to delete an object of class Foo, called bar.
-My service level method should look like
+    I want to delete an object of class Foo, called bar.
+    My service level method should look like
 
-```
-@PreAuthorize("hasPermission(#bar, 'DELETE')")
-void deleteObject(Foo bar);
+    ```
+    @PreAuthorize("hasPermission(#bar, 'DELETE')")
+    void deleteObject(Foo bar);
+    ```
 
 3. All  POJOs that will be access controlled need to implement interface IAclObject.  Make sure that it is the POJO that implements it, and not the entity for that POJO.
 
