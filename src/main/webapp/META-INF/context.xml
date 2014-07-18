@@ -17,9 +17,9 @@
 	   testOnBorrow="true"
 	   removeAbandoned="true"
 	   removeAbandonedTimeout="233"
-	   username="root"
-	   password=""
+	   username="sqluser"
+	   password="*****"
 	   driverClassName="com.mysql.jdbc.Driver"
-	   url="jdbc:mysql://localhost:3306/test?allowMultiQueries=true"
+	   url="jdbc:mysql://localhost:3306/testApp?allowMultiQueries=true"
    /> 
 </Context>
