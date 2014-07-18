@@ -15,20 +15,23 @@ import org.springframework.jdbc.object.SqlUpdate;
  * 
  * Config the data source in webSecurityConfig.xml where this bean is declared.
  */
-public class AuthoritiesController  extends JdbcDaoSupport {
+public class UserLoginController  extends JdbcDaoSupport {
 
 
 	private InsertAuthority insertAuthority;
+	private InsertLogin insertLogin;
 
 	// Instantiates the inner classes. Inheirited from grandparent class
 	// DaoSupport.
 	@Override
 	protected void initDao() throws Exception {
+		insertLogin = new InsertLogin(getDataSource());
 		insertAuthority = new InsertAuthority(getDataSource());
 
 	}
 
 	public void create(User user, String authority) {
+		insertLogin.insert(user);
 		insertAuthority.insert(user, authority);
 	}
 
@@ -47,4 +50,22 @@ public class AuthoritiesController  extends JdbcDaoSupport {
 		}
 
 	}
+	
+	protected class InsertLogin extends SqlUpdate {
+		protected InsertLogin(DataSource ds) {
+			super(ds, "INSERT INTO login VALUES (?, ?, ?, ?)");
+			declareParameter(new SqlParameter(Types.VARCHAR));
+			declareParameter(new SqlParameter(Types.VARCHAR));
+			declareParameter(new SqlParameter(Types.TINYINT));
+			declareParameter(new SqlParameter(Types.INTEGER));
+			compile();
+		}
+
+		protected void insert(User user) {
+			Object[] objs = new Object[] { user.getUsername(), user.getPassword(), 1, user.getId()  };
+			super.update(objs);
+		}
+
+	}
+	
 }

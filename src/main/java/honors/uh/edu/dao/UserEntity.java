@@ -20,7 +20,7 @@ import org.apache.commons.beanutils.BeanUtils;
  *
  */
 @Entity
-@Table(name="users")
+@Table(name="user_data")
 public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = -8039686696076337053L;
@@ -35,9 +35,6 @@ public class UserEntity implements Serializable {
 	@Column(name = "username")
 	private String username;
 
-	/** password of the user */
-	@Column(name="password")
-	private String password;
 
 	/** firstname of the user */
 	@Column(name = "firstName")
@@ -73,13 +70,12 @@ public class UserEntity implements Serializable {
 
 	public UserEntity(){}
 
-	public UserEntity( String username,  String password,
+	public UserEntity( String username, 
 			String firstName,  String lastName,  String city,
 			String homePhone,  String cellPhone,  String email,
 			String picturePath) {
 
 		this.username = username;
-		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.city = city;
@@ -110,13 +106,6 @@ public class UserEntity implements Serializable {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getFirstName() {
 		return firstName;

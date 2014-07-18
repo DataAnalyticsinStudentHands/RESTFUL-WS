@@ -21,7 +21,15 @@
    <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
-            <security:jdbc-user-service data-source-ref="securityDataSource"/>
+            <security:jdbc-user-service data-source-ref="securityDataSource"
+            
+            users-by-username-query="
+            select username, password, enabled from login where username = ?" 
+
+           authorities-by-username-query="
+             select username, authority from authorities where username = ?" 
+            
+            />
         </security:authentication-provider>
     </security:authentication-manager>
     
@@ -38,7 +46,7 @@
 	  <property name="realmName" value="Housuggest Secure"/>
 	</bean>
 	
-	<bean id="authoritiesController" class="honors.uh.edu.security.AuthoritiesController">
+	<bean id="authoritiesController" class="honors.uh.edu.security.UserLoginController">
 		<property name="dataSource" ref="dashDS"/>
 	</bean>
 		
