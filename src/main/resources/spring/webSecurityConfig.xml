@@ -21,17 +21,17 @@
    <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
-            <security:jdbc-user-service data-source-ref="securityDataSource"/>
+            <security:jdbc-user-service data-source-ref="dashDS"/>
         </security:authentication-provider>
     </security:authentication-manager>
     
-   <!-- dataSource bean which defines the security DB connection -->
+   <!-- dataSource bean which defines the security DB connection 
     <bean name="securityDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	    <property name="url" value="jdbc:mysql://localhost:3306/test" />
-	    <property name="username" value="root" />
-	    <property name="password" value="" />
-	</bean>
+	    <property name="url" value="jdbc:mysql://localhost:3306/testApp" />
+	    <property name="username" value="sqluser" />
+	    <property name="password" value="hs@SQL2011" />
+	</bean>-->
 	
     <bean id="restAuthenticationEntryPoint"
 	  class="honors.uh.edu.security.RestAuthenticationEntryPoint">
