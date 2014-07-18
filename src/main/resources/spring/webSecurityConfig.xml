@@ -16,8 +16,6 @@
 		<security:http-basic />
     </security:http>
 	
-		
-	
    <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
@@ -31,25 +29,15 @@
             
             />
         </security:authentication-provider>
-    </security:authentication-manager>
-    
-   <!-- dataSource bean which defines the security DB connection 
-    <bean name="securityDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	    <property name="url" value="jdbc:mysql://localhost:3306/test" />
-	    <property name="username" value="root" />
-	    <property name="password" value="" />
-	</bean>-->
+    </security:authentication-manager> 
 	
     <bean id="restAuthenticationEntryPoint"
-	  class="honors.uh.edu.security.RestAuthenticationEntryPoint">
+	  class="dash.security.RestAuthenticationEntryPoint">
 	  <property name="realmName" value="Housuggest Secure"/>
 	</bean>
 	
-	<bean id="authoritiesController" class="honors.uh.edu.security.UserLoginController">
+	<bean id="authoritiesController" class="dash.security.UserLoginController">
 		<property name="dataSource" ref="dashDS"/>
 	</bean>
-		
-	
 
 </beans>

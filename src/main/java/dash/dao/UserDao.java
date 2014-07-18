@@ -1,8 +1,8 @@
-package honors.uh.edu.dao;
-
-import honors.uh.edu.pojo.User;
+package dash.dao;
 
 import java.util.List;
+
+import dash.pojo.User;
 
 /**
  *

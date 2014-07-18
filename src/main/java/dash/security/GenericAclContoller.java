@@ -1,6 +1,4 @@
-package honors.uh.edu.security;
-
-import honors.uh.edu.pojo.User;
+package dash.security;
 
 import java.util.List;
 
@@ -18,6 +16,8 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import dash.pojo.User;
 
 public class GenericAclContoller<T> extends ApplicationObjectSupport {
 

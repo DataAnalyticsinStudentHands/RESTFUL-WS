@@ -1,6 +1,4 @@
-package honors.uh.edu.dao;
-
-import honors.uh.edu.pojo.User;
+package dash.dao;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+
+import dash.pojo.User;
 
 
 public class UserDaoJPA2Impl implements

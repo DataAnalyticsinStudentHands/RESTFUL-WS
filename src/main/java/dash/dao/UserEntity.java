@@ -1,6 +1,4 @@
-package honors.uh.edu.dao;
-
-import honors.uh.edu.pojo.User;
+package dash.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.beanutils.BeanUtils;
+
+import dash.pojo.User;
 
 /**
  * User entity

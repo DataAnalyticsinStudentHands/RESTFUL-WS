@@ -1,14 +1,14 @@
-package honors.uh.edu.service;
+package dash.service;
 
-
-import honors.uh.edu.errorhandling.AppException;
-import honors.uh.edu.pojo.User;
 
 import java.util.List;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import dash.errorhandling.AppException;
+import dash.pojo.User;
 
 /**
  *

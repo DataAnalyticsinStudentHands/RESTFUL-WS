@@ -1,4 +1,4 @@
-package honors.uh.edu.filters;
+package dash.filters;
 
 public class AppConstants {
 

@@ -1,12 +1,4 @@
-package honors.uh.edu.service;
-
-import honors.uh.edu.dao.UserDao;
-import honors.uh.edu.dao.UserEntity;
-import honors.uh.edu.errorhandling.AppException;
-import honors.uh.edu.filters.AppConstants;
-import honors.uh.edu.helpers.NullAwareBeanUtilsBean;
-import honors.uh.edu.pojo.User;
-import honors.uh.edu.security.UserLoginController;
+package dash.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -26,6 +18,14 @@ import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Transactional;
+
+import dash.dao.UserDao;
+import dash.dao.UserEntity;
+import dash.errorhandling.AppException;
+import dash.filters.AppConstants;
+import dash.helpers.NullAwareBeanUtilsBean;
+import dash.pojo.User;
+import dash.security.UserLoginController;
 
 
 public class UserServiceDbAccessImpl extends ApplicationObjectSupport implements

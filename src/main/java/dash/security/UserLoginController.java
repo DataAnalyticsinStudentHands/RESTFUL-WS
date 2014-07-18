@@ -1,6 +1,4 @@
-package honors.uh.edu.security;
-
-import honors.uh.edu.pojo.User;
+package dash.security;
 
 import java.sql.Types;
 
@@ -9,6 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.object.SqlUpdate;
+
+import dash.pojo.User;
 
 /*
  * Handles the authorities table by adding and removing roles

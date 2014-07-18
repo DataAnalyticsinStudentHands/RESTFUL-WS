@@ -1,4 +1,4 @@
-package honors.uh.edu.security;
+package dash.security;
 
 public interface IAclObject {
 

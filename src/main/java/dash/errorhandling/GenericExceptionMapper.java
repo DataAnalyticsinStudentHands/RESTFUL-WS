@@ -1,6 +1,4 @@
-package honors.uh.edu.errorhandling;
-
-import honors.uh.edu.filters.AppConstants;
+package dash.errorhandling;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -9,6 +7,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+
+import dash.filters.AppConstants;
 
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 

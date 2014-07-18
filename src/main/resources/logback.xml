@@ -39,7 +39,7 @@
 		</encoder> 	    
   	</appender>  	
   		
-	<logger name="honors.uh.edu" additivity="false">
+	<logger name="dash" additivity="false">
 	    <level value="DEBUG" />
 		<appender-ref ref="dailyRollingFileAppender"/>
 		<appender-ref ref="minuteRollingFileAppender"/>

@@ -1,4 +1,4 @@
-package honors.uh.edu.errorhandling;
+package dash.errorhandling;
 
 import java.lang.reflect.InvocationTargetException;
 

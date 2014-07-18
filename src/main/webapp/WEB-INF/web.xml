@@ -10,7 +10,7 @@
     </init-param>
     <init-param>
       <param-name>cors.allowed.methods</param-name>
-      <param-value>GET,POST,PUT,DELETE, OPTIONS</param-value>
+      <param-value>GET,POST,PUT,DELETE</param-value>
     </init-param>
     <init-param>
       <param-name>cors.allowed.headers</param-name>
@@ -57,7 +57,7 @@
 		</servlet-class>
     <init-param>
       <param-name>javax.ws.rs.Application</param-name>
-      <param-value>honors.uh.edu.DashApplicationSetup</param-value>
+      <param-value>dash.DashApplicationSetup</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>

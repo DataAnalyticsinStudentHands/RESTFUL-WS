@@ -1,4 +1,4 @@
-package honors.uh.edu.pojo;
+package dash.pojo;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

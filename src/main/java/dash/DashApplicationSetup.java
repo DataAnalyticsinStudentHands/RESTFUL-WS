@@ -1,11 +1,4 @@
-package honors.uh.edu;
-
-import honors.uh.edu.errorhandling.AppExceptionMapper;
-import honors.uh.edu.errorhandling.GenericExceptionMapper;
-import honors.uh.edu.errorhandling.NotFoundExceptionMapper;
-import honors.uh.edu.filters.LoggingResponseFilter;
-import honors.uh.edu.pojo.UserDetailedView;
-import honors.uh.edu.pojo.UsersResource;
+package dash;
 
 import java.lang.annotation.Annotation;
 
@@ -14,6 +7,13 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
+
+import dash.errorhandling.AppExceptionMapper;
+import dash.errorhandling.GenericExceptionMapper;
+import dash.errorhandling.NotFoundExceptionMapper;
+import dash.filters.LoggingResponseFilter;
+import dash.pojo.UserDetailedView;
+import dash.pojo.UsersResource;
 
 /**
  * Registers the components to be used by the JAX-RS application

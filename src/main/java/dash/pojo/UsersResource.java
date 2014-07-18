@@ -1,7 +1,4 @@
-package honors.uh.edu.pojo;
-
-import honors.uh.edu.errorhandling.AppException;
-import honors.uh.edu.service.UserService;
+package dash.pojo;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -27,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+
+import dash.errorhandling.AppException;
+import dash.service.UserService;
 
 /**
  *

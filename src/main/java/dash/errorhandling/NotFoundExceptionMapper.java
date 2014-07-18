@@ -1,4 +1,4 @@
-package honors.uh.edu.errorhandling;
+package dash.errorhandling;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;

@@ -1,7 +1,4 @@
-package honors.uh.edu.pojo;
-
-import honors.uh.edu.dao.UserEntity;
-import honors.uh.edu.helpers.DateISO8601Adapter;
+package dash.pojo;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.beanutils.BeanUtils;
+
+import dash.dao.UserEntity;
+import dash.helpers.DateISO8601Adapter;
 
 /**
  * User resource placeholder for json/xml representation

@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `acl_class` (
 --
 
 INSERT INTO `acl_class` (`id`, `class`) VALUES
-(4, 'honors.uh.edu.pojo.User');
+(4, 'dash.pojo.User');
 
 -- --------------------------------------------------------
 
