@@ -6,7 +6,7 @@ import honors.uh.edu.errorhandling.AppException;
 import honors.uh.edu.filters.AppConstants;
 import honors.uh.edu.helpers.NullAwareBeanUtilsBean;
 import honors.uh.edu.pojo.User;
-import honors.uh.edu.security.AuthoritiesController;
+import honors.uh.edu.security.UserLoginController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ UserService {
 	private MutableAclService mutableAclService;
 
 	@Autowired
-	private AuthoritiesController authoritiesController;
+	private UserLoginController authoritiesController;
 
 	public static final String userRole = "ROLE_USER";
 
@@ -64,8 +64,9 @@ UserService {
 
 		long userId = userDao.createUser(new UserEntity(user));
 		user.setId(userId);
-		createUserACL(user, new PrincipalSid(user.getUsername()));
 		authoritiesController.create(user, userRole);
+		createUserACL(user, new PrincipalSid(user.getUsername()));
+		
 
 		return userId;
 	}

@@ -77,10 +77,10 @@ public class User implements Serializable {
 		try {
 			BeanUtils.copyProperties(this, userEntity);
 		} catch ( IllegalAccessException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch ( InvocationTargetException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}

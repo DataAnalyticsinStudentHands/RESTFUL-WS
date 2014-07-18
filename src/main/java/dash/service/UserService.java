@@ -40,7 +40,7 @@ public interface UserService {
 	 * @return list with users corresponding to search criteria
 	 * @throws AppException
 	 */
-	@PostFilter("hasPermission(filterObject, 'READ')")
+	@PostFilter("hasPermission(filterObject, 'READ') or hasRole('ROLE_ADMIN')")
 	public List<User> getUsers(String orderByInsertionDate,
 			Integer numberDaysToLookBack) throws AppException;
 
@@ -51,16 +51,16 @@ public interface UserService {
 	 * @return
 	 * @throws AppException
 	 */
-	@PostAuthorize("hasPermission(returnObject, 'READ')")
+	@PostAuthorize("hasPermission(returnObject, 'READ') or hasRole('ROLE_ADMIN')")
 	public User getUserById(Long id) throws AppException;
 
 	/*
 	 * ******************** Update related methods **********************
 	 */
-	@PostAuthorize("hasPermission(returnObject, 'WRITE')")
+	@PreAuthorize("hasPermission(#user, 'WRITE') or hasRole('ROLE_ADMIN')")
 	public void updateFullyUser(User user) throws AppException;
 
-	@PostAuthorize("hasPermission(returnObject, 'WRITE')")
+	@PreAuthorize("hasPermission(#user, 'WRITE') or hasRole('ROLE_ADMIN')")
 	public void updatePartiallyUser(User user) throws AppException;
 
 	/*
@@ -68,7 +68,7 @@ public interface UserService {
 	 */
 
 
-	@PreAuthorize("hasPermission(#user, 'DELETE')")
+	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
 	public void deleteUser(User user);
 	/** removes all users */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

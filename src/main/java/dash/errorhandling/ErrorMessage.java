@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-
 @XmlRootElement
 public class ErrorMessage {
 
@@ -77,10 +76,8 @@ public class ErrorMessage {
 		try {
 			BeanUtils.copyProperties(this, ex);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
