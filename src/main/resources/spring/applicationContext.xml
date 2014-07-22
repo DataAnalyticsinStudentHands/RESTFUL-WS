@@ -14,7 +14,7 @@
 		
 		<import resource="webSecurityConfig.xml" />
  
-	<context:component-scan base-package="honors.uh.edu.*" />
+	<context:component-scan base-package="dash.*" />
  
 	<!-- ************ JPA configuration *********** -->
 	<tx:annotation-driven transaction-manager="transactionManager" />  
@@ -26,7 +26,7 @@
         <property name="persistenceXmlLocation" value="classpath:config/persistence-dash.xml" />
         <property name="persistenceUnitName" value="dashPersistence" />        
         <property name="dataSource" ref="dashDS" />
-        <property name="packagesToScan" value="honors.uh.edu.*" />
+        <property name="packagesToScan" value="dash.*" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="true" />
@@ -35,9 +35,9 @@
         </property>
     </bean>    
          	
-	<bean id="userDao" class="honors.uh.edu.dao.UserDaoJPA2Impl"/>	
-    <bean id="userService" class="honors.uh.edu.service.UserServiceDbAccessImpl" />	
-    <bean id="userResource" class="honors.uh.edu.pojo.UsersResource" />
+	<bean id="userDao" class="dash.dao.UserDaoJPA2Impl"/>	
+    <bean id="userService" class="dash.service.UserServiceDbAccessImpl" />	
+    <bean id="userResource" class="dash.pojo.UsersResource" />
     
 	<bean id="dashDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
 	    <property name="jndiName" value="java:comp/env/jdbc/dashDB" />
