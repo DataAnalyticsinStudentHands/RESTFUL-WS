@@ -165,68 +165,68 @@ public class GroupResource {
 				.entity("All groups have been successfully removed").build();
 	}
 	
-	@POST
-	@Path("{id}/MANAGER/{userId}")
+	@PUT
+	@Path("{id}/MANAGER/{user}")
 	@Produces({MediaType.TEXT_HTML})
-	public Response resetManager(@PathParam("userId") Long userId, @PathParam("id") Long id){
+	public Response resetManager(@PathParam("user") String username, @PathParam("id") Long id){
 		User user=new User();
-		user.setId(userId);
+		user.setUsername(username);
 		Group group= new Group();
 		group.setId(id);
 		groupService.resetManager(user, group);
-		return Response.status(Response.Status.OK).entity("MANAGER RESET: User "+user.getId()
+		return Response.status(Response.Status.OK).entity("MANAGER RESET: User "+user.getUsername()
 				+" set as sole MANAGER for group "+group.getId()).build();
 	}
 	
-	@PUT
-	@Path("{id}/MANAGER/{userId}")
+	@POST
+	@Path("{id}/MANAGER/{user}")
 	@Produces({MediaType.TEXT_HTML})
-	public Response addManager(@PathParam("userId") Long userId, @PathParam("id") Long id){
+	public Response addManager(@PathParam("user") String username, @PathParam("id") Long id){
 		User user=new User();
-		user.setId(userId);
+		user.setUsername(username);
 		Group group= new Group();
 		group.setId(id);
 		groupService.addManager(user, group);
-		return Response.status(Response.Status.OK).entity("MANAGER ADDED: User "+user.getId()
+		return Response.status(Response.Status.OK).entity("MANAGER ADDED: User "+user.getUsername()
 				+" added as a MANAGER for group "+group.getId()).build();
 	}
 	
 	@DELETE
-	@Path("{id}/MANAGER/{userId}")
+	@Path("{id}/MANAGER/{user}")
 	@Produces({MediaType.TEXT_HTML})
-	public Response deleteManager(@PathParam("userId") Long userId, @PathParam("id") Long id){
+	public Response deleteManager(@PathParam("user") String username, @PathParam("id") Long id){
 		User user=new User();
-		user.setId(userId);
+		user.setUsername(username);
 		Group group= new Group();
 		group.setId(id);
 		groupService.deleteManager(user, group);
-		return Response.status(Response.Status.OK).entity("MANAGER DELETED: User "+user.getId()
+		return Response.status(Response.Status.OK).entity("MANAGER DELETED: User "+user.getUsername()
 				+" removed as MANAGER for group "+group.getId()).build();
 	}
 
 	@POST
-	@Path("{id}/MEMBER/{userId}")
+	@Path("{id}/MEMBER/{user}")
 	@Produces({MediaType.TEXT_HTML})
-	public Response addMember(@PathParam("userId") Long userId, @PathParam("id") Long id){
+	public Response addMember(@PathParam("user") String username, @PathParam("id") Long id){
 		User user=new User();
-		user.setId(userId);
+		user.setUsername(username);
 		Group group= new Group();
 		group.setId(id);
 		groupService.addMember(user, group);
-		return Response.status(Response.Status.OK).entity("MEMBER ADDED: User "+user.getId()
+		return Response.status(Response.Status.OK).entity("MEMBER ADDED: User "+user.getUsername()
 				+" set as MEMBER for group "+group.getId()).build();
 	}
 	
 	@DELETE
-	@Path("{id}/MEMBER/{userId}")
+	@Path("{id}/MEMBER/{user}")
 	@Produces({MediaType.TEXT_HTML})
-	public Response deleteMember(@PathParam("userId") Long userId, @PathParam("id") Long id){
+	public Response deleteMember(@PathParam("user") String username, @PathParam("id") Long id){
 		User user=new User();
-		user.setId(userId);
+		user.setUsername(username);
 		Group group= new Group();
 		group.setId(id);
 		groupService.deleteMember(user, group);
-		return Response.status(Response.Status.OK).entity("MEMBER DELETED: User "+user.getId()
+		return Response.status(Response.Status.OK).entity("MEMBER DELETED: User "+user.getUsername()
 				+" removed as MEMBER from group "+group.getId()).build();
 	}
 	

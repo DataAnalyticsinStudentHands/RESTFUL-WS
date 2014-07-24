@@ -95,7 +95,7 @@ public class GroupDaoJPA2Impl implements GroupDao {
 	@Override
 	public Long createGroup(GroupEntity group) {
 
-		
+		group.setCreation_timestamp(new Date());
 		entityManager.persist(group);
 		entityManager.flush();// force insert to receive the id of the group
 

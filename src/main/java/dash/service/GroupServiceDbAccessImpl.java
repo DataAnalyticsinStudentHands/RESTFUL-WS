@@ -34,13 +34,10 @@ GroupService {
 	@Autowired
 	private MutableAclService mutableAclService;
 
-	
+	@Autowired
 	private GenericAclController<Group> aclController;
 
-	GroupServiceDbAccessImpl(){
-		super();
-		aclController= new  GenericAclController<Group>();
-	}
+	
 
 
 	/********************* Create related methods implementation ***********************/
@@ -206,6 +203,7 @@ GroupService {
 	public void deleteGroup(Group group) {
 
 		groupDao.deleteGroupById(group);
+		aclController.deleteACL(group);
 
 	}
 
