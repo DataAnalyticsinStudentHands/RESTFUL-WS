@@ -1,141 +1,122 @@
-'use strict';
+// Ionic Starter App
 
-// Declare app level module which depends on filters, and services
-var ngdemoModule = angular.module('ngdemo', ['restangular',
-                                             'ngRoute',
-                                             'ngCookies',
-                                             'ngdemo.filters',
-                                             'ngdemo.services',
-                                             'ngdemo.directives',
-                                             'ngdemo.controllers',
-                                             'ui.router']);
-	
-// Switched from routeProvider to stateProvider in order to work better with
-// DatabaseCommunicationModule. Each child state has a controller associated with it.
-// Added authentication for the states. When the app runs, you are sent to the login state.
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js and so on 
+var starterModule = angular.module('starter', ['ionic',
+                           'restangular',
+                           'ngCookies',
+                           'ui.router',
+                           'starter.controllers',
+                           'starter.services',
+                           'starter.filters',
+                           'starter.directives']);
 
-ngdemoModule.config(['$httpProvider', '$stateProvider', '$urlRouterProvider',
-    function($httpProvider, $stateProvider, $urlRouterProvider){
-        
-        $urlRouterProvider.otherwise("/login");
-        
-        $stateProvider.
-            state('loggedout', {
-                abstract: true,
-                template: "<ui-view>"
-            }).
-            state('login', {
-                url: "/login",
-                templateUrl: "partials/login.html",
-                controller: 'loginCtrl',
-                authenticate: false                 // you don't need authenticaiton for this state
-            });
-
-        $stateProvider.
-            state('loggedin', {
-                abstract: true,
-                template: "<ui-view>"
-            }).
-            state('secure', {
-                url: "/secure",
-                templateUrl: "partials/secure.html",
-                controller: 'secureCtrl',
-                authenticate: true              // true means you need authenticaiton for this state
-            });
-        
-        $stateProvider.
-            state('peggy', {
-                abstract: true,
-                template: "<ui-view>"
-            }).
-            state('user-list', {
-                url: "/user-list",
-                templateUrl: "partials/user-list.html",
-                controller: 'UserListCtrl',
-                authenticate: true
-            }).
-            state('user-detail', {
-                url: "/user-detail/:id",
-                templateUrl: "partials/user-detail.html",
-                controller: 'UserDetailCtrl',
-                authenticate: true
-            }).
-            state('user-creation', {
-                url: "/user-creation",
-                templateUrl: "partials/user-creation.html",
-                controller: 'UserCreationCtrl',
-                authenticate: true
-            });
-        
-        // http://stackoverflow.com/questions/17289195/angularjs-post-data-to-external-rest-api
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }]);
-/*
-ngdemoModule.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
-        
-    $routeProvider.when('/user-list', {
-        templateUrl: 'partials/user-list.html',
-        controller: 'UserListCtrl'
-    });
-    
-    $routeProvider.when('/user-detail/:id', {
-        templateUrl: 'partials/user-detail.html',
-        controller: 'UserDetailCtrl'
-    });
-    
-    $routeProvider.when('/user-creation', {
-        templateUrl: 'partials/user-creation.html',
-        controller: 'UserCreationCtrl'
-    });
-    
-    $routeProvider.otherwise({redirectTo: '/user-list'});
-
-    // http://stackoverflow.com/questions/17289195/angularjs-post-data-to-external-rest-api
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}]);
-*/
-
-ngdemoModule.run(['Restangular', '$rootScope', 'Auth', '$q', '$state', function(Restangular, $rootScope, Auth, $q, $state) {
-    
-    // Connect to server program (Eclipse is needed)
-    Restangular.setBaseUrl("http://127.0.0.1:8080/RESTFUL-WS/");  // localhost IP Address
-    
-    $rootScope.Restangular = function() {
-        return Restangular;
+starterModule.run(function($ionicPlatform) {
+  
+	$ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    
-    $rootScope.addAuth = function() {
-        //
+    if(window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
     }
-    
-    $rootScope.isAuthenticated = function() {
-        //BELOW - Trying to get promises to work to verify auth
-//        var deferred = $q.defer();
-//        //This should be set to a work-all URL.
-//        var rqPromise = Restangular.all("users").get("2").then(function(result) {
-//            console.log("authed");
-//            return true;
-//        }, function(error) {
-//            Auth.clearCredentials();
-//            console.log("not-authed");
-//            return false;
-//        });
-//        return deferred.resolve(rqPromise);
-        //END
-        return Auth.hasCredentials();
-    }
-    
-    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-      console.log("$stateChangeStart");
-      console.log($rootScope.isAuthenticated());
-      if (toState.authenticate && !$rootScope.isAuthenticated()){
-        console.log("non-authed");
-        // User isn’t authenticated
-        $state.go("login");
-        //What?
-        event.preventDefault(); 
-      } else console.log("authed");
-    });
-}]);
+  });
+
+	starterModule.run(['Restangular', '$rootScope', 'Auth', '$q', '$state', function(Restangular, $rootScope, Auth, $q, $state) {
+	    
+	    // Connect to server program (Eclipse is needed)
+	    Restangular.setBaseUrl("http://127.0.0.1:8080/RESTFUL-WS/");  // localhost IP Address
+	    
+	    $rootScope.Restangular = function() {
+	        return Restangular;
+	    }
+	    
+	   	    
+	    $rootScope.isAuthenticated = function() {
+	        return Auth.hasCredentials();
+	    }
+	    
+	    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+	      console.log("$stateChangeStart");
+	      console.log($rootScope.isAuthenticated());
+	      if (toState.authenticate && !$rootScope.isAuthenticated()){
+	        console.log("non-authed");
+	        // User isn’t authenticated
+	        $state.go("login");
+	        //What?
+	        event.preventDefault(); 
+	      } else console.log("authed");
+	    });
+	}]);
+  
+
+})
+
+starterModule.config(function($stateProvider, $urlRouterProvider) {
+
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
+
+  
+    // setup an abstract state for the tabs directive
+    .state('tab', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "partials/tabs.html"
+    })
+
+    // Each tab has its own nav history stack:
+
+    .state('tab.dash', {
+      url: '/dash',
+      views: {
+        'tab-dash': {
+          templateUrl: 'partials/tab-dash.html',
+          controller: 'loginCtrl'
+        }
+      }
+    })
+
+    .state('tab.users', {
+      url: '/users',
+      views: {
+        'tab-users': {
+          templateUrl: 'partials/tab-users.html',
+          controller: 'FriendsCtrl'
+        }
+      }
+    })
+    .state('tab.user-detail', {
+      url: '/user/:friendId',
+      views: {
+        'tab-users': {
+          templateUrl: 'partials/user-detail.html',
+          controller: 'FriendDetailCtrl'
+        }
+      }
+    })
+
+    .state('tab.account', {
+      url: '/account',
+      views: {
+        'tab-account': {
+          templateUrl: 'partials/tab-account.html',
+          controller: 'AccountCtrl'
+        }
+      }
+    })
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/tab/dash');
+
+});
+

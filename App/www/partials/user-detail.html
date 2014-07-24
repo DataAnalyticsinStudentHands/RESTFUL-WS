@@ -1,26 +1,10 @@
-<div class="container">
-    <h1>Update user detail</h1>
-
-    <form novalidate="novalidate" class="form-horizontal">
-        <div class="control-group">
-            <label class="control-label" for="inputFirstName">First name:</label>
-
-            <div class="controls">
-                <input type="text" id="inputFirstName" ng-model="user.firstName"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputLastName">Last name:</label>
-
-            <div class="controls">
-                <input type="text" id="inputLastName" ng-model="user.lastName"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <a ng-click="cancel()" class="btn btn-small">cancel</a>
-                <a ng-click="updateUser()" class="btn btn-small btn-primary">update user</a>
-            </div>
-        </div>
-    </form>
-</div>
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'firend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view title="{{friend.name}}">
+  <ion-content has-header="true" padding="true">
+  </ion-content>
+</ion-view>

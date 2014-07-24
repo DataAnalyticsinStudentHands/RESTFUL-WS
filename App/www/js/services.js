@@ -1,40 +1,34 @@
-'use strict';
+var module = angular.module('starter.services', ['ngCookies']);
 
-/* Services */
-
-/*
- http://docs.angularjs.org/api/ngResource.$resource
-
- Default ngResources are defined as
-
- 'get':    {method:'GET'},
- 'save':   {method:'POST'},
- 'query':  {method:'GET', isArray:true},
- 'remove': {method:'DELETE'},
- 'delete': {method:'DELETE'}
-
+/**
+ * A simple example service that returns some data.
  */
+module.factory('Friends', function() {
+  // Might use a resource here that returns a JSON array
 
-var services = angular.module('ngdemo.services', ['ngResource', 'ngCookies']);
+  // Some fake testing data
+  var friends = [
+    { id: 0, name: 'Scruff McGruff' },
+    { id: 1, name: 'G.I. Joe' },
+    { id: 2, name: 'Miss Frizzle' },
+    { id: 3, name: 'Ash Ketchum' }
+  ];
 
-var wsUrl = 'http://127.0.0.1\\:8080/RESTFUL-WS';
-
-services.factory('UsersFactory', function ($resource) {
-    return $resource(wsUrl + '/users', {}, {
-        query: { method: 'GET', isArray: true },
-        create: { method: 'POST' }
-    })
+  return {
+    all: function() {
+      return friends;
+    },
+    get: function(friendId) {
+      // Simple index lookup
+      return friends[friendId];
+    }
+  }
 });
 
-services.factory('UserFactory', function ($resource) {
-    return $resource(wsUrl + '/users/:id', {}, {
-        show: { method: 'GET' },
-        update: { method: 'POST', params: {id: '@id'} }, 
-        delete: { method: 'DELETE', params: {id: '@id'} }
-    })
-});
-
-services.factory('Auth', ['Base64', '$http', '$cookieStore', function (Base64, $http, $cookieStore) {
+/**
+ *  Generate token for authentication 
+ */
+module.factory('Auth', ['Base64', '$http', '$cookieStore', function (Base64, $http, $cookieStore) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
     console.log($http.defaults.headers.common.Authorization);
@@ -58,7 +52,10 @@ services.factory('Auth', ['Base64', '$http', '$cookieStore', function (Base64, $
     };
 }]);
 
-services.factory('Base64', function() {
+/**
+ *  Support function to generate token for authentication 
+ */
+module.factory('Base64', function() {
     var keyStr = 'ABCDEFGHIJKLMNOP' +
         'QRSTUVWXYZabcdef' +
         'ghijklmnopqrstuv' +

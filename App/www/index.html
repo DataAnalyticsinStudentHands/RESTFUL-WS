@@ -1,63 +1,55 @@
-<!doctype html>
-<html lang="en" ng-app="ngdemo">
-<head>
+<!DOCTYPE html>
+<html>
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My AngularJS App</title>
-    <link rel="stylesheet" href="css/app.css"/>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap-responsive.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css"/>
-    
-    <!-- OLD SCRIPTS ------>
-    <!-- 
-    <script src="js/jquery/jquery-2.0.3.js"></script>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="bower_components/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-    <!-- Bootstrap =============================================================
-    <script src="js/bootstrap/bootstrap.js"></script>
-    -->
-
-    <!-- AngularJS ============================================================= -->
-    <!-- In production use:
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-    -->
-    <!--
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-resource.js"></script>
-    -->
-    
-    
-    <!-- NEW SCRIPTS ========================================================== -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <!-- ionic/angularjs js -->
+    <script src="bower_components/ionic/js/ionic.bundle.js"></script>
+    <script src="bower_components/angular/angular.js"></script>    
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="bower_components/lodash/dist/lodash.underscore.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
-    
-    <!-- AngularJS App Code ==================================================== -->
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/services.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/directives.js"></script>
     
     <!-- Cryptography ========================================================== -->
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
     
-</head>
-<body>
-    <ul class="menu">
-        <li><a href="#/login">login</a></li>
-        <li><a href="#/secure">secure</a></li>
-        <li><a href="#/user-list">user-list</a></li>
-        <li><a href="#/user-detail/1">user-detail/1</a></li>
-        <li><a href="#/user-creation">user-creation</a></li>
-    </ul>
-
-    <div ui-view></div>
-
+  </head>
+  <body ng-app="starter" animation="slide-left-right-ios7">
+    <!-- 
+      The nav bar that will be updated as we navigate between views.
+    -->
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+      <ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">
+        Back
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <!-- 
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
+    
     <!--    Below code is for forcing a browser (Chrome) to display a full error message instead of                 truncating it.-->
     
     <script type="text/javascript">
@@ -79,6 +71,5 @@
     </script>
 
     <div id="error"></div>
-    
-</body>
+  </body>
 </html>

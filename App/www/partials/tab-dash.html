@@ -1,0 +1,23 @@
+<ion-view title="Dashboard"> 
+<ion-content 	class="has-header padding">
+<h1>DASH RESTFUL backend tests</h1>
+<div class="list list-inset">
+	<form ng-submit="submit()">
+		<label class="item item-input"> <input type="text"
+			ng-model="userName" name="userName" placeholder="User Name">
+		</label> <label class="item item-input"> <input type="password"
+			ng-model="passWord" name="passWord" placeholder="Password">
+		</label>		
+		<input  type="submit" value="Submit" id="submit">
+
+	</form>
+
+	<p>{{loginMsg}}</p>
+	<!--            <h3> Result to DB Login Query:</h3>-->
+	<hr>
+	<p>{{loginResult}}</p>
+</div>
+
+
+
+</ion-content> </ion-view>
