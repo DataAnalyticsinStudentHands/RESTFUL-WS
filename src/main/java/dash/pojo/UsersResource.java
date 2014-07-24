@@ -235,10 +235,12 @@ public class UsersResource {
 	 * *********************************** DELETE ***********************************
 	 */
 	@DELETE
-	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("{id}")
 	@Produces({ MediaType.TEXT_HTML })
-	public Response deleteUser(User user)
+	public Response deleteUser(@PathParam("id") Long id)
 			throws AppException {
+		User user= new User();
+		user.setId(id);
 		userService.deleteUser(user);
 		return Response.status(Response.Status.NO_CONTENT)// 204
 				.entity("User successfully removed from database").build();

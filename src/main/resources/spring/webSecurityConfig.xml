@@ -16,8 +16,6 @@
 		<security:http-basic />
     </security:http>
 	
-		
-	
    <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
@@ -31,7 +29,7 @@
             
             />
         </security:authentication-provider>
-    </security:authentication-manager>   
+    </security:authentication-manager> 
 	
     <bean id="restAuthenticationEntryPoint"
 	  class="dash.security.RestAuthenticationEntryPoint">
@@ -41,7 +39,5 @@
 	<bean id="authoritiesController" class="dash.security.UserLoginController">
 		<property name="dataSource" ref="dashDS"/>
 	</bean>
-		
-	
 
 </beans>
