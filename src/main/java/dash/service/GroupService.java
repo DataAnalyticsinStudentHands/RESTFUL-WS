@@ -18,7 +18,7 @@ public interface GroupService {
 	public Long createGroup(Group group) throws AppException;
 
 	/*
-	 * Create multiple groups as admin, testing purposes only.
+	 * Create multiple groups as ROOT, testing purposes only.
 	 */
 	@PreAuthorize("hasRole('ROLE_ROOT')")
 	public void createGroups(List<Group> groups) throws AppException;
@@ -67,8 +67,11 @@ public interface GroupService {
 
 	@PreAuthorize("hasPermission(#group, 'MANAGER') or hasRole('ROLE_MODERATOR')")
 	public void deleteGroup(Group group);
-	/** removes all groups */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/** removes all groups
+	 * DO NOT USE, IMPROPERLY UPDATES ACL_OBJECT table
+	 * Functional but does not destroy old acl's which doesnt hurt anything
+	 * but they will take up space if this is commonly used */
+	@PreAuthorize("hasRole('ROLE_ROOT')")
 	public void deleteGroups();
 	
 	/**

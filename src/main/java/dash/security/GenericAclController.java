@@ -35,7 +35,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try{
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -125,7 +125,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -170,7 +170,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -210,7 +210,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();

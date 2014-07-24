@@ -23,15 +23,16 @@ import dash.pojo.Group;
  * 
  */
 @Entity
-@Table(name="group")
+@Table(name="group_data")
 public class GroupEntity implements Serializable{
+
+
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1126021260367221880L;
 
-	
 	@Id
 	@GeneratedValue
 	@Column(name="id")
@@ -43,7 +44,7 @@ public class GroupEntity implements Serializable{
 	@Column(name="description")
 	private String description;
 	
-	
+	@GeneratedValue
 	@Column(name="creation_timestamp")
 	private Date creation_timestamp;
 	
