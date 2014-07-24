@@ -7,6 +7,6 @@
 		timeBetweenEvictionRunsMillis="34000" minEvictableIdleTimeMillis="55000"
 		validationQuery="SELECT 1" validationInterval="34" testOnBorrow="true"
 		removeAbandoned="true" removeAbandonedTimeout="233" username="sqluser"
-		password="hs@SQL2011" driverClassName="com.mysql.jdbc.Driver"
+		password="*****" driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/VolunteerManagementApp?allowMultiQueries=true" />
 </Context>
