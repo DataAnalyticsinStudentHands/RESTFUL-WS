@@ -1,9 +1,9 @@
-var module = angular.module('starter.services', ['ngCookies']);
+angular.module('starter.services', ['ngCookies'])
 
 /**
  * A simple example service that returns some data.
  */
-module.factory('Friends', function() {
+.factory('Friends', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -23,15 +23,12 @@ module.factory('Friends', function() {
       return friends[friendId];
     }
   }
-});
+})
 
-/**
- *  Generate token for authentication 
- */
-module.factory('Auth', ['Base64', '$http', '$cookieStore', function (Base64, $http, $cookieStore) {
+.factory('Auth', function (Base64, $http, $cookieStore) {
     // initialize to whatever is in the cookie, if anything
     $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
-    console.log($http.defaults.headers.common.Authorization);
+    //console.log($http.defaults.headers.common.Authorization);
  
     return {
         setCredentials: function (username, password) {
@@ -49,13 +46,10 @@ module.factory('Auth', ['Base64', '$http', '$cookieStore', function (Base64, $ht
             var cookie = $cookieStore.get('authdata');
             if(cookie) return true; else return false;
         }
-    };
-}]);
+    }
+})
 
-/**
- *  Support function to generate token for authentication 
- */
-module.factory('Base64', function() {
+.factory('Base64', function() {
     var keyStr = 'ABCDEFGHIJKLMNOP' +
         'QRSTUVWXYZabcdef' +
         'ghijklmnopqrstuv' +
@@ -137,5 +131,6 @@ module.factory('Base64', function() {
  
             return output;
         }
-    };
+    }
 });
+

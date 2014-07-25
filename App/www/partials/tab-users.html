@@ -1,8 +1,14 @@
 <ion-view title="Users">
   <ion-content class="has-header">
+  <!--  
     <ion-list>
       <ion-item ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/user/{{friend.id}}">
         {{friend.name}}
+      </ion-item>
+      -->
+      
+      <ion-item ng-repeat="user in users" type="item-text-wrap" href="#/tab/user/{{user.id}}">
+        {{user.username}}
       </ion-item>
     </ion-list>
   </ion-content>
