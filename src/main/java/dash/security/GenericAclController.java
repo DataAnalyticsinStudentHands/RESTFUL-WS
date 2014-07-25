@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import dash.pojo.User;
 
-public class GenericAclContoller<T> extends ApplicationObjectSupport {
+public class GenericAclController<T> extends ApplicationObjectSupport {
 
 	@Autowired
 	private MutableAclService mutableAclService;
@@ -35,7 +35,7 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try{
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -125,7 +125,7 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -170,7 +170,7 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 		ObjectIdentity oid;
 
 		try {
-			oid = new ObjectIdentityImpl(User.class,
+			oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -198,6 +198,45 @@ public class GenericAclContoller<T> extends ApplicationObjectSupport {
 			logger.debug("Deleted " + object.getClass()
 					+ ((IAclObject) object).getId()
 					+ " ACL permissions for recipient " + recipient);
+		}
+
+		return true;
+
+	}
+	
+	//Deletes all aces of object for the permission given.
+	public boolean clearPermission(T object, Permission permission) {
+		MutableAcl acl;
+		ObjectIdentity oid;
+
+		try {
+			oid = new ObjectIdentityImpl(object.getClass(),
+					((IAclObject) object).getId());
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return false;
+		}
+		try {
+			acl = (MutableAcl) mutableAclService.readAclById(oid);
+		} catch (NotFoundException nfe) {
+			nfe.printStackTrace();
+			return false;
+		}
+
+		List<AccessControlEntry> entries = acl.getEntries();
+
+		for (int i = 0; i < entries.size(); i++) {
+			if (entries.get(i).getPermission().equals(permission)) {
+				acl.deleteAce(i);
+			}
+		}
+
+		mutableAclService.updateAcl(acl);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deleted " + object.getClass()
+					+ ((IAclObject) object).getId()
+					+ " ACL permissions for all instances of "+permission.toString());
 		}
 
 		return true;

@@ -20,9 +20,9 @@
 		<commons-beanutils.version>1.9.1</commons-beanutils.version>
 		<mysql-connector-java.version>5.1.27</mysql-connector-java.version>
 		<tomcat-jdbc.version>7.0.35</tomcat-jdbc.version>
-		
+
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-		
+
 	</properties>
 
 	<repositories>
@@ -111,7 +111,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -123,7 +123,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${org.springframework.security.version}</version>
 		</dependency>
-		
+
 		<!-- web -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -144,7 +144,7 @@
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>${tomcat-jdbc.version}</version>
 		</dependency>
-		
+
 		<!-- Spring ACL (c3p0 may be temporary) -->
 	    <dependency>
 	    	<groupId>net.sf.ehcache</groupId>
@@ -179,7 +179,7 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>${commons-beanutils.version}</version>
 		</dependency>		
-		
+
 		<!-- LogBack dependencies --> 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
