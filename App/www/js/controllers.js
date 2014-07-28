@@ -4,8 +4,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('UsersCtrl', function($scope, Friends, $location) {
-      $scope.friends = Friends.all();
-  
+        
       $scope.usersPromise = $scope.Restangular().all("users");
       
       // callback for ng-click 'editUser':
@@ -42,6 +41,20 @@ angular.module('starter.controllers', [])
 //              console.log(resultFail);
           }
       );
+      
+      
+      
+    		  
+    		 
+    		  
+    		  $scope.moveItem = function(item, fromIndex, toIndex) {
+    		    $scope.items.splice(fromIndex, 1);
+    		    $scope.items.splice(toIndex, 0, item);
+    		  };
+    		  
+    		  $scope.onItemDelete = function(item) {
+    		    $scope.items.splice($scope.items.indexOf(item), 1);
+    		  };
 })
 
 .controller('UserDetailCtrl', function($scope, $stateParams, Friends) {

@@ -3,6 +3,7 @@
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 import javax.ws.rs.core.Response;
 
@@ -62,10 +63,30 @@ UserService {
 							AppConstants.DASH_POST_URL);
 		}
 
+		//create User ID (actually this done via auto increment in DB)
 		long userId = userDao.createUser(new UserEntity(user));
 		user.setId(userId);
+		
+		//create user object		
 		authoritiesController.create(user, userRole);
+		
 		createUserACL(user, new PrincipalSid(user.getUsername()));
+		
+		String fileName = user.getUsername() + ".png";
+		 
+        int hashcode = fileName.hashCode();
+        int mask = 255;
+        int firstDir = hashcode & mask;
+        int secondDir = (hashcode >> 8) & mask;
+ 
+        StringBuilder path = new StringBuilder(File.separator);
+        path.append(String.format("%03d", firstDir));
+        path.append(File.separator);
+        path.append(String.format("%03d", secondDir));
+        path.append(File.separator);
+        path.append(fileName);
+ 
+        System.out.println(path);
 		
 
 		return userId;

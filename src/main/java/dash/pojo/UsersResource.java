@@ -3,6 +3,7 @@ package dash.pojo;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.io.File;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -255,6 +256,25 @@ public class UsersResource {
 				.entity("All users have been successfully removed").build();
 	}
 
+	/*
+	 * *********************************** FILES ***********************************
+	 */
+	private static final String IMAGE_PATH = "/srv/imgages/testApp/users/Admin.png";  
+    
+	 @GET  
+	 @Path("{username}")  
+	 @Produces("image/png")  
+	 public Response getUserPicture() {  
+	   
+	  File file = new File(IMAGE_PATH); 	   
+	  
+	  return Response.ok((Object) file) 
+			  		.header("Content-Disposition",  
+			   "attachment; filename=\"employee_image_photo.png\"").build();  
+	   
+	 }  
+	
+	
 	public void setuserService(UserService userService) {
 		this.userService = userService;
 	}

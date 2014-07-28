@@ -1,15 +1,40 @@
 <ion-view title="Users">
   <ion-content class="has-header">
-  <!--  
-    <ion-list>
-      <ion-item ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/user/{{friend.id}}">
-        {{friend.name}}
-      </ion-item>
-      -->
+  
+  <div class="buttons">
+        <button class="button button-icon icon ion-ios7-minus-outline" 
+          ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
       
-      <ion-item ng-repeat="user in users" type="item-text-wrap" href="#/tab/user/{{user.id}}">
-        {{user.username}}
-      </ion-item>
-    </ion-list>
+      <button class="button"
+          ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+            Reorder
+          </button>
+      </div>
+    
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+            <ion-item ng-repeat="user in users" type="item-text-wrap" href="#/tab/user/{{user.id}}"
+                >
+
+    
+    {{user.username}}
+    
+    
+    <ion-option-button class="button-info"
+                       ng-click="edit(user)">
+      Edit
+    </ion-option-button>
+    <ion-delete-button class="ion-minus-circled"
+                       ng-click="users.splice($index, 1)">
+    </ion-delete-button>
+    
+  </ion-item>
+</ion-list>
+      
   </ion-content>
+  
+  
+      
+    
+
+    
 </ion-view>

@@ -23,8 +23,8 @@ angular.module('starter', ['ionic',
   });
   
   //Set Base URL to connect to DASH RESTFUL webservices
- // Restangular.setBaseUrl("http://127.0.0.1:8080/RESTFUL-WS/");  // localhost IP Address
-  Restangular.setBaseUrl("http://www.housuggest.org:8888/RESTFUL-WS-0.0.1/");  // localhost IP Address
+  Restangular.setBaseUrl("http://127.0.0.1:8080/RESTFUL-WS/");  // localhost IP Address
+ // Restangular.setBaseUrl("http://www.housuggest.org:8888/RESTFUL-WS-0.0.1/");  // localhost IP Address
   
   //have Restangular available whereever we need it
   $rootScope.Restangular = function() {
