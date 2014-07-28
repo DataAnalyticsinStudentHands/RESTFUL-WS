@@ -1,22 +1,22 @@
 DASH AngularJS demo App
 ==========
 
-The code here is used to test an AngularJS app against our DASH backend. We also play around with AngularJS.
+The code here is used to test an AngularJS app against our DASH backend. We also play around with AngularJS. The current version is based on Ionic.
 
 
 Getting started:
 
-1. npm install
-
-This will read the package.json file and install some general stuff.
-
-2. bower install 
+1. bower install 
 
 Reads bower.json and installs local dependencies into the folder www/bower_components
 
-3. grunt serve
+2. ionic serve
 
-Grunt reads Gruntfile.js and serve will simply
+Reads ionic.xml and will serve as local node server, this updates when you make changes to the code
+
+or 3. phonegap serve
+
+Works with the Phone Gap developer app. Updates also when you make changes.
 
 
 
