@@ -42,6 +42,11 @@
     <bean id="groupDao" class="dash.dao.GroupDaoJPA2Impl"/>	
     <bean id="groupService" class="dash.service.GroupServiceDbAccessImpl" />	
     <bean id="groupResource" class="dash.pojo.GroupResource" />
+    
+    <bean id="plantDao" class="dash.dao.PlantDaoJPA2Impl"/>	
+    <bean id="plantService" class="dash.service.PlantServiceDbAccessImpl" />	
+    <bean id="plantResource" class="dash.pojo.PlantResource" />
+    
     <bean id="aclController" class="dash.security.GenericAclController"/>
     
 	<bean id="dashDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">

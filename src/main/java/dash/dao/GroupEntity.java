@@ -17,7 +17,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import dash.pojo.Group;
 
 
-/*
+/**
  * Group entity
  * @author tswensen
  * 

@@ -10,11 +10,19 @@
 	<!-- Loads ACL related configurations -->
 	 <import resource="aclConfig.xml" />
 
-	<!-- Declare intercept patterns -->
+	<!-- Declare intercept patterns , inactive security for plant app -->
     <security:http auto-config="true" create-session="stateless" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
 		<security:http-basic />
     </security:http>
+   
+    
+<!--     Jairo added this -->
+<!--     <security:http auto-config='true'> -->
+<!--     	<security:intercept-url pattern="/**" access="ROLE_USER" /> -->
+<!--     	<security:http-basic /> -->
+<!-- 	</security:http> -->
+    
 	
    <!-- Define what you will use as an authentication provider (in our case securityDataSource) -->
     <security:authentication-manager alias="authenticationManager">

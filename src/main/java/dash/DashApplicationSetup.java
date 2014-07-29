@@ -15,6 +15,8 @@ import dash.filters.LoggingResponseFilter;
 import dash.pojo.GroupResource;
 import dash.pojo.UserDetailedView;
 import dash.pojo.UsersResource;
+import dash.pojo.PlantResource;
+import dash.pojo.PlantDetailedView;
 
 /**
  * Registers the components to be used by the JAX-RS application
@@ -31,6 +33,7 @@ public class DashApplicationSetup extends ResourceConfig {
 		// register application resources
 		register(UsersResource.class);
 		register(GroupResource.class);
+		register(PlantResource.class);
 
 		// register filters
 		register(RequestContextFilter.class);
@@ -48,6 +51,8 @@ public class DashApplicationSetup extends ResourceConfig {
 
 		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
 				new Annotation[] { UserDetailedView.Factory.get() });
+		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
+				new Annotation[] { PlantDetailedView.Factory.get() });
 	}
 }
 
