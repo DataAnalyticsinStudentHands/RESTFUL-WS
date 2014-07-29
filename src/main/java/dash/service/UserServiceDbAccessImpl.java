@@ -67,11 +67,6 @@ UserService {
 		long userId = userDao.createUser(new UserEntity(user));
 		user.setId(userId);
 		
-		//create user object		
-		authoritiesController.create(user, userRole);
-		
-		createUserACL(user, new PrincipalSid(user.getUsername()));
-		
 		String fileName = user.getUsername() + ".png";
 		 
         int hashcode = fileName.hashCode();
@@ -88,7 +83,14 @@ UserService {
  
         System.out.println(path);
 		
-
+        user.setPicture(fileName);
+		
+		//create user object		
+		authoritiesController.create(user, userRole);
+		
+		createUserACL(user, new PrincipalSid(user.getUsername()));
+		
+		
 		return userId;
 	}
 
