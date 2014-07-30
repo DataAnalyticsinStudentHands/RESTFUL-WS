@@ -88,8 +88,7 @@ UserService {
 		//create user object		
 		authoritiesController.create(user, userRole);
 		
-		createUserACL(user, new PrincipalSid(user.getUsername()));
-		
+		createUserACL(user, new PrincipalSid(user.getUsername()));	
 		
 		return userId;
 	}

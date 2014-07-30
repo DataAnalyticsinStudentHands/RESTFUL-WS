@@ -13,23 +13,18 @@ import org.glassfish.jersey.message.filtering.EntityFiltering;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EntityFiltering
-public @interface GroupDetailedView {
+public @interface SimpleObjectDetailedView {
 
 	/**
 	 * Factory class for creating instances of {@code ProjectDetailedView} annotation.
 	 */
-	public static class Factory extends AnnotationLiteral<GroupDetailedView>
-			implements GroupDetailedView {
-
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 3052755593743363317L;
-
+	public static class Factory extends AnnotationLiteral<SimpleObjectDetailedView>
+			implements SimpleObjectDetailedView {
+		
 		private Factory() {
 		}
 
-		public static GroupDetailedView get() {
+		public static SimpleObjectDetailedView get() {
 			return new Factory();
 		}
 	}

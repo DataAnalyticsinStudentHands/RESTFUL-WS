@@ -7,55 +7,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import dash.dao.GroupEntity;
+import dash.dao.SimpleObjectEntity;
 import dash.security.IAclObject;
 
-
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Group implements  IAclObject{
-
-	
-
-
-	private static final long serialVersionUID = -1126021260367221880L;
-
+public class SimpleObject implements  Serializable, IAclObject{
 
 	@XmlElement(name = "id")
-	private Long id;
-	
+	private Long id;	
 
+	@XmlElement(name = "image_folder")
+	private String image_folder;
+	
 	@XmlElement(name = "name")
 	private String name;
-	
-	@XmlElement(name = "description")
-	private String description;
 	
 	@XmlElement(name = "creation_timestamp")
 	private Date creation_timestamp;
 	
 	public Long getId() {
 		return id;
-	}
-
+	}	
 	
+	public SimpleObject(){}
 	
-	public Group(Long id, String name, String description,
+	public SimpleObject(Long id, String image_folder, String name,
 			Date creation_timestamp) {
 		super();
 		this.id = id;
+		this.image_folder = image_folder;
 		this.name = name;
-		this.description = description;
 		this.creation_timestamp = creation_timestamp;
 	}
-
 	
-	public Group(GroupEntity groupEntity) {
+	public SimpleObject(SimpleObjectEntity simpleObjectEntity) {
 		try {
-			BeanUtils.copyProperties(this, groupEntity);
+			BeanUtils.copyProperties(this, simpleObjectEntity);
 		} catch ( IllegalAccessException e) {
 
 			e.printStackTrace();
@@ -64,24 +56,17 @@ public class Group implements  IAclObject{
 			e.printStackTrace();
 		}
 	}
-	
-	public Group(){}
-
-	@Override
-	public String toString() {
-		return "Group ["
-				+ (id != null ? "id=" + id + ", " : "")
-				+ (name != null ? "name=" + name + ", " : "")
-				+ (description != null ? "description=" + description + ", "
-						: "")
-				+ (creation_timestamp != null ? "creation_timestamp="
-						+ creation_timestamp : "") + "]";
-	}
-
-
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getImage_folder() {
+		return image_folder;
+	}
+
+	public void setImage_folder(String image_folder) {
+		this.image_folder = image_folder;
 	}
 
 	public String getName() {
@@ -90,14 +75,6 @@ public class Group implements  IAclObject{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public Date getCreation_timestamp() {
