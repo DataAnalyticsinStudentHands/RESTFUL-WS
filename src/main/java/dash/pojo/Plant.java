@@ -260,6 +260,8 @@ public class Plant implements IAclObject, Serializable
 			e.printStackTrace();
 		}
 	}
+	
+	public Plant(){}
 
 	public Plant(Long id, String scientificName, String houstonCommonName,
 			String commonName, Integer classField, Integer height,
