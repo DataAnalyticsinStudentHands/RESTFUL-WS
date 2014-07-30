@@ -65,8 +65,8 @@ public class PlantDaoJPA2Impl implements PlantDao
 			String sqlString = "SELECT u FROM PlantEntity u " + 
 							   "WHERE u.colorTiming = ?1 " + 
 							   "AND u.classField = ?2 " +
-							   "AND u.nativeField = ?3" +
-							   "AND u.soilConditions = ?4" +
+							   "AND u.nativeField = ?3 " +
+							   "AND u.soilConditions = ?4 " +
 							   "AND u.sun = ?5";
 			
 			TypedQuery<PlantEntity> query = entityManager.createQuery(sqlString,

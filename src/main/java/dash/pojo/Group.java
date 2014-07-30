@@ -16,11 +16,8 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Group implements  IAclObject{
-
-	
-
-
+public class Group implements  IAclObject
+{
 	private static final long serialVersionUID = -1126021260367221880L;
 
 

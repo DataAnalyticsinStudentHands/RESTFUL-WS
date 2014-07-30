@@ -25,67 +25,52 @@ import dash.security.IAclObject;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Plant implements IAclObject, Serializable
-{	
-	/** id of the plant */
+public class Plant implements IAclObject
+{
+	private static final long serialVersionUID = 1L;
+	
 	@XmlElement(name = "id")
 	private Long id;
-	
-	/** scientific name of the plant */
+
 	@XmlElement(name = "scientificName")
 	private String scientificName;
 	
-	/** houston common name of the plant */
 	@XmlElement(name = "houstonCommonName")
 	private String houstonCommonName;
 	
-	/** common name of the plant */
 	@XmlElement(name = "commonName")
 	private String commonName;
 	
-	/** class of the plant */
 	@XmlElement(name = "class")
 	private Integer classField;		// java reserves 'class'
 	
-	/** height of the plant */
 	@XmlElement(name = "height_ft")
 	private Integer height;			// in feet
 	
-	/** width of the plant */
 	@XmlElement(name = "width_ft")
 	private Integer width;			// in feet
 	
-	/** amount of sun needed */
 	@XmlElement(name = "sun")
 	private Integer sun;
 	
-	/** nativity of plant */
 	@XmlElement(name = "native")
 	private Integer nativeField;		// java reserves 'native'
 	
-	/** soil conditions of plant (amound of water)  */
 	@XmlElement(name = "soilConditions")
 	private Integer soilConditions;
 	
-	/** common name of the plant */
 	@XmlElement(name = "map")
 	private String map;
 	
-	/** time to plant */
 	@XmlElement(name = "plantTime")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
 	private Date plantTime;
 	
-	/** timing of fruit */
 	@XmlElement(name = "fruitTiming")
 	private Integer fruitTiming;
 	
-	/** timing of color */
 	@XmlElement(name = "colorTiming")
 	private Integer colorTiming;
 	
-	/** distance between plants */
 	@XmlElement(name = "distanceBetweenPlants")
 	private Integer distanceBetweenPlants;			// in feet
 	
@@ -153,16 +138,12 @@ public class Plant implements IAclObject, Serializable
 	private String interestingFacts;
 	
 	@XmlElement(name = "timeToProduce")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
 	private Date timeToProduce;
 	
 	@XmlElement(name = "rootDepth")
 	private Integer rootDepth;
 	
 	@XmlElement(name = "duration")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
 	private Date duration;
 	
 	@XmlElement(name = "pH")
@@ -184,8 +165,6 @@ public class Plant implements IAclObject, Serializable
 	private Integer sap;
 	
 	@XmlElement(name = "seedTiming")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
 	private Date seedTiming;
 	
 	@XmlElement(name = "seedType")
@@ -245,6 +224,8 @@ public class Plant implements IAclObject, Serializable
 	@XmlElement(name = "fileStructure")
 	private String fileStructure;
 	
+	public Plant(){}
+	
 	public Plant(PlantEntity plantEntity)
 	{
 		try
@@ -260,8 +241,6 @@ public class Plant implements IAclObject, Serializable
 			e.printStackTrace();
 		}
 	}
-	
-	public Plant(){}
 
 	public Plant(Long id, String scientificName, String houstonCommonName,
 			String commonName, Integer classField, Integer height,
@@ -870,5 +849,12 @@ public class Plant implements IAclObject, Serializable
 
 	public void setFileStructure(String fileStructure) {
 		this.fileStructure = fileStructure;
+	}
+
+	@Override
+	public String toString() {
+		return "Plant [id=" + id + ", scientificName=" + scientificName
+				+ ", houstonCommonName=" + houstonCommonName + ", commonName="
+				+ commonName + "]";
 	}
 }

@@ -22,10 +22,7 @@ public @interface PlantDetailedView
 	public static class Factory extends AnnotationLiteral<PlantDetailedView>
 			implements PlantDetailedView {
 
-		/**
-		 *
-		 */
-		//private static final long serialVersionUID = 3052755593743363317L;
+		private static final long serialVersionUID = 1L;
 
 		private Factory() {
 		}

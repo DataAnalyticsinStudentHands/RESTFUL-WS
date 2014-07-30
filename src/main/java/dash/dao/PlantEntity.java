@@ -29,65 +29,56 @@ import dash.pojo.UserDetailedView;
 @Table(name="db2012")
 public class PlantEntity implements Serializable
 {
-	/** id of the plant */
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1126021260367221880L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name="id")
 	private Long id;
-	
-	/** scientific name of the plant */
+
 	@Column(name = "Scientific_Name")
 	private String scientificName;
-	
-	/** houston common name of the plant */
+
 	@Column(name = "houstonCommonName")
 	private String houstonCommonName;
-	
-	/** common name of the plant */
+
 	@Column(name = "Common_Name")
 	private String commonName;
-	
-	/** class of the plant */
+
 	@Column(name = "Class")
 	private Integer classField;		// java reserves 'class'
 	
-	/** height of the plant */
 	@Column(name = "Height_ft")
 	private Integer height;			// in feet
 	
-	/** width of the plant */
 	@Column(name = "Width_ft")
 	private Integer width;			// in feet
-	
-	/** amount of sun needed */
+
 	@Column(name = "Sun")
 	private Integer sun;
 	
-	/** nativity of plant */
 	@Column(name = "Native")
 	private Integer nativeField;		// java reserves 'native'
 	
-	/** soil conditions of plant (amound of water)  */
 	@Column(name = "Soil_Conditions")
 	private Integer soilConditions;
 	
-	/** common name of the plant */
 	@Column(name = "Map")
 	private String map;
-	
-	/** time to plant */
+
 	@Column(name = "When_to_plant")
 	private Date plantTime;
-	
-	/** timing of fruit */
+
 	@Column(name = "Fruit_Timing")
 	private Integer fruitTiming;
 	
-	/** timing of color */
 	@Column(name = "Color_Timing")
 	private Integer colorTiming;
 	
-	/** distance between plants */
 	@Column(name = "Distance_between_Plants")
 	private Integer distanceBetweenPlants;			// in feet
 	
@@ -160,151 +151,178 @@ public class PlantEntity implements Serializable
 	@Column(name = "Root_Depth")
 	private Integer rootDepth;
 	
-//	@Column(name = "Duration")
-//	private Date duration;
-//	
-//	@Column(name = "pH")
-//	private Integer pH;
-//	
-//	@Column(name = "Price")
-//	private Integer price;
-//	
-//	@Column(name = "D4")
-//	private Integer d4;
-//	
-//	@Column(name = "Deciduous_Cover")
-//	private Integer deciduousCover;
-//	
-//	@Column(name = "Larval_Butterfly_Host")
-//	private Integer Larval_Butterfly_Host;
-//	
-//	@Column(name = "Sap")
-//	private Integer sap;
-//	
-//	@Column(name = "Seed_Timing")
-//	private Date seedTiming;
-//	
-//	@Column(name = "Seed_Type")
-//	private Integer seedType;
-//	
-//	@Column(name = "Irrigated")
-//	private Integer irrigated;
-//	
-//	@Column(name = "Cultivar_Names")
-//	private String cultivarNames;
-//
-//	@Column(name = "Air_Purifying")
-//	private Integer airPurifying;
-//	
-//	@Column(name = "Soil_Purifying")
-//	private Integer soilPurifying;
-//	
-//	@Column(name = "Data_Source")
-//	private String dataSource;
-//	
-//	@Column(name = "Cam_we_share_the_source")
-//	private Integer canWeShareTheSource;
-//	
-//	@Column(name = "Taste_of_Fruit")
-//	private String tasteOfFruit;
-//	
-//	@Column(name = "Website")
-//	private String website;
-//	
-//	@Column(name = "Seeds_and_Nuts")
-//	private Integer seedsAndNuts;
-//	
-//	@Column(name = "HOA_approved")
-//	private Integer hoaApproved;
-//	
-//	@Column(name = "Cold_Tolerance")
-//	private Integer coldTolerance;
-//	
-//	@Column(name = "Drought_Tolerance")
-//	private Integer droughtTolerance;
-//	
-//	@Column(name = "Moisture_Tolerance")
-//	private Integer moistureTolerance;
-//	
-//	@Column(name = "Fall")
-//	private String fall;
-//	
-//	@Column(name = "Spring")
-//	private String spring;
-//	
-//	@Column(name = "Summer")
-//	private String summer;
-//	
-//	@Column(name = "Winter")
-//	private String winter;
-//
-//	@Column(name = "file_structure")
-//	private String fileStructure;
+	@Column(name = "Duration")
+	private Date duration;
+	
+	@Column(name = "pH")
+	private Integer pH;
+	
+	@Column(name = "Price")
+	private Integer price;
+	
+	@Column(name = "D4")
+	private Integer d4;
+	
+	@Column(name = "Deciduous_Cover")
+	private Integer deciduousCover;
+	
+	@Column(name = "Larval_Butterfly_Host")
+	private Integer Larval_Butterfly_Host;
+	
+	@Column(name = "Sap")
+	private Integer sap;
+	
+	@Column(name = "Seed_Timing")
+	private Date seedTiming;
+	
+	@Column(name = "Seed_Type")
+	private Integer seedType;
+	
+	@Column(name = "Irrigated")
+	private Integer irrigated;
+	
+	@Column(name = "Cultivar_Names")
+	private String cultivarNames;
+
+	@Column(name = "Air_Purifying")
+	private Integer airPurifying;
+	
+	@Column(name = "Soil_Purifying")
+	private Integer soilPurifying;
+	
+	@Column(name = "Data_Source")
+	private String dataSource;
+	
+	@Column(name = "Can_we_share_the_source")
+	private Integer canWeShareTheSource;
+	
+	@Column(name = "Taste_of_Fruit")
+	private String tasteOfFruit;
+	
+	@Column(name = "Website")
+	private String website;
+	
+	@Column(name = "Seeds_and_Nuts")
+	private Integer seedsAndNuts;
+	
+	@Column(name = "HOA_approved")
+	private Integer hoaApproved;
+	
+	@Column(name = "Cold_Tolerance")
+	private Integer coldTolerance;
+	
+	@Column(name = "Drought_Tolerance")
+	private Integer droughtTolerance;
+	
+	@Column(name = "Moisture_Tolerance")
+	private Integer moistureTolerance;
+	
+	@Column(name = "Fall")
+	private String fall;
+	
+	@Column(name = "Spring")
+	private String spring;
+	
+	@Column(name = "Summer")
+	private String summer;
+	
+	@Column(name = "Winter")
+	private String winter;
+
+	@Column(name = "file_structure")
+	private String fileStructure;
 	
 	public PlantEntity(){}
 	
-
-
-	public PlantEntity(Long id, String scientificName, String houstonCommonName,
-		String commonName, Integer classField, Integer height, Integer width,
-		Integer sun, Integer nativeField, Integer soilConditions, String map,
-		Date plantTime, Integer fruitTiming, Integer colorTiming,
-		Integer distanceBetweenPlants, Integer annual, String color,
-		String hostPlantFor, Integer diseaseTolerance, Integer pestTolerance,
-		String food, Integer purpose, Integer growthRate, String edibleParts,
-		String companionPlants, String toxicPart, Integer allergenicity,
-		Integer deteringAnimals, String growthSuggestions, String cultivar,
-		Integer endorsedBy, Integer availableAt, Integer hardyScale,
-		String touristSpots, Integer easeOfPlanting, String interestingFacts,
-		Date timeToProduce, Integer rootDepth) {
-	super();
-	this.id = id;
-	this.scientificName = scientificName;
-	this.houstonCommonName = houstonCommonName;
-	this.commonName = commonName;
-	this.classField = classField;
-	this.height = height;
-	this.width = width;
-	this.sun = sun;
-	this.nativeField = nativeField;
-	this.soilConditions = soilConditions;
-	this.map = map;
-	this.plantTime = plantTime;
-	this.fruitTiming = fruitTiming;
-	this.colorTiming = colorTiming;
-	this.distanceBetweenPlants = distanceBetweenPlants;
-	this.annual = annual;
-	this.color = color;
-	this.hostPlantFor = hostPlantFor;
-	this.diseaseTolerance = diseaseTolerance;
-	this.pestTolerance = pestTolerance;
-	this.food = food;
-	this.purpose = purpose;
-	this.growthRate = growthRate;
-	this.edibleParts = edibleParts;
-	this.companionPlants = companionPlants;
-	this.toxicPart = toxicPart;
-	this.allergenicity = allergenicity;
-	this.deteringAnimals = deteringAnimals;
-	this.growthSuggestions = growthSuggestions;
-	this.cultivar = cultivar;
-	this.endorsedBy = endorsedBy;
-	this.availableAt = availableAt;
-	this.hardyScale = hardyScale;
-	this.touristSpots = touristSpots;
-	this.easeOfPlanting = easeOfPlanting;
-	this.interestingFacts = interestingFacts;
-	this.timeToProduce = timeToProduce;
-	this.rootDepth = rootDepth;
-//	this.duration = duration;
-}
-
-
-
-	public PlantEntity(Long id)
+	public PlantEntity(Long id, String scientificName,
+			String houstonCommonName, String commonName, Integer classField,
+			Integer height, Integer width, Integer sun, Integer nativeField,
+			Integer soilConditions, String map, Date plantTime,
+			Integer fruitTiming, Integer colorTiming,
+			Integer distanceBetweenPlants, Integer annual, String color,
+			String hostPlantFor, Integer diseaseTolerance,
+			Integer pestTolerance, String food, Integer purpose,
+			Integer growthRate, String edibleParts, String companionPlants,
+			String toxicPart, Integer allergenicity, Integer deteringAnimals,
+			String growthSuggestions, String cultivar, Integer endorsedBy,
+			Integer availableAt, Integer hardyScale, String touristSpots,
+			Integer easeOfPlanting, String interestingFacts,
+			Date timeToProduce, Integer rootDepth, Date duration, Integer pH,
+			Integer price, Integer d4, Integer deciduousCover,
+			Integer larval_Butterfly_Host, Integer sap, Date seedTiming,
+			Integer seedType, Integer irrigated, String cultivarNames,
+			Integer airPurifying, Integer soilPurifying, String dataSource,
+			Integer canWeShareTheSource, String tasteOfFruit, String website,
+			Integer seedsAndNuts, Integer hoaApproved, Integer coldTolerance,
+			Integer droughtTolerance, Integer moistureTolerance, String fall,
+			String spring, String summer, String winter, String fileStructure)
 	{
 		super();
 		this.id = id;
+		this.scientificName = scientificName;
+		this.houstonCommonName = houstonCommonName;
+		this.commonName = commonName;
+		this.classField = classField;
+		this.height = height;
+		this.width = width;
+		this.sun = sun;
+		this.nativeField = nativeField;
+		this.soilConditions = soilConditions;
+		this.map = map;
+		this.plantTime = plantTime;
+		this.fruitTiming = fruitTiming;
+		this.colorTiming = colorTiming;
+		this.distanceBetweenPlants = distanceBetweenPlants;
+		this.annual = annual;
+		this.color = color;
+		this.hostPlantFor = hostPlantFor;
+		this.diseaseTolerance = diseaseTolerance;
+		this.pestTolerance = pestTolerance;
+		this.food = food;
+		this.purpose = purpose;
+		this.growthRate = growthRate;
+		this.edibleParts = edibleParts;
+		this.companionPlants = companionPlants;
+		this.toxicPart = toxicPart;
+		this.allergenicity = allergenicity;
+		this.deteringAnimals = deteringAnimals;
+		this.growthSuggestions = growthSuggestions;
+		this.cultivar = cultivar;
+		this.endorsedBy = endorsedBy;
+		this.availableAt = availableAt;
+		this.hardyScale = hardyScale;
+		this.touristSpots = touristSpots;
+		this.easeOfPlanting = easeOfPlanting;
+		this.interestingFacts = interestingFacts;
+		this.timeToProduce = timeToProduce;
+		this.rootDepth = rootDepth;
+		this.duration = duration;
+		this.pH = pH;
+		this.price = price;
+		this.d4 = d4;
+		this.deciduousCover = deciduousCover;
+		Larval_Butterfly_Host = larval_Butterfly_Host;
+		this.sap = sap;
+		this.seedTiming = seedTiming;
+		this.seedType = seedType;
+		this.irrigated = irrigated;
+		this.cultivarNames = cultivarNames;
+		this.airPurifying = airPurifying;
+		this.soilPurifying = soilPurifying;
+		this.dataSource = dataSource;
+		this.canWeShareTheSource = canWeShareTheSource;
+		this.tasteOfFruit = tasteOfFruit;
+		this.website = website;
+		this.seedsAndNuts = seedsAndNuts;
+		this.hoaApproved = hoaApproved;
+		this.coldTolerance = coldTolerance;
+		this.droughtTolerance = droughtTolerance;
+		this.moistureTolerance = moistureTolerance;
+		this.fall = fall;
+		this.spring = spring;
+		this.summer = summer;
+		this.winter = winter;
+		this.fileStructure = fileStructure;
 	}
 
 	public PlantEntity(Plant plant)
@@ -525,51 +543,41 @@ public class PlantEntity implements Serializable
 		this.companionPlants = companionPlants;
 	}
 
-
 	public String getToxicPart() {
 		return toxicPart;
 	}
-
 
 	public void setToxicPart(String toxicPart) {
 		this.toxicPart = toxicPart;
 	}
 
-
 	public Integer getAllergenicity() {
 		return allergenicity;
 	}
-
 
 	public void setAllergenicity(Integer allergenicity) {
 		this.allergenicity = allergenicity;
 	}
 
-
 	public Integer getDeteringAnimals() {
 		return deteringAnimals;
 	}
-
 
 	public void setDeteringAnimals(Integer deteringAnimals) {
 		this.deteringAnimals = deteringAnimals;
 	}
 
-
 	public String getGrowthSuggestions() {
 		return growthSuggestions;
 	}
-
 
 	public void setGrowthSuggestions(String growthSuggestions) {
 		this.growthSuggestions = growthSuggestions;
 	}
 
-
 	public String getCultivar() {
 		return cultivar;
 	}
-
 
 	public void setCultivar(String cultivar) {
 		this.cultivar = cultivar;
@@ -615,43 +623,250 @@ public class PlantEntity implements Serializable
 		this.easeOfPlanting = easeOfPlanting;
 	}
 
-
-
 	public String getInterestingFacts() {
 		return interestingFacts;
 	}
-
-
 
 	public void setInterestingFacts(String interestingFacts) {
 		this.interestingFacts = interestingFacts;
 	}
 
-
 	public Date getTimeToProduce() {
 		return timeToProduce;
 	}
-
 
 	public void setTimeToProduce(Date timeToProduce) {
 		this.timeToProduce = timeToProduce;
 	}
 
-
-
 	public Integer getRootDepth() {
 		return rootDepth;
 	}
-
-
 
 	public void setRootDepth(Integer rootDepth) {
 		this.rootDepth = rootDepth;
 	}
 
+	public Date getDuration() {
+		return duration;
+	}
 
+	public void setDuration(Date duration) {
+		this.duration = duration;
+	}
 
+	public Integer getpH() {
+		return pH;
+	}
 
-	
-	
+	public void setpH(Integer pH) {
+		this.pH = pH;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Integer getD4() {
+		return d4;
+	}
+
+	public void setD4(Integer d4) {
+		this.d4 = d4;
+	}
+
+	public Integer getDeciduousCover() {
+		return deciduousCover;
+	}
+
+	public void setDeciduousCover(Integer deciduousCover) {
+		this.deciduousCover = deciduousCover;
+	}
+
+	public Integer getLarval_Butterfly_Host() {
+		return Larval_Butterfly_Host;
+	}
+
+	public void setLarval_Butterfly_Host(Integer larval_Butterfly_Host) {
+		Larval_Butterfly_Host = larval_Butterfly_Host;
+	}
+
+	public Integer getSap() {
+		return sap;
+	}
+
+	public void setSap(Integer sap) {
+		this.sap = sap;
+	}
+
+	public Date getSeedTiming() {
+		return seedTiming;
+	}
+
+	public void setSeedTiming(Date seedTiming) {
+		this.seedTiming = seedTiming;
+	}
+
+	public Integer getSeedType() {
+		return seedType;
+	}
+
+	public void setSeedType(Integer seedType) {
+		this.seedType = seedType;
+	}
+
+	public Integer getIrrigated() {
+		return irrigated;
+	}
+
+	public void setIrrigated(Integer irrigated) {
+		this.irrigated = irrigated;
+	}
+
+	public String getCultivarNames() {
+		return cultivarNames;
+	}
+
+	public void setCultivarNames(String cultivarNames) {
+		this.cultivarNames = cultivarNames;
+	}
+
+	public Integer getAirPurifying() {
+		return airPurifying;
+	}
+
+	public void setAirPurifying(Integer airPurifying) {
+		this.airPurifying = airPurifying;
+	}
+
+	public Integer getSoilPurifying() {
+		return soilPurifying;
+	}
+
+	public void setSoilPurifying(Integer soilPurifying) {
+		this.soilPurifying = soilPurifying;
+	}
+
+	public String getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public Integer getCanWeShareTheSource() {
+		return canWeShareTheSource;
+	}
+
+	public void setCanWeShareTheSource(Integer canWeShareTheSource) {
+		this.canWeShareTheSource = canWeShareTheSource;
+	}
+
+	public String getTasteOfFruit() {
+		return tasteOfFruit;
+	}
+
+	public void setTasteOfFruit(String tasteOfFruit) {
+		this.tasteOfFruit = tasteOfFruit;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public Integer getSeedsAndNuts() {
+		return seedsAndNuts;
+	}
+
+	public void setSeedsAndNuts(Integer seedsAndNuts) {
+		this.seedsAndNuts = seedsAndNuts;
+	}
+
+	public Integer getHoaApproved() {
+		return hoaApproved;
+	}
+
+	public void setHoaApproved(Integer hoaApproved) {
+		this.hoaApproved = hoaApproved;
+	}
+
+	public Integer getColdTolerance() {
+		return coldTolerance;
+	}
+
+	public void setColdTolerance(Integer coldTolerance) {
+		this.coldTolerance = coldTolerance;
+	}
+
+	public Integer getDroughtTolerance() {
+		return droughtTolerance;
+	}
+
+	public void setDroughtTolerance(Integer droughtTolerance) {
+		this.droughtTolerance = droughtTolerance;
+	}
+
+	public Integer getMoistureTolerance() {
+		return moistureTolerance;
+	}
+
+	public void setMoistureTolerance(Integer moistureTolerance) {
+		this.moistureTolerance = moistureTolerance;
+	}
+
+	public String getFall() {
+		return fall;
+	}
+
+	public void setFall(String fall) {
+		this.fall = fall;
+	}
+
+	public String getSpring() {
+		return spring;
+	}
+
+	public void setSpring(String spring) {
+		this.spring = spring;
+	}
+
+	public String getSummer() {
+		return summer;
+	}
+
+	public void setSummer(String summer) {
+		this.summer = summer;
+	}
+
+	public String getWinter() {
+		return winter;
+	}
+
+	public void setWinter(String winter) {
+		this.winter = winter;
+	}
+
+	public String getFileStructure() {
+		return fileStructure;
+	}
+
+	public void setFileStructure(String fileStructure) {
+		this.fileStructure = fileStructure;
+	}
+
+	@Override
+	public String toString() {
+		return "PlantEntity [id=" + id + ", scientificName=" + scientificName
+				+ ", houstonCommonName=" + houstonCommonName + ", commonName="
+				+ commonName + "]";
+	}
 }
