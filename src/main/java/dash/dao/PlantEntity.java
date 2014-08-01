@@ -33,7 +33,7 @@ public class PlantEntity implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1126021260367221880L;
+	private static final long serialVersionUID = -1L;
 	
 	@Id
 	@GeneratedValue

@@ -31,7 +31,7 @@ public class GroupEntity implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1126021260367221880L;
 
 	@Id
 	@GeneratedValue
