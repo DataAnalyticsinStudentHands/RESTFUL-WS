@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.security.acls.model.MutableAclService;
 
-import dash.dao.GroupEntity;
 import dash.dao.PlantDao;
 import dash.dao.PlantEntity;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
-import dash.pojo.Group;
 import dash.pojo.Plant;
 import dash.security.GenericAclController;
 

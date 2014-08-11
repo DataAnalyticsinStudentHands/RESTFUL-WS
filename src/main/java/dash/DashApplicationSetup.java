@@ -12,8 +12,6 @@ import dash.errorhandling.AppExceptionMapper;
 import dash.errorhandling.GenericExceptionMapper;
 import dash.errorhandling.NotFoundExceptionMapper;
 import dash.filters.LoggingResponseFilter;
-import dash.pojo.SimpleObjectResource;
-import dash.pojo.SimpleObjectDetailedView;
 import dash.pojo.UserDetailedView;
 import dash.pojo.UsersResource;
 import dash.pojo.PlantResource;
@@ -33,7 +31,6 @@ public class DashApplicationSetup extends ResourceConfig {
 	public DashApplicationSetup() {
 		// register application resources
 		register(UsersResource.class);
-		register(SimpleObjectResource.class);
 		register(PlantResource.class);
 
 		// register filters
@@ -54,8 +51,6 @@ public class DashApplicationSetup extends ResourceConfig {
 				new Annotation[] { UserDetailedView.Factory.get() });
 		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
 				new Annotation[] { PlantDetailedView.Factory.get() });
-		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
-				new Annotation[] { SimpleObjectDetailedView.Factory.get() });
 	}
 }
 
