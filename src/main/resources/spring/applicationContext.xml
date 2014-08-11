@@ -39,9 +39,9 @@
     <bean id="userService" class="dash.service.UserServiceDbAccessImpl" />	
     <bean id="userResource" class="dash.pojo.UsersResource" />
     
-    <bean id="groupDao" class="dash.dao.GroupDaoJPA2Impl"/>	
-    <bean id="groupService" class="dash.service.GroupServiceDbAccessImpl" />	
-    <bean id="groupResource" class="dash.pojo.GroupResource" />
+    <bean id="simpleObjectDao" class="dash.dao.SimpleObjectDaoJPA2Impl"/>	
+    <bean id="simpleObjectService" class="dash.service.SimpleObjectServiceDbAccessImpl" />	
+    <bean id="simpleObjectResource" class="dash.pojo.SimpleObjectResource" />
     
     <bean id="plantDao" class="dash.dao.PlantDaoJPA2Impl"/>	
     <bean id="plantService" class="dash.service.PlantServiceDbAccessImpl" />	
