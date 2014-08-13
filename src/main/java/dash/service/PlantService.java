@@ -1,6 +1,7 @@
 package dash.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -15,10 +16,10 @@ public interface PlantService
 	/*
 	 * ******************* Read related methods ********************
 	 */
-	public Plant getPlantByID(Long id) throws AppException;
 	
 	public Plant getPlantByCommonName(String commonName) throws AppException;
 	
-	public List<Plant> getPlantsByFilter(Integer bloomSeason, Integer category,
-			Integer nativeField, Integer waterAmount, Integer sunlightAmount) throws AppException;
+	public List<Plant> getPlantsAlpha(Integer nativeField, Integer colorTimin,
+			Integer soilConditions, Integer sunAmount, Integer growthSize)
+		throws AppException;
 }

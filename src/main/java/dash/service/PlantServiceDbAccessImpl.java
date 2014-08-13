@@ -2,6 +2,7 @@ package dash.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -28,23 +29,6 @@ public class PlantServiceDbAccessImpl extends ApplicationObjectSupport implement
 	private GenericAclController<Plant> aclController;
 
 	@Override
-	public Plant getPlantByID(Long id) throws AppException
-	{
-		PlantEntity plantById = plantDao.getPlantByID(id);
-		
-		if (plantById == null) {
-			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
-					404,
-					"The plant you requested with id " + id
-					+ " was not found in the database",
-					"Verify the existence of the group with the id " + id
-					+ " in the database", AppConstants.DASH_POST_URL);
-		}
-
-		return new Plant(plantDao.getPlantByID(id));
-	}
-
-	@Override
 	public Plant getPlantByCommonName(String commonName) throws AppException
 	{
 		PlantEntity plantByCommonName = plantDao.getPlantByCommonName(commonName);
@@ -60,14 +44,14 @@ public class PlantServiceDbAccessImpl extends ApplicationObjectSupport implement
 
 		return new Plant(plantDao.getPlantByCommonName(commonName));
 	}
-
+	
 	@Override
-	public List<Plant> getPlantsByFilter(Integer bloomSeason,
-			Integer category, Integer nativeField, Integer waterAmount,
-			Integer sunlightAmount) throws AppException
+	public List<Plant> getPlantsAlpha(Integer nativeField, Integer colorTimin,
+			Integer soilConditions, Integer sunAmount, Integer growthSize)
+		throws AppException
 	{
-		List<PlantEntity> plants = plantDao.getPlantsByFilter(bloomSeason, category, nativeField,
-				waterAmount, sunlightAmount);
+		List<PlantEntity> plants = plantDao.getPlantsAlpha(nativeField, colorTimin,
+				soilConditions, sunAmount, growthSize);
 
 		if (plants == null) {
 			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),

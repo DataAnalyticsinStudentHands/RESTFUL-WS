@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.persistence.EntityManager;
@@ -19,24 +20,6 @@ public class PlantDaoJPA2Impl implements PlantDao
 {
 	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
-
-	@Override
-	public PlantEntity getPlantByID(Long id)
-	{
-		try
-		{
-			String qlString = "SELECT u FROM PlantEntity u WHERE u.id = ?1";
-			TypedQuery<PlantEntity> query = entityManager.createQuery(qlString,
-					PlantEntity.class);
-			query.setParameter(1, id);
-
-			return query.getSingleResult();
-		}
-		catch (NoResultException e)
-		{
-			return null;
-		}
-	}
 
 	@Override
 	public PlantEntity getPlantByCommonName(String commonName)
@@ -55,28 +38,28 @@ public class PlantDaoJPA2Impl implements PlantDao
 			return null;
 		}
 	}
-
+	
 	@Override
-	public List<PlantEntity> getPlantsByFilter(Integer bloomSeason, Integer category,
-			Integer nativeField, Integer waterAmount, Integer sunlightAmount)
+	public List<PlantEntity> getPlantsAlpha(Integer nativeField, Integer colorTiming,
+			Integer soilConditions, Integer sunAmount, Integer growthSize)
 	{
 		try
 		{
-			String sqlString = "SELECT u FROM PlantEntity u " + 
-							   "WHERE u.colorTiming = ?1 " + 
-							   "AND u.classField = ?2 " +
-							   "AND u.nativeField = ?3 " +
-							   "AND u.soilConditions = ?4 " +
-							   "AND u.sun = ?5";
+			String sqlString = "SELECT u FROM PlantEntity u" + 
+							   " WHERE u.nativeField = ?1" + 
+							   " AND u.colorTiming = ?2" +
+							   " AND u.soilConditions = ?3" +
+							   " AND u.sun = ?4" +
+							   " AND u.growthSize = ?5";
 			
 			TypedQuery<PlantEntity> query = entityManager.createQuery(sqlString,
 					PlantEntity.class);
 	
-			query.setParameter(1, bloomSeason);
-			query.setParameter(2, category);
-			query.setParameter(3, nativeField);
-			query.setParameter(4, waterAmount);
-			query.setParameter(5, sunlightAmount);
+			query.setParameter(1, nativeField);
+			query.setParameter(2, colorTiming);
+			query.setParameter(3, soilConditions);
+			query.setParameter(4, sunAmount);
+			query.setParameter(5, growthSize);
 			
 			return query.getResultList();
 		}

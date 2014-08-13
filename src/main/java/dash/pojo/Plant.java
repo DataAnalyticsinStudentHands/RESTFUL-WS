@@ -62,8 +62,11 @@ public class Plant implements IAclObject
 	@XmlElement(name = "map")
 	private String map;
 	
-	@XmlElement(name = "plantTime")
-	private Date plantTime;
+	@XmlElement(name = "plantTimeFrom")
+	private Date plantTimeFrom;
+	
+	@XmlElement(name = "plantTimeTo")
+	private Date plantTimeTo;
 	
 	@XmlElement(name = "fruitTiming")
 	private Integer fruitTiming;
@@ -137,14 +140,20 @@ public class Plant implements IAclObject
 	@XmlElement(name = "interestingFacts")
 	private String interestingFacts;
 	
-	@XmlElement(name = "timeToProduce")
-	private Date timeToProduce;
+	@XmlElement(name = "timeToProduceFrom")
+	private Date timeToProduceFrom;
+	
+	@XmlElement(name = "timeToProduceTo")
+	private Date timeToProduceTo;
 	
 	@XmlElement(name = "rootDepth")
 	private Integer rootDepth;
 	
-	@XmlElement(name = "duration")
-	private Date duration;
+	@XmlElement(name = "durationFrom")
+	private Date durationFrom;
+	
+	@XmlElement(name = "durationTo")
+	private Date durationTo;
 	
 	@XmlElement(name = "pH")
 	private Integer pH;
@@ -159,13 +168,16 @@ public class Plant implements IAclObject
 	private Integer deciduousCover;
 	
 	@XmlElement(name = "larvalButterflyHost")
-	private Integer Larval_Butterfly_Host;
+	private Integer larval_Butterfly_Host;
 	
 	@XmlElement(name = "sap")
 	private Integer sap;
 	
-	@XmlElement(name = "seedTiming")
-	private Date seedTiming;
+	@XmlElement(name = "seedTimingFrom")
+	private Date seedTimingFrom;
+	
+	@XmlElement(name = "seedTimingTo")
+	private Date seedTimingTo;
 	
 	@XmlElement(name = "seedType")
 	private Integer seedType;
@@ -221,8 +233,35 @@ public class Plant implements IAclObject
 	@XmlElement(name = "winter")
 	private String winter;
 
-	@XmlElement(name = "fileStructure")
-	private String fileStructure;
+	@XmlElement(name = "imagePath")
+	private String imagePath;
+	
+	@XmlElement(name = "maintenance")
+	private Integer maintenance;
+	
+	@XmlElement(name = "wildlife")
+	private Integer wildlife;
+	
+	@XmlElement(name = "map2")
+	private Integer map2;
+	
+	@XmlElement(name = "growthSize")
+	private Integer growthSize;
+	
+	@XmlElement(name = "whenToPlant")
+	private Integer whenToPlant;
+	
+	@XmlElement(name = "purpose2")
+	private Integer purpose2;
+	
+	@XmlElement(name = "companionPlants2")
+	private Integer companionPlants2;
+	
+	@XmlElement(name = "cultivar2")
+	private Integer cultivar2;
+	
+	@XmlElement(name = "duration")
+	private Integer duration2;
 	
 	public Plant(){}
 	
@@ -244,25 +283,30 @@ public class Plant implements IAclObject
 
 	public Plant(Long id, String scientificName, String houstonCommonName,
 			String commonName, Integer classField, Integer height,
-			Integer width, Integer sun, Integer nativeField, Integer soilConditions,
-			String map, Date plantTime, Integer fruitTiming, Integer colorTiming,
+			Integer width, Integer sun, Integer nativeField,
+			Integer soilConditions, String map, Date plantTimeFrom,
+			Date plantTimeTo, Integer fruitTiming, Integer colorTiming,
 			Integer distanceBetweenPlants, Integer annual, String color,
-			String hostPlantFor, Integer diseaseTolerance, Integer pestTolerance,
-			String food, Integer purpose, Integer growthRate,
-			String edibleParts, String companionPlants, String toxicParts,
-			Integer allergencity, Integer deteringAnimals,
+			String hostPlantFor, Integer diseaseTolerance,
+			Integer pestTolerance, String food, Integer purpose,
+			Integer growthRate, String edibleParts, String companionPlants,
+			String toxicParts, Integer allergencity, Integer deteringAnimals,
 			String growthSuggestions, String cultivar, Integer endorsedBy,
 			Integer availableAt, Integer hardyScale, String touristsSpots,
 			Integer easeOfPlanting, String interestingFacts,
-			Date timeToProduce, Integer rootDepth, Date duration, Integer pH,
-			Integer price, Integer d4, Integer deciduousCover,
-			Integer larval_Butterfly_Host, Integer sap, Date seedTiming,
+			Date timeToProduceFrom, Date timeToProduceTo, Integer rootDepth,
+			Date durationFrom, Date durationTo, Integer pH, Integer price,
+			Integer d4, Integer deciduousCover, Integer larval_Butterfly_Host,
+			Integer sap, Date seedTimingFrom, Date seedTimingTo,
 			Integer seedType, Integer irrigated, String cultivarNames,
 			Integer airPurifying, Integer soilPurifying, String dataSource,
 			Integer canWeShareTheSource, String tasteOfFruit, String website,
 			Integer seedsAndNuts, Integer hoaApproved, Integer coldTolerance,
 			Integer droughtTolerance, Integer moistureTolerance, String fall,
-			String spring, String summer, String winter, String fileStructure) {
+			String spring, String summer, String winter, String imagePath,
+			Integer maintenance, Integer wildlife, Integer map2,
+			Integer growthSize, Integer whenToPlant, Integer purpose2,
+			Integer companionPlants2, Integer cultivar2, Integer duration2) {
 		super();
 		this.id = id;
 		this.scientificName = scientificName;
@@ -275,7 +319,8 @@ public class Plant implements IAclObject
 		this.nativeField = nativeField;
 		this.soilConditions = soilConditions;
 		this.map = map;
-		this.plantTime = plantTime;
+		this.plantTimeFrom = plantTimeFrom;
+		this.plantTimeTo = plantTimeTo;
 		this.fruitTiming = fruitTiming;
 		this.colorTiming = colorTiming;
 		this.distanceBetweenPlants = distanceBetweenPlants;
@@ -300,16 +345,19 @@ public class Plant implements IAclObject
 		this.touristsSpots = touristsSpots;
 		this.easeOfPlanting = easeOfPlanting;
 		this.interestingFacts = interestingFacts;
-		this.timeToProduce = timeToProduce;
+		this.timeToProduceFrom = timeToProduceFrom;
+		this.timeToProduceTo = timeToProduceTo;
 		this.rootDepth = rootDepth;
-		this.duration = duration;
+		this.durationFrom = durationFrom;
+		this.durationTo = durationTo;
 		this.pH = pH;
 		this.price = price;
 		this.d4 = d4;
 		this.deciduousCover = deciduousCover;
-		Larval_Butterfly_Host = larval_Butterfly_Host;
+		this.larval_Butterfly_Host = larval_Butterfly_Host;
 		this.sap = sap;
-		this.seedTiming = seedTiming;
+		this.seedTimingFrom = seedTimingFrom;
+		this.seedTimingTo = seedTimingTo;
 		this.seedType = seedType;
 		this.irrigated = irrigated;
 		this.cultivarNames = cultivarNames;
@@ -328,7 +376,16 @@ public class Plant implements IAclObject
 		this.spring = spring;
 		this.summer = summer;
 		this.winter = winter;
-		this.fileStructure = fileStructure;
+		this.imagePath = imagePath;
+		this.maintenance = maintenance;
+		this.wildlife = wildlife;
+		this.map2 = map2;
+		this.growthSize = growthSize;
+		this.whenToPlant = whenToPlant;
+		this.purpose2 = purpose2;
+		this.companionPlants2 = companionPlants2;
+		this.cultivar2 = cultivar2;
+		this.duration2 = duration2;
 	}
 
 	public Long getId() {
@@ -419,12 +476,20 @@ public class Plant implements IAclObject
 		this.map = map;
 	}
 
-	public Date getPlantTime() {
-		return plantTime;
+	public Date getPlantTimeFrom() {
+		return plantTimeFrom;
 	}
 
-	public void setPlantTime(Date plantTime) {
-		this.plantTime = plantTime;
+	public void setPlantTimeFrom(Date plantTimeFrom) {
+		this.plantTimeFrom = plantTimeFrom;
+	}
+
+	public Date getPlantTimeTo() {
+		return plantTimeTo;
+	}
+
+	public void setPlantTimeTo(Date plantTimeTo) {
+		this.plantTimeTo = plantTimeTo;
 	}
 
 	public Integer getFruitTiming() {
@@ -619,12 +684,20 @@ public class Plant implements IAclObject
 		this.interestingFacts = interestingFacts;
 	}
 
-	public Date getTimeToProduce() {
-		return timeToProduce;
+	public Date getTimeToProduceFrom() {
+		return timeToProduceFrom;
 	}
 
-	public void setTimeToProduce(Date timeToProduce) {
-		this.timeToProduce = timeToProduce;
+	public void setTimeToProduceFrom(Date timeToProduceFrom) {
+		this.timeToProduceFrom = timeToProduceFrom;
+	}
+
+	public Date getTimeToProduceTo() {
+		return timeToProduceTo;
+	}
+
+	public void setTimeToProduceTo(Date timeToProduceTo) {
+		this.timeToProduceTo = timeToProduceTo;
 	}
 
 	public Integer getRootDepth() {
@@ -635,12 +708,20 @@ public class Plant implements IAclObject
 		this.rootDepth = rootDepth;
 	}
 
-	public Date getDuration() {
-		return duration;
+	public Date getDurationFrom() {
+		return durationFrom;
 	}
 
-	public void setDuration(Date duration) {
-		this.duration = duration;
+	public void setDurationFrom(Date durationFrom) {
+		this.durationFrom = durationFrom;
+	}
+
+	public Date getDurationTo() {
+		return durationTo;
+	}
+
+	public void setDurationTo(Date durationTo) {
+		this.durationTo = durationTo;
 	}
 
 	public Integer getpH() {
@@ -676,11 +757,11 @@ public class Plant implements IAclObject
 	}
 
 	public Integer getLarval_Butterfly_Host() {
-		return Larval_Butterfly_Host;
+		return larval_Butterfly_Host;
 	}
 
 	public void setLarval_Butterfly_Host(Integer larval_Butterfly_Host) {
-		Larval_Butterfly_Host = larval_Butterfly_Host;
+		this.larval_Butterfly_Host = larval_Butterfly_Host;
 	}
 
 	public Integer getSap() {
@@ -691,12 +772,20 @@ public class Plant implements IAclObject
 		this.sap = sap;
 	}
 
-	public Date getSeedTiming() {
-		return seedTiming;
+	public Date getSeedTimingFrom() {
+		return seedTimingFrom;
 	}
 
-	public void setSeedTiming(Date seedTiming) {
-		this.seedTiming = seedTiming;
+	public void setSeedTimingFrom(Date seedTimingFrom) {
+		this.seedTimingFrom = seedTimingFrom;
+	}
+
+	public Date getSeedTimingTo() {
+		return seedTimingTo;
+	}
+
+	public void setSeedTimingTo(Date seedTimingTo) {
+		this.seedTimingTo = seedTimingTo;
 	}
 
 	public Integer getSeedType() {
@@ -783,7 +872,7 @@ public class Plant implements IAclObject
 		return hoaApproved;
 	}
 
-	public void setHqaApproved(Integer hoaApproved) {
+	public void setHoaApproved(Integer hoaApproved) {
 		this.hoaApproved = hoaApproved;
 	}
 
@@ -843,12 +932,84 @@ public class Plant implements IAclObject
 		this.winter = winter;
 	}
 
-	public String getFileStructure() {
-		return fileStructure;
+	public String getImagePath() {
+		return imagePath;
 	}
 
-	public void setFileStructure(String fileStructure) {
-		this.fileStructure = fileStructure;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public Integer getMaintenance() {
+		return maintenance;
+	}
+
+	public void setMaintenance(Integer maintenance) {
+		this.maintenance = maintenance;
+	}
+
+	public Integer getWildlife() {
+		return wildlife;
+	}
+
+	public void setWildlife(Integer wildlife) {
+		this.wildlife = wildlife;
+	}
+
+	public Integer getMap2() {
+		return map2;
+	}
+
+	public void setMap2(Integer map2) {
+		this.map2 = map2;
+	}
+
+	public Integer getGrowthSize() {
+		return growthSize;
+	}
+
+	public void setGrowthSize(Integer growthSize) {
+		this.growthSize = growthSize;
+	}
+
+	public Integer getWhenToPlant() {
+		return whenToPlant;
+	}
+
+	public void setWhenToPlant(Integer whenToPlant) {
+		this.whenToPlant = whenToPlant;
+	}
+
+	public Integer getPurpose2() {
+		return purpose2;
+	}
+
+	public void setPurpose2(Integer purpose2) {
+		this.purpose2 = purpose2;
+	}
+
+	public Integer getCompanionPlants2() {
+		return companionPlants2;
+	}
+
+	public void setCompanionPlants2(Integer companionPlants2) {
+		this.companionPlants2 = companionPlants2;
+	}
+
+	public Integer getCultivar2() {
+		return cultivar2;
+	}
+
+	public void setCultivar2(Integer cultivar2) {
+		this.cultivar2 = cultivar2;
+	}
+
+	public Integer getDuration2() {
+		return duration2;
+	}
+
+	public void setDuration2(Integer duration2) {
+		this.duration2 = duration2;
 	}
 
 	@Override
