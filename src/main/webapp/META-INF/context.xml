@@ -17,9 +17,9 @@
 	   testOnBorrow="true"
 	   removeAbandoned="true"
 	   removeAbandonedTimeout="233"
-	   username="root"
-	   password="MetalGear94!"
+	   username="frontEndDev"
+	   password="tacos4lyfe"
 	   driverClassName="com.mysql.jdbc.Driver"
-	   url="jdbc:mysql://localhost:3306/PlantApp?allowMultiQueries=true"
+	   url="jdbc:mysql://housuggest.org/PlantApp?allowMultiQueries=true"
    /> 
 </Context>
