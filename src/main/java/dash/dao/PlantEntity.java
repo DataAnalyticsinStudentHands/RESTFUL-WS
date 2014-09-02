@@ -26,7 +26,7 @@ import dash.pojo.UserDetailedView;
  * 
  */
 @Entity
-@Table(name="db2012_2")
+@Table(name="db2012")
 public class PlantEntity implements Serializable
 {
 	/**
