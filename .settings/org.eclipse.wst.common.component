@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <property name="java-output-path" value="/RESTFUL-WS-ACL/target/classes"/>
-        <property name="context-root" value="RESTFUL-WS"/>
+        <property name="java-output-path" value="/RESTFUL-WS-ACL/bin"/>
+        <property name="context-root" value="CoreAcl"/>
     </wb-module>
 </project-modules>

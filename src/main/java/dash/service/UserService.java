@@ -12,7 +12,7 @@ import dash.pojo.User;
 
 /**
  *
- * @author plindner
+ * @author plindner, tyler.swensen@gmail.com
  * @see <a
  *      href="http://www.codingpedia.org/ama/spring-mybatis-integration-example/">http://www.codingpedia.org/ama/spring-mybatis-integration-example/</a>
  */
@@ -40,10 +40,13 @@ public interface UserService {
 	 * @return list with users corresponding to search criteria
 	 * @throws AppException
 	 */
-	@PostFilter("hasPermission(filterObject, 'READ') or hasRole('ROLE_ADMIN')")
+	
 	public List<User> getUsers(String orderByInsertionDate,
 			Integer numberDaysToLookBack) throws AppException;
-
+	
+	@PostFilter("hasPermission(filterObject, 'READ')")
+	public List<User> getMyUser(String orderByInsertionDate,
+			Integer numberDaysToLookBack) throws AppException;
 	/**
 	 * Returns a user given its id
 	 *
@@ -51,8 +54,10 @@ public interface UserService {
 	 * @return
 	 * @throws AppException
 	 */
-	@PostAuthorize("hasPermission(returnObject, 'READ') or hasRole('ROLE_ADMIN')")
+	
 	public User getUserById(Long id) throws AppException;
+	
+	public List<String> getRole(User user);
 
 	/*
 	 * ******************** Update related methods **********************
@@ -62,17 +67,30 @@ public interface UserService {
 
 	@PreAuthorize("hasPermission(#user, 'WRITE') or hasRole('ROLE_ADMIN')")
 	public void updatePartiallyUser(User user) throws AppException;
+	
+	@PreAuthorize("hasPermission(#user, 'WRITE') or hasRole('ROLE_ADMIN')")
+	public void resetPassword(User user) throws AppException;
+	
+	@PreAuthorize("hasPermission(#user, 'WRITE') and hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+	public void setRoleUser(User user);
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void setRoleModerator(User user);
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void setRoleAdmin(User user);
 	/*
 	 * ******************** Delete related methods **********************
+	 * 
+	 * Deletions temporarily disabled while a deactivate method is worked on
 	 */
 
 
-	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
-	public void deleteUser(User user);
-	/** removes all users */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deleteUsers();
+//	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
+//	public void deleteUser(User user);
+//	/** removes all users */
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	public void deleteUsers();
 
 	/*
 	 * ******************** Helper methods **********************
@@ -83,6 +101,11 @@ public interface UserService {
 	public User verifyUserExistenceById(Long id);
 
 	public int getNumberOfUsers();
+
+
+	
+
+	
 
 }
 

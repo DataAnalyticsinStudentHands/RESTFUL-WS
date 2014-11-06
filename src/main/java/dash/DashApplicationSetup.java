@@ -12,10 +12,10 @@ import dash.errorhandling.AppExceptionMapper;
 import dash.errorhandling.GenericExceptionMapper;
 import dash.errorhandling.NotFoundExceptionMapper;
 import dash.filters.LoggingResponseFilter;
-import dash.pojo.SimpleObjectResource;
-import dash.pojo.SimpleObjectDetailedView;
+import dash.pojo.SampleObjectResource;
 import dash.pojo.UserDetailedView;
 import dash.pojo.UsersResource;
+
 
 /**
  * Registers the components to be used by the JAX-RS application
@@ -31,7 +31,8 @@ public class DashApplicationSetup extends ResourceConfig {
 	public DashApplicationSetup() {
 		// register application resources
 		register(UsersResource.class);
-		register(SimpleObjectResource.class);
+		register(SampleObjectResource.class);
+		
 
 		// register filters
 		register(RequestContextFilter.class);
@@ -49,10 +50,6 @@ public class DashApplicationSetup extends ResourceConfig {
 
 		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
 				new Annotation[] { UserDetailedView.Factory.get() });
-		
-		property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE,
-				new Annotation[] { SimpleObjectDetailedView.Factory.get() });
 	}
 }
 
-// This is a test comment. Please work.

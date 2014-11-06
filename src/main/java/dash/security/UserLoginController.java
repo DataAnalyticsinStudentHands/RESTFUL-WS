@@ -9,17 +9,21 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.object.SqlUpdate;
 
 import dash.pojo.User;
-
-/*
- * Handles the authorities table by adding and removing roles
+/**
+ * Handles the authorities table by adding and removing roles for the UserResource.
  * 
  * Config the data source in webSecurityConfig.xml where this bean is declared.
+ * 
+ * @author Tyler.swensen@gmail.com
+ *
  */
+
 public class UserLoginController  extends JdbcDaoSupport {
 
 
 	private InsertAuthority insertAuthority;
 	private InsertLogin insertLogin;
+	private ResetPassword resetPassword;
 
 	// Instantiates the inner classes. Inheirited from grandparent class
 	// DaoSupport.
@@ -27,6 +31,7 @@ public class UserLoginController  extends JdbcDaoSupport {
 	protected void initDao() throws Exception {
 		insertLogin = new InsertLogin(getDataSource());
 		insertAuthority = new InsertAuthority(getDataSource());
+		resetPassword= new ResetPassword(getDataSource());
 
 	}
 
@@ -34,11 +39,15 @@ public class UserLoginController  extends JdbcDaoSupport {
 		insertLogin.insert(user);
 		insertAuthority.insert(user, authority);
 	}
+	
+	public void passwordReset(User user){
+		resetPassword.reset(user);
+	}
 
 	/********* Inner Classes  ************/
 	protected class InsertAuthority extends SqlUpdate {
 		protected InsertAuthority(DataSource ds) {
-			super(ds, "INSERT INTO authorities VALUES (?, ?)");
+			super(ds, "INSERT INTO authorities (username, authority) VALUES (?, ?)");
 			declareParameter(new SqlParameter(Types.VARCHAR));
 			declareParameter(new SqlParameter(Types.VARCHAR));
 			compile();
@@ -66,6 +75,20 @@ public class UserLoginController  extends JdbcDaoSupport {
 			super.update(objs);
 		}
 
+	}
+	
+	protected class ResetPassword extends SqlUpdate {
+		protected ResetPassword(DataSource ds) {
+			super(ds, "UPDATE `login` SET `password` = ? WHERE `login`.`id` = ? ;");
+			declareParameter(new SqlParameter(Types.VARCHAR));
+			declareParameter(new SqlParameter(Types.INTEGER));
+			compile();
+		}
+		
+		protected void reset(User user){
+			Object[] objs = new Object[] {user.getPassword(), user.getId()};
+			super.update(objs);
+		}
 	}
 	
 }

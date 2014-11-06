@@ -3,7 +3,6 @@
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 import javax.ws.rs.core.Response;
 
@@ -18,6 +17,9 @@ import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import dash.dao.UserDao;
@@ -28,6 +30,13 @@ import dash.helpers.NullAwareBeanUtilsBean;
 import dash.pojo.User;
 import dash.security.UserLoginController;
 
+/**
+ * Implementation of the buisness logic for our User object.  Users are also used 
+ * by SpringSecurity and the ACL's to determine authorization.
+ * 
+ * @author Tyler.swensen@gmail.com
+ *
+ */
 
 public class UserServiceDbAccessImpl extends ApplicationObjectSupport implements
 UserService {
@@ -42,6 +51,7 @@ UserService {
 	private UserLoginController authoritiesController;
 
 	public static final String userRole = "ROLE_USER";
+	
 
 
 	/********************* Create related methods implementation ***********************/
@@ -63,33 +73,12 @@ UserService {
 							AppConstants.DASH_POST_URL);
 		}
 
-		//create User ID (actually this done via auto increment in DB)
 		long userId = userDao.createUser(new UserEntity(user));
 		user.setId(userId);
-		
-		String fileName = user.getUsername() + ".png";
-		 
-        int hashcode = fileName.hashCode();
-        int mask = 255;
-        int firstDir = hashcode & mask;
-        int secondDir = (hashcode >> 8) & mask;
- 
-        StringBuilder path = new StringBuilder(File.separator);
-        path.append(String.format("%03d", firstDir));
-        path.append(File.separator);
-        path.append(String.format("%03d", secondDir));
-        path.append(File.separator);
-        path.append(fileName);
- 
-        System.out.println(path);
-		
-        user.setPicture(fileName);
-		
-		//create user object		
 		authoritiesController.create(user, userRole);
+		createUserACL(user, new PrincipalSid(user.getUsername()));
 		
-		createUserACL(user, new PrincipalSid(user.getUsername()));	
-		
+
 		return userId;
 	}
 
@@ -103,7 +92,7 @@ UserService {
 			throw new AppException(Response.Status.BAD_REQUEST.getStatusCode(), 400, "Provided data not sufficient for insertion",
 					"Please verify that the password is properly generated/set",
 					AppConstants.DASH_POST_URL);
-		}
+		} 
 		//etc...
 	}
 
@@ -138,6 +127,13 @@ UserService {
 		List<UserEntity> users = userDao.getUsers(orderByInsertionDate);
 
 		return getUsersFromEntities(users);
+	}
+	
+	@Override
+	public List<User> getMyUser(String orderByInsertionDate,
+			Integer numberDaysToLookBack) throws AppException {
+		return getUsers(orderByInsertionDate, numberDaysToLookBack);
+		
 	}
 
 	private boolean isOrderByInsertionDateParameterValid(
@@ -185,21 +181,30 @@ UserService {
 
 	}
 
+	@Override
+	public List<String> getRole(User user) {
+		ArrayList<String> tempRole = new ArrayList<String>();
+		tempRole.add(userDao.getRoleByName(user.getUsername()));
+		return tempRole;
+	}
+	
+	protected String getUsername() {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 
+		if (auth.getPrincipal() instanceof UserDetails) {
+			return ((UserDetails) auth.getPrincipal()).getUsername();
+		} else {
+			return auth.getPrincipal().toString();
+		}
+	}
 
 	/********************* UPDATE-related methods implementation ***********************/
 	@Override
 	@Transactional
 	public void updateFullyUser(User user) throws AppException {
 		//do a validation to verify FULL update with PUT
-		if (isFullUpdate(user)) {
-			throw new AppException(Response.Status.BAD_REQUEST.getStatusCode(),
-					400,
-					"Please specify all properties for Full UPDATE",
-					"required properties - id, username, password, firstName, lastName, city, homePhone, cellPhone, email, picture",
-					AppConstants.DASH_POST_URL);
-		}
-
+		
 		User verifyUserExistenceById = verifyUserExistenceById(user
 				.getId());
 		if (verifyUserExistenceById == null) {
@@ -210,50 +215,65 @@ UserService {
 							+ user.getId(),
 							AppConstants.DASH_POST_URL);
 		}
-
-		userDao.updateUser(new UserEntity(user));
+		
+		copyAllProperties(verifyUserExistenceById, user);
+		userDao.updateUser(new UserEntity(verifyUserExistenceById));
 	}
 
+	
+	
 	/**
-	 * Verifies the "completeness" of user resource sent over the wire
-	 *
-	 * @param User
-	 * @return
+	 * Allows for merging bean with object does not ignore null properties.
+	 * 
+	 * 
 	 */
-	private boolean isFullUpdate(User user) {
-		return user.getId() == null
-				|| user.getUsername() == null
-				|| user.getPassword() == null
-				|| user.getFirstName() == null
-				|| user.getLastName() == null
-				|| user.getCity() == null
-				|| user.getHomePhone() == null
-				|| user.getCellPhone() == null
-				|| user.getEmail() == null
-				|| user.getPicture() == null;
-	}
+	private void copyAllProperties(User verifyUserExistenceById, User user) {
 
-	/********************* DELETE-related methods implementation ***********************/
-
-	@Override
-	@Transactional
-	public void deleteUser(User user) {
-
-		userDao.deleteUserById(user);
+		BeanUtilsBean withNull=new BeanUtilsBean();
+		try {
+			withNull.copyProperty(verifyUserExistenceById, "firstName", user.getFirstName());
+			withNull.copyProperty(verifyUserExistenceById, "lastName", user.getLastName());
+			withNull.copyProperty(verifyUserExistenceById, "city", user.getCity());
+			withNull.copyProperty(verifyUserExistenceById, "homePhone", user.getHomePhone());
+			withNull.copyProperty(verifyUserExistenceById, "cellPhone", user.getCellPhone());
+			withNull.copyProperty(verifyUserExistenceById, "email", user.getEmail());
+			withNull.copyProperty(verifyUserExistenceById, "picture", user.getPicture());
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	@Override
-	@Transactional
-	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
-	// Users to delete
-	public void deleteUsers() {
-		userDao.deleteUsers();
-	}
+	/********************* DELETE-related methods implementation **********************
+	 * 
+	 * Disabled
+	 * TODO: Implement deactivation of a user account
+	 * 
+	 * */
+
+//	@Override
+//	@Transactional
+//	public void deleteUser(User user) {
+//
+//		
+//		userDao.deleteUserById(user);
+//		deleteACL(user);
+//
+//	}
+//
+//	@Override
+//	@Transactional
+//	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
+//	// Users to delete
+//	public void deleteUsers() {
+//		userDao.deleteUsers();
+//	}
 
 	@Override
-	// TODO: This doesnt need to exist. It is the exact same thing as
-	// getUserById(Long)
 	public User verifyUserExistenceById(Long id) {
 		UserEntity userById = userDao.getUserById(id);
 		if (userById == null) {
@@ -294,6 +314,24 @@ UserService {
 		}
 
 	}
+	
+	@Override
+	@Transactional
+	public void resetPassword(User user) throws AppException{
+		User verifyUserExistenceById = verifyUserExistenceById(user.getId());
+		if (verifyUserExistenceById == null) {
+			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
+					404,
+					"The resource you are trying to update does not exist in the database",
+					"Please verify existence of data in the database for the id - "
+							+ user.getId(), AppConstants.DASH_POST_URL);
+		}else
+		{
+			authoritiesController.passwordReset(user);
+		}
+		
+		
+	}
 
 	/****************** Methods for Acl *****************/
 
@@ -318,7 +356,7 @@ UserService {
 		acl.insertAce(acl.getEntries().size(), BasePermission.DELETE,
 				recipient, true);
 		mutableAclService.updateAcl(acl);
-		acl.setOwner(recipient);
+		acl.setOwner(new PrincipalSid("Root"));
 		mutableAclService.updateAcl(acl);
 
 		logger.debug("Added permission " + "Read, Write, Delete" + " for Sid "
@@ -328,11 +366,34 @@ UserService {
 	}
 
 	public void deleteACL(User user) {
-
+		
 		ObjectIdentity oid = new ObjectIdentityImpl(User.class, user.getId());
 		mutableAclService.deleteAcl(oid, false);
 
 	}
+
+	@Override
+	@Transactional
+	public void setRoleUser(User user) {
+		userDao.updateUserRole("ROLE_USER", user.getUsername());
+		
+	}
+
+	@Override
+	@Transactional
+	public void setRoleModerator(User user) {
+		userDao.updateUserRole("ROLE_MODERATOR", user.getUsername());
+		
+	}
+
+	@Override
+	@Transactional
+	public void setRoleAdmin(User user) {
+		userDao.updateUserRole("ROLE_ADMIN", user.getUsername());
+		
+	}
+
+	
 
 
 

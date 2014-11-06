@@ -13,7 +13,11 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
 /**
- * The Entry Point will not redirect to any sort of Login - it will return the 401
+ * This class handles all requests that do fail authentication.
+ * Also is responsible for handling preflight requests which do not authenticate.
+ * 
+ * @author Tyler.swensen@gmail.com
+ *
  */
 @Component
 public final class RestAuthenticationEntryPoint extends

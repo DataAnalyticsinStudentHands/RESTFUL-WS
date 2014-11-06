@@ -15,6 +15,12 @@ import javax.persistence.TypedQuery;
 
 import dash.pojo.User;
 
+/**
+ * Implementation of User dao layer.
+ * 
+ * @author Tyler.swensen@gmail.com
+ *
+ */
 
 public class UserDaoJPA2Impl implements
 UserDao {
@@ -85,6 +91,21 @@ UserDao {
 		}
 	}
 
+	@Override
+	public String getRoleByName(String username){
+		
+		try{
+			String qlString = "SELECT u.authority FROM AuthorityEntity u  WHERE u.username= ?1";
+			TypedQuery<String> query = entityManager.createQuery(qlString, String.class);
+			query.setParameter(1, username);
+			
+			return query.getSingleResult();
+		}catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 
 	@Override
 	public void deleteUserById(User userPojo) {
@@ -112,6 +133,18 @@ UserDao {
 		//TODO think about partial update and full update
 		entityManager.merge(user);
 	}
+	
+	public void updateUserRole(String role, String username){
+		String qlString = "SELECT u FROM AuthorityEntity u WHERE u.username = ?1";
+		TypedQuery<AuthorityEntity> query = entityManager.createQuery(qlString,
+				AuthorityEntity.class);
+		query.setParameter(1, username);
+
+		AuthorityEntity authority= query.getSingleResult();
+		authority.setAuthority(role);
+		entityManager.merge(authority);
+	}
+	
 
 	@Override
 	public void deleteUsers() {
