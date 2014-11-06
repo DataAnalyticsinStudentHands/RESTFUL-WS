@@ -10,16 +10,7 @@ Collection of RESTful web service implementation for core DASH functions. The so
 
 2. AngularJS consumes the web service.
 
-Description of the Tomcat 
-=========================
-We are using Tomcat 7. The following changes have been made to a standard Tomcat installation.
 
-a) Configure Tomcat To Support SSL Or Https
-
-in server.xml add:
-
-    <Connector SSLEnabled="true" clientAuth="false" keystoreFile="/path/to/certificate" keystorePass="***" maxThreads="150" port="8443" protocol="org.apache.coyote.http11.Http11Protocol" scheme="https" secure="true" sslProtocol="TLS"/>
-    
 
 Description of the Java backend
 ================================
