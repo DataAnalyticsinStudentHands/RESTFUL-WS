@@ -15,7 +15,7 @@ Collection of RESTful web service implementation for core DASH functions. The so
 Description of the Java backend
 ================================
 
-Jersey is the Java reference implementation for providing REST.
+We are using [Jersey](https://jersey.java.net/) as framework for providing REST.
 
 
 Instructions for authentication against the security filter
