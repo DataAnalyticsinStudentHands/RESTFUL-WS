@@ -13,7 +13,7 @@ We used a [tutorial](http://www.codingpedia.org/ama/tutorial-rest-api-design-and
 Description of the Java backend
 ================================
 
-We are using [Jersey](https://jersey.java.net/) as framework for providing REST.
+We are using [Jersey](https://jersey.java.net/) as framework for providing REST. Logging is done with Logback as described [here](http://www.codingpedia.org/ama/how-to-log-in-spring-with-slf4j-and-logback/).
 
 
 Instructions for authentication against the security filter
