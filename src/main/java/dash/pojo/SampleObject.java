@@ -1,6 +1,5 @@
 package dash.pojo;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
@@ -37,7 +36,6 @@ public class SampleObject implements  IAclObject {
 	/** insertion date in the database */
 	@XmlElement(name = "insertionDate")
 	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@SampleObjectDetailedView
 	private Date time_stamp_sample;
 
 	public SampleObject(SampleObjectEntity objectEntity) {

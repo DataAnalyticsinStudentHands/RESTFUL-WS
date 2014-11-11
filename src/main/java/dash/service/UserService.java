@@ -3,7 +3,6 @@ package dash.service;
 
 import java.util.List;
 
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -79,16 +78,13 @@ public interface UserService {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void setRoleAdmin(User user);
+	
 	/*
 	 * ******************** Delete related methods **********************
-	 * 
-	 * Deletions temporarily disabled while a deactivate method is worked on
 	 */
-
-
-//	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
-//	public void deleteUser(User user);
-//	/** removes all users */
+	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
+	public void deleteUser(User user);
+	/** removes all users */
 //	@PreAuthorize("hasRole('ROLE_ADMIN')")
 //	public void deleteUsers();
 

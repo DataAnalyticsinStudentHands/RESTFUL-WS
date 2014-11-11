@@ -93,9 +93,9 @@
      <property name="hierarchy">
          <value>
          	ROLE_ROOT > ROLE_ADMIN
-             ROLE_ADMIN > ROLE_MODERATOR
-             ROLE_MODERATOR > ROLE_USER
-             ROLE_USER > ROLE_VISITOR
+            ROLE_ADMIN > ROLE_MODERATOR
+            ROLE_MODERATOR > ROLE_USER
+            ROLE_USER > ROLE_VISITOR
          </value>
      </property>
  </bean>

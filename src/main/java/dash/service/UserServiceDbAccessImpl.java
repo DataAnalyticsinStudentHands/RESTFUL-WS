@@ -31,7 +31,7 @@ import dash.pojo.User;
 import dash.security.UserLoginController;
 
 /**
- * Implementation of the buisness logic for our User object.  Users are also used 
+ * Implementation of the business logic for our User object. Users are also used 
  * by SpringSecurity and the ACL's to determine authorization.
  * 
  * @author Tyler.swensen@gmail.com
@@ -51,8 +51,6 @@ UserService {
 	private UserLoginController authoritiesController;
 
 	public static final String userRole = "ROLE_USER";
-	
-
 
 	/********************* Create related methods implementation ***********************/
 	@Override
@@ -77,8 +75,6 @@ UserService {
 		user.setId(userId);
 		authoritiesController.create(user, userRole);
 		createUserACL(user, new PrincipalSid(user.getUsername()));
-		
-
 		return userId;
 	}
 
@@ -105,7 +101,7 @@ UserService {
 	}
 
 
-	// ******************** Read related methods implementation **********************
+	/******************** Read related methods implementation **********************/
 	@Override
 	public List<User> getUsers(String orderByInsertionDate,
 			Integer numberDaysToLookBack) throws AppException {
@@ -248,23 +244,14 @@ UserService {
 
 	}
 
-	/********************* DELETE-related methods implementation **********************
-	 * 
-	 * Disabled
-	 * TODO: Implement deactivation of a user account
-	 * 
-	 * */
+	/********************* DELETE-related methods implementation **********************/
+	 
+	@Override
+	@Transactional
+	public void deleteUser(User user) {
+		userDao.deleteUserById(user);
+	}
 
-//	@Override
-//	@Transactional
-//	public void deleteUser(User user) {
-//
-//		
-//		userDao.deleteUserById(user);
-//		deleteACL(user);
-//
-//	}
-//
 //	@Override
 //	@Transactional
 //	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
@@ -362,39 +349,23 @@ UserService {
 		logger.debug("Added permission " + "Read, Write, Delete" + " for Sid "
 				+ recipient
 				+ " contact " + user);
-
-	}
-
-	public void deleteACL(User user) {
-		
-		ObjectIdentity oid = new ObjectIdentityImpl(User.class, user.getId());
-		mutableAclService.deleteAcl(oid, false);
-
 	}
 
 	@Override
 	@Transactional
 	public void setRoleUser(User user) {
 		userDao.updateUserRole("ROLE_USER", user.getUsername());
-		
 	}
 
 	@Override
 	@Transactional
 	public void setRoleModerator(User user) {
 		userDao.updateUserRole("ROLE_MODERATOR", user.getUsername());
-		
 	}
 
 	@Override
 	@Transactional
 	public void setRoleAdmin(User user) {
-		userDao.updateUserRole("ROLE_ADMIN", user.getUsername());
-		
+		userDao.updateUserRole("ROLE_ADMIN", user.getUsername());		
 	}
-
-	
-
-
-
 }

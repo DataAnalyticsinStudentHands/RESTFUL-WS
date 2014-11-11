@@ -1,7 +1,6 @@
 package dash.pojo;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -41,8 +40,6 @@ public class UsersResource {
 
 	@Autowired
 	private UserService userService;
-
-
 
 	/*
 	 * *********************************** CREATE ***********************************
@@ -168,7 +165,7 @@ public class UsersResource {
 
 	@GET
 	@Path("{id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getUserById(@PathParam("id") Long id,
 			@QueryParam("detailed") boolean detailed)
 					throws IOException,	AppException {
@@ -176,16 +173,14 @@ public class UsersResource {
 		return Response
 				.status(200)
 				.entity(new GenericEntity<User>(userById) {
-				},
-				detailed ? new Annotation[] { UserDetailedView.Factory
-						.get() } : new Annotation[0])
+				})
 						.header("Access-Control-Allow-Headers", "X-extra-header")
 						.allow("OPTIONS").build();
 	}
 	
 	@GET
 	@Path("myRole")
-	@Produces( {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces( {MediaType.APPLICATION_JSON })
 	public Response getMyRole() throws IOException, AppException {
 		
 		try{
@@ -197,10 +192,6 @@ public class UsersResource {
 					.entity(e.getMessage())
 					.build();
 		}
-		
-		
-				
-		
 	}
 
 	/*
@@ -310,10 +301,8 @@ public class UsersResource {
 	}
 
 	/*
-	 * *********************************** DELETE ***********************************
-	 * 
-	 * Currently disabled
-	 
+	 ************************************ DELETE ***********************************
+	 */ 
 	@DELETE
 	@Path("{id}")
 	@Produces({ MediaType.TEXT_HTML })
@@ -325,20 +314,13 @@ public class UsersResource {
 		return Response.status(Response.Status.NO_CONTENT)// 204
 				.entity("User successfully removed from database").build();
 	}
-
-	@DELETE
-	@Path("admin")
-	@Produces({ MediaType.TEXT_HTML })
-	public Response deleteUsers() {
-		userService.deleteUsers();
-		return Response.status(Response.Status.NO_CONTENT)// 204
-				.entity("All users have been successfully removed").build();
-	}
-*/
 	
-	
-	public void setuserService(UserService userService) {
-		this.userService = userService;
-	}
-
+	/*@DELETE
+/	@Path("admin")
+	/@Produces({ MediaType.TEXT_HTML })
+	/public Response deleteUsers() {
+	/	userService.deleteUsers();
+		/return Response.status(Response.Status.NO_CONTENT)// 204
+			/	.entity("All users have been successfully removed").build();
+	}*/
 }

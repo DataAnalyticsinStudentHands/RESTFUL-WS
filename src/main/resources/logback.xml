@@ -15,7 +15,7 @@
 		<File>/tmp/rest-dash.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 		    <!-- daily rollover -->
-			<FileNamePattern>rest-dash.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<FileNamePattern>rest-ws-master.%d{yyyy-MM-dd}.log</FileNamePattern>
 			
 			<!-- keep 30 days' worth of history -->
 			<maxHistory>30</maxHistory>			

@@ -2,16 +2,10 @@ package dash.service;
 
 import java.util.List;
 
-
-
-
-
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import dash.errorhandling.AppException;
 import dash.pojo.SampleObject;
-import dash.pojo.User;
 
 /**
  * Example service interface for a basic object.
@@ -23,10 +17,15 @@ import dash.pojo.User;
  */
 
 public interface SampleObjectService {
+	
 	/*
-	 * ******************** Create related methods **********************
-	 *
-	 *Create a new sampleObject and set the current user as owner and manager.
+	 * ******************** Create related methods *********************/
+	
+	/**
+	 * Create a new sampleObject and set the current user as owner and manager.
+	 * @param sampleObject
+	 * @return
+	 * @throws AppException
 	 */
 	public Long createSampleObject(SampleObject sampleObject) throws AppException;
 

@@ -9,10 +9,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
-import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import dash.dao.SampleObjectDao;
 import dash.dao.SampleObjectEntity;
@@ -20,7 +17,6 @@ import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.helpers.NullAwareBeanUtilsBean;
 import dash.pojo.SampleObject;
-import dash.pojo.User;
 import dash.security.CustomPermission;
 import dash.security.GenericAclController;
 
@@ -38,13 +34,8 @@ SampleObjectService {
 	@Autowired
 	SampleObjectDao sampleObjectDao;
 
-
 	@Autowired
 	private GenericAclController<SampleObject> aclController;
-
-	private static final String SORT_ORDER=null;
-	private static final Integer NUM_DAYS_LOOKBACK=null;
-
 
 	/********************* Create related methods implementation ***********************/
 	@Override
@@ -60,14 +51,11 @@ SampleObjectService {
 		return sampleObjectId;
 	}
 
-	
-
-	//Inactive
 	@Override
 	@Transactional
 	public void createSampleObjects(List<SampleObject> sampleObjects) throws AppException {
 		for (SampleObject sampleObject : sampleObjects) {
-			//createSampleObject(sampleObject);
+			createSampleObject(sampleObject);
 		}
 	}
 

@@ -1,7 +1,6 @@
 package dash.security;
 
 import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.model.Permission;
 
 /**
  * This class defines new permissions to be used by ACL/ACEs.

@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import org.apache.commons.beanutils.BeanUtils;
 
 import dash.pojo.SampleObject;
-import dash.pojo.User;
 
 /**
  * This is an example implementation of an entity for a simple object (non-user)
