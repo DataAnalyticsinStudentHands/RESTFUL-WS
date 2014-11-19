@@ -1,53 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE project>
 <configuration>
-	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
-			</Pattern>
-		</layout>
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    	<!-- encoders are assigned the type
+         	ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    	<encoder>
+      		<pattern>%d [%thread] %-5level %logger{35} - %msg %n</pattern>
+    	</encoder>
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>TRACE</level>
 		</filter>
+  	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/var/log/tomcat7/rest-dash.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>rest-dash.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d [%thread] %-5level %logger{35} - %msg %n</Pattern>
+		</encoder>
 	</appender>
 
-  	<appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>/tmp/rest-dash.log</File>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-		    <!-- daily rollover -->
-			<FileNamePattern>rest-ws-master.%d{yyyy-MM-dd}.log</FileNamePattern>
-			
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>			
-		</rollingPolicy>
- 
-		<encoder>
-			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
-		</encoder> 	    
-  	</appender>
-  	<appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-		    <!-- rollover every minute -->
-			<FileNamePattern>/tmp/minutes/rest-dash-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern>
-			
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>			
-		</rollingPolicy>
- 
-		<encoder>
-			<Pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</Pattern>
-		</encoder> 	    
-  	</appender>  	
-  		
+	<!-- Application specific logs only go to file -->
 	<logger name="dash" additivity="false">
-	    <level value="DEBUG" />
-		<appender-ref ref="dailyRollingFileAppender"/>
-		<appender-ref ref="minuteRollingFileAppender"/>
-		<appender-ref ref="consoleAppender" />
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
 	</logger>
 
 	<root>
 		<level value="INFO" />
-		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="STDOUT" />
 	</root>
 </configuration> 

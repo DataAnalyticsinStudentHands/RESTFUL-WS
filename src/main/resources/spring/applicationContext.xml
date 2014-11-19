@@ -29,13 +29,11 @@
         <property name="packagesToScan" value="dash.*" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="showSql" value="true" />
+                <property name="showSql" value="false" />
                 <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
             </bean>
         </property>
-    </bean>    
-    
-    
+    </bean>  
          	
 	<bean id="userDao" class="dash.dao.UserDaoJPA2Impl"/>	
     <bean id="userService" class="dash.service.UserServiceDbAccessImpl" />	
@@ -44,7 +42,6 @@
     <bean id="sampleObjectDao" class="dash.dao.SampleObjectDaoJPA2Impl"/>
     <bean id="sampleObjectService" class="dash.service.SampleObjectServiceDbAccessImpl" />	
     <bean id="sampleObjectResource" class="dash.pojo.SampleObjectResource" />
-   
     
     <bean id="aclController" class="dash.security.GenericAclController"/>
     

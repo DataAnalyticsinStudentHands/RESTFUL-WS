@@ -32,6 +32,10 @@ public class SampleObjectEntity implements Serializable {
 	@GeneratedValue
 	@Column(name="id")
 	private Long id;
+	
+	/** path to stored documents for this object */
+	@Column(name = "document_folder")
+	private String document_folder;
 
 	/** basic_field_sample of the user */
 	@Column(name = "basic_field_sample")
@@ -79,6 +83,16 @@ public class SampleObjectEntity implements Serializable {
 	public void setId( Long id) {
 		this.id = id;
 	}
+
+	public String getDocument_folder() {
+		return document_folder;
+	}
+
+
+	public void setDocument_folder(String document_folder) {
+		this.document_folder = document_folder;
+	}
+
 
 	public Date getTime_stamp_sample() {
 		return time_stamp_sample;

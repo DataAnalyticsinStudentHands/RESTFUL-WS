@@ -1,5 +1,7 @@
 package dash.service;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +30,10 @@ public interface SampleObjectService {
 	 * @throws AppException
 	 */
 	public Long createSampleObject(SampleObject sampleObject) throws AppException;
+	
+	@PreAuthorize("hasPermission(#smapleObject, 'write') or hasRole('ROLE_ADMIN')")
+	public void uploadFile(InputStream uploadedInputStream,
+			String uploadedFileLocation) throws AppException;
 
 	/*
 	 * Create multiple sampleObjects as ROOT, testing purposes only.
@@ -64,6 +70,9 @@ public interface SampleObjectService {
 	//Enable the following line of code to restrict read access to a single object.
 	//@PostAuthrorize("hasPermission(#returnObject, 'read')")
 	public SampleObject getSampleObjectById(Long id) throws AppException;
+	
+	@PreAuthorize("hasPermission(#sampleObject, 'read') or hasRole('ROLE_ADMIN')")
+	public File getUploadFile(String uploadedFileLocation) throws AppException;
 
 	/*
 	 * ******************** Update related methods **********************
@@ -78,7 +87,6 @@ public interface SampleObjectService {
 	 * ******************** Delete related methods **********************
 	 */
 
-
 	@PreAuthorize("hasPermission(#sampleObject, 'delete') or hasRole('ROLE_ADMIN')")
 	public void deleteSampleObject(SampleObject sampleObject);
 	/** removes all sampleObjects
@@ -88,6 +96,8 @@ public interface SampleObjectService {
 	@PreAuthorize("hasRole('ROLE_ROOT')")
 	public void deleteSampleObjects();
 	
+	@PreAuthorize("hasPermission(#sampleObject, 'delete') or hasRole('ROLE_ADMIN')")
+	public void deleteUploadFile(String uploadedFileLocation) throws AppException;
 	
 	/*
 	 * ******************** Helper methods **********************
@@ -98,5 +108,8 @@ public interface SampleObjectService {
 	public SampleObject verifySampleObjectExistenceById(Long id);
 
 	public int getNumberOfSampleObjects();
+		
+	@PreAuthorize("hasPermission(#sampleObject, 'read') or hasRole('ROLE_ADMIN')")
+	public List<String> getFileNames(SampleObject sampleObject);	
 
 }

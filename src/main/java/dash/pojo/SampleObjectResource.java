@@ -1,12 +1,14 @@
 package dash.pojo;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -16,11 +18,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dash.errorhandling.AppException;
+import dash.filters.AppConstants;
 import dash.service.SampleObjectService;
 
 /**
@@ -170,7 +177,7 @@ public class SampleObjectResource {
 		}
 	}
 
-	// PARTIAL update
+	//PARTIAL update
 	@POST
 	@Path("{id}")
 	@Consumes({ MediaType.APPLICATION_JSON })
@@ -185,4 +192,95 @@ public class SampleObjectResource {
 				.entity("The sampleObject you specified has been successfully updated")
 				.build();
 	}
+	
+	// ************************************* FILE UPLOAD
+	// ************************************
+	
+	@POST
+	@Path("/upload")
+	@Consumes({ MediaType.MULTIPART_FORM_DATA })
+	public Response uploadFile(
+			@QueryParam("id") Long id,
+		@FormDataParam("file") InputStream uploadedInputStream,
+		@FormDataParam("file") FormDataContentDisposition fileDetail,
+		@HeaderParam("Content-Length") final long fileSize) throws AppException {
+		
+		SampleObject sampleObject= sampleObjectService.getSampleObjectById(id);
+		
+		//TODO: Generate directory if not set
+		//if(application.getDocument_folder()==null)	
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER+"/"
+				+ sampleObject.getDocument_folder()+"/" + fileDetail.getFileName().replaceAll("%20", "_").toLowerCase();;
+		// save it
+				sampleObjectService.uploadFile(uploadedInputStream, uploadedFileLocation);
+ 
+		String output = "File uploaded to : " + uploadedFileLocation;
+ 
+		return Response.status(200).entity(output).build();
+ 
+	}
+	
+	@GET
+	@Path("/upload")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getFileNames(@QueryParam("applicationId") Long id) throws AppException{
+		
+		SampleObject sampleObject= sampleObjectService.getSampleObjectById(id);
+		JaxbList<String> fileNames=new JaxbList<String>(sampleObjectService.getFileNames(sampleObject));
+		return Response.status(200).entity(fileNames).build();
+	}
+	
+	//Gets a specific file and allows the user to download the pdf
+	@GET
+	@Path("/upload")
+	public Response getFile(@QueryParam("applicationId") Long id,
+			@QueryParam("fileName") String fileName) throws AppException {
+		
+		SampleObject sampleObject= sampleObjectService.getSampleObjectById(id);
+		
+		if(sampleObject == null){
+			return Response.status(Response.Status.BAD_REQUEST)
+					.entity("Invalid applicationId, unable to locate application with id: "+id).build();
+		}
+		
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER + sampleObject.getDocument_folder()+"/" + fileName;
+		
+		
+		return Response.ok(sampleObjectService.getUploadFile(uploadedFileLocation))
+				.type("application/pdf").build(); 
+	}
+	
+	@DELETE
+	@Path("/upload")
+	public Response deleteUpload(
+			@QueryParam("applicationId") Long id,
+			@QueryParam("fileName") String fileName) throws AppException{
+		
+		SampleObject sampleObject= sampleObjectService.getSampleObjectById(id);
+		
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER + sampleObject.getDocument_folder()+"/" + fileName;
+		// save it
+		sampleObjectService.deleteUploadFile(uploadedFileLocation);
+ 
+		String output = "File removed from: " + uploadedFileLocation;
+		
+		return Response.status(200).entity(output).build();
+	}
+	
+	@XmlRootElement(name="fileNames")
+	public static class JaxbList<T>{
+	    protected List<T> list;
+
+	    public JaxbList(){}
+
+	    public JaxbList(List<T> list){
+	    	this.list=list;
+	    }
+
+	    @XmlElement(name="fileName")
+	    public List<T> getList(){
+	    	return list;
+	    }
+	}
+	
 }
