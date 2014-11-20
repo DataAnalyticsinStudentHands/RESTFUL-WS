@@ -31,7 +31,12 @@
 		<level value="DEBUG" />
 		<appender-ref ref="FILE" />
 	</logger>
-
+	<!-- Suppress Info from other libraries -->
+	<logger name="org.hibernate">
+		<level value="WARN" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="STDOUT" />
