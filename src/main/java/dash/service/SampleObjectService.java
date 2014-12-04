@@ -31,7 +31,7 @@ public interface SampleObjectService {
 	 */
 	public Long createSampleObject(SampleObject sampleObject) throws AppException;
 	
-	@PreAuthorize("hasPermission(#smapleObject, 'write') or hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission(#sampleObject, 'write') or hasRole('ROLE_ADMIN')")
 	public void uploadFile(InputStream uploadedInputStream,
 			String uploadedFileLocation) throws AppException;
 
