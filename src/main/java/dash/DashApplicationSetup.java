@@ -10,7 +10,7 @@ import dash.errorhandling.AppExceptionMapper;
 import dash.errorhandling.GenericExceptionMapper;
 import dash.errorhandling.NotFoundExceptionMapper;
 import dash.filters.LoggingResponseFilter;
-import dash.pojo.SimpleObjectResource;
+import dash.pojo.SampleObjectResource;
 import dash.pojo.UsersResource;
 
 /**
@@ -27,7 +27,7 @@ public class DashApplicationSetup extends ResourceConfig {
 	public DashApplicationSetup() {
 		// register application resources
 		register(UsersResource.class);
-		register(SimpleObjectResource.class);
+		register(SampleObjectResource.class);
 
 		// register filters
 		register(RequestContextFilter.class);
@@ -45,4 +45,3 @@ public class DashApplicationSetup extends ResourceConfig {
 	}
 }
 
-// This is a test comment. Please work.

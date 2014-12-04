@@ -65,25 +65,27 @@
     </bean>
  
  <!-- Declare an acl authorization strategy-->
-    <bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+    <bean id="aclAuthorizationStrategy" class="dash.security.CustomAuthorizationImpl">
+        <constructor-arg ref="roleHierarchy"/>
         <constructor-arg>
             <list>
                 <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-                    <constructor-arg value="ROLE_ADMIN"/>
+                    <constructor-arg value="ROLE_USER"/>
                 </bean>
                 <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
                     <constructor-arg value="ROLE_ADMIN"/>
                 </bean>
                 <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-                    <constructor-arg value="ROLE_ADMIN"/>
+                    <constructor-arg value="ROLE_USER"/>
                 </bean>
             </list>
         </constructor-arg>
+		
     </bean>
   
   <bean id="permissionFactory" class="dash.security.CustomPermissionFactory"/>
   
-  <!-- Declare an audit logger-->
+  <!-- Declare a permissionGrantingStrategy-->
     <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
      
   <!-- http://static.springsource.org/spring-security/site/docs/3.0.x/apidocs/org/springframework/security/access/hierarchicalroles/RoleHierarchyImpl.html -->
@@ -91,9 +93,9 @@
      <property name="hierarchy">
          <value>
          	ROLE_ROOT > ROLE_ADMIN
-             ROLE_ADMIN > ROLE_MODERATOR
-             ROLE_MODERATOR > ROLE_USER
-             ROLE_USER > ROLE_VISITOR
+            ROLE_ADMIN > ROLE_MODERATOR
+            ROLE_MODERATOR > ROLE_USER
+            ROLE_USER > ROLE_VISITOR
          </value>
      </property>
  </bean>

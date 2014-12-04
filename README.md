@@ -5,26 +5,15 @@ RESTFUL-WS
 
 Collection of RESTful web service implementation for core DASH functions. The source code is developed as Eclipse Maven project using facets "Dynamic Web Project" and "Java". The code has been tested for a default JRE Java 1.7 The following assumptions have been made:
 
-=======
-1. Java backend provides a RESTful web service.
-
+1. Java backend provides a RESTful web service.  
 2. AngularJS consumes the web service.
 
-Description of the Tomcat 
-=========================
-We are using Tomcat 7. The following changes have been made to a standard Tomcat installation.
-
-a) Configure Tomcat To Support SSL Or Https
-
-in server.xml add:
-
-    <Connector SSLEnabled="true" clientAuth="false" keystoreFile="/path/to/certificate" keystorePass="***" maxThreads="150" port="8443" protocol="org.apache.coyote.http11.Http11Protocol" scheme="https" secure="true" sslProtocol="TLS"/>
-    
+We used a [tutorial](http://www.codingpedia.org/ama/tutorial-rest-api-design-and-implementation-in-java-with-jersey-and-spring/) as guideline for the overall implementation.
 
 Description of the Java backend
 ================================
 
-Jersey is the Java reference implementation for providing REST.
+We are using [Jersey](https://jersey.java.net/) as framework for providing REST. Logging is done with Logback as described [here](http://www.codingpedia.org/ama/how-to-log-in-spring-with-slf4j-and-logback/).
 
 
 Instructions for authentication against the security filter
