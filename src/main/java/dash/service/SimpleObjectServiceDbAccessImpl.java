@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import dash.dao.SimpleObjectDao;
 import dash.dao.SimpleObjectEntity;
@@ -21,7 +22,7 @@ import dash.pojo.SimpleObject;
 import dash.security.CustomPermission;
 import dash.security.GenericAclController;
 
-
+@Component("simpleObjectService")
 public class SimpleObjectServiceDbAccessImpl extends ApplicationObjectSupport implements
 SimpleObjectService {
 

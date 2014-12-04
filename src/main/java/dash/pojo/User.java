@@ -70,7 +70,6 @@ public class User implements Serializable {
 	/** insertion date in the database */
 	@XmlElement(name = "insertionDate")
 	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	@UserDetailedView
 	private Date insertionDate;
 
 	public User(UserEntity userEntity) {

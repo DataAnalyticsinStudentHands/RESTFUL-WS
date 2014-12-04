@@ -1,7 +1,6 @@
 package dash.pojo;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.io.File;
 
@@ -36,7 +35,7 @@ import dash.service.UserService;
  * @author plindner
  *
  */
-@Component
+@Component("userResource")
 @Path("/users")
 public class UsersResource {
 
@@ -155,18 +154,14 @@ public class UsersResource {
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getUserById(@PathParam("id") Long id,
-			@QueryParam("detailed") boolean detailed)
+	public Response getUserById(@PathParam("id") Long id)
 					throws IOException,	AppException {
 		User userById = userService.getUserById(id);
 		return Response
 				.status(200)
-				.entity(new GenericEntity<User>(userById) {
-				},
-				detailed ? new Annotation[] { UserDetailedView.Factory
-						.get() } : new Annotation[0])
-						.header("Access-Control-Allow-Headers", "X-extra-header")
-						.allow("OPTIONS").build();
+				.entity(new GenericEntity<User>(userById) {})
+				.header("Access-Control-Allow-Headers", "X-extra-header")
+				.allow("OPTIONS").build();
 	}
 
 	/*

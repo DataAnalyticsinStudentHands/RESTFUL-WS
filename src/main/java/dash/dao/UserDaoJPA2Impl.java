@@ -13,15 +13,16 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Component;
+
 import dash.pojo.User;
 
-
+@Component("userDao")
 public class UserDaoJPA2Impl implements
 UserDao {
 
 	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
-
 
 	@Override
 	public List<UserEntity> getUsers(String orderByInsertionDate) {

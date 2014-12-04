@@ -1,7 +1,6 @@
 package dash.pojo;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -29,7 +28,7 @@ import dash.service.SimpleObjectService;
  * 
  * @author plindner
  */
-@Component
+@Component("simpleObjectResource")
 @Path("/simple")
 public class SimpleObjectResource {
 
@@ -62,18 +61,14 @@ public class SimpleObjectResource {
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getSimpleObjectById(@PathParam("id") Long id,
-			@QueryParam("detailed") boolean detailed)
+	public Response getSimpleObjectById(@PathParam("id") Long id)
 					throws IOException,	AppException {
 		SimpleObject simpleObjectById = simpleObjectService.getSimpleObjectById(id);
 		return Response
 				.status(200)
-				.entity(new GenericEntity<SimpleObject>(simpleObjectById) {
-				},
-				detailed ? new Annotation[] { SimpleObjectDetailedView.Factory
-						.get() } : new Annotation[0])
-						.header("Access-Control-Allow-Headers", "X-extra-header")
-						.allow("OPTIONS").build();
+				.entity(new GenericEntity<SimpleObject>(simpleObjectById){})
+				.header("Access-Control-Allow-Headers", "X-extra-header")
+				.allow("OPTIONS").build();
 	}
 	
 	@PUT

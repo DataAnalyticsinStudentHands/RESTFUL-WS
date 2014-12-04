@@ -33,18 +33,9 @@
                 <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
             </bean>
         </property>
-    </bean>    
-         	
-	<bean id="userDao" class="dash.dao.UserDaoJPA2Impl"/>	
-    <bean id="userService" class="dash.service.UserServiceDbAccessImpl" />	
-    <bean id="userResource" class="dash.pojo.UsersResource" />
-    
-    <bean id="simpleObjectDao" class="dash.dao.SimpleObjectDaoJPA2Impl"/>	
-    <bean id="simpleObjectService" class="dash.service.SimpleObjectServiceDbAccessImpl" />	
-    <bean id="simpleObjectResource" class="dash.pojo.SimpleObjectResource" />
-    <bean id="aclController" class="dash.security.GenericAclController"/>
-    
-	<bean id="dashDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
+    </bean>  
+      
+    <bean id="dashDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
 	    <property name="jndiName" value="java:comp/env/jdbc/dashDB" />
 	    <property name="resourceRef" value="true" />        
 	</bean>
