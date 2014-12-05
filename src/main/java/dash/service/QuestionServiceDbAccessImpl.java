@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.transaction.annotation.Transactional;
 
-import dash.dao.SampleObjectDao;
-import dash.dao.SampleObjectEntity;
+import dash.dao.QuestionDao;
+import dash.dao.QuestionEntity;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.helpers.NullAwareBeanUtilsBean;
-import dash.pojo.SampleObject;
+import dash.pojo.Question;
 import dash.security.CustomPermission;
 import dash.security.GenericAclController;
 
@@ -28,66 +28,82 @@ import dash.security.GenericAclController;
  * @author Tyler.swensen@gmail.com
  *
  */
-public class SampleObjectServiceDbAccessImpl extends ApplicationObjectSupport implements
-SampleObjectService {
+public class QuestionServiceDbAccessImpl extends ApplicationObjectSupport implements
+QuestionService {
 
 	@Autowired
-	SampleObjectDao sampleObjectDao;
+	QuestionDao questionDao;
 
 	@Autowired
-	private GenericAclController<SampleObject> aclController;
+	private GenericAclController<Question> aclController;
 
 	/********************* Create related methods implementation ***********************/
 	@Override
 	@Transactional
-	public Long createSampleObject(SampleObject sampleObject) throws AppException {
+	public Long createQuestion(Question question) throws AppException {
 
-		long sampleObjectId = sampleObjectDao.createSampleObject(new SampleObjectEntity(sampleObject));
-		sampleObject.setId(sampleObjectId);
-		aclController.createACL(sampleObject);
-		aclController.createAce(sampleObject, CustomPermission.READ);
-		aclController.createAce(sampleObject, CustomPermission.WRITE);
-		aclController.createAce(sampleObject, CustomPermission.DELETE);
-		return sampleObjectId;
+		long questionId = questionDao.createQuestion(new QuestionEntity(question));
+		question.setId(questionId);
+		aclController.createACL(question);
+		aclController.createAce(question, CustomPermission.READ);
+		aclController.createAce(question, CustomPermission.WRITE);
+		aclController.createAce(question, CustomPermission.DELETE);
+		return questionId;
 	}
 
 	@Override
 	@Transactional
-	public void createSampleObjects(List<SampleObject> sampleObjects) throws AppException {
-		for (SampleObject sampleObject : sampleObjects) {
-			createSampleObject(sampleObject);
+	public void createQuestions(List<Question> questions) throws AppException {
+		for (Question question : questions) {
+			createQuestion(question);
 		}
 	}
 
 
 	// ******************** Read related methods implementation **********************
 	@Override
-	public List<SampleObject> getSampleObjects(int numberOfSampleObjects, Long startIndex) throws AppException{
+	public List<Question> getQuestions(int numberOfQuestions, Long startIndex) throws AppException{
 		
-		List<SampleObjectEntity> sampleObjects = sampleObjectDao.getSampleObjects(numberOfSampleObjects, startIndex);
-		return getSampleObjectsFromEntities(sampleObjects);
+		List<QuestionEntity> questions = questionDao.getQuestions(numberOfQuestions, startIndex);
+		return getQuestionsFromEntities(questions);
 	}
 	
 
 	@Override
-	public SampleObject getSampleObjectById(Long id) throws AppException {
-		SampleObjectEntity sampleObjectById = sampleObjectDao.getSampleObjectById(id);
-		if (sampleObjectById == null) {
+	public Question getQuestionById(Long id) throws AppException {
+		QuestionEntity questionById = questionDao.getQuestionById(id);
+		if (questionById == null) {
 			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
 					404,
-					"The sampleObject you requested with id " + id
+					"The question you requested with id " + id
 					+ " was not found in the database",
-					"Verify the existence of the sampleObject with the id " + id
+					"Verify the existence of the question with the id " + id
 					+ " in the database", AppConstants.DASH_POST_URL);
 		}
 
-		return new SampleObject(sampleObjectDao.getSampleObjectById(id));
+		return new Question(questionDao.getQuestionById(id));
 	}
+	
+	@Override
+	public List<Question> getQuestionsByFormId(Long id) throws AppException {
+		QuestionEntity questionById = questionDao.getQuestionById(id);
+		if (questionById == null) {
+			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
+					404,
+					"The question you requested with id " + id
+					+ " was not found in the database",
+					"Verify the existence of the question with the id " + id
+					+ " in the database", AppConstants.DASH_POST_URL);
+		}
 
-	private List<SampleObject> getSampleObjectsFromEntities(List<SampleObjectEntity> sampleObjectEntities) {
-		List<SampleObject> response = new ArrayList<SampleObject>();
-		for (SampleObjectEntity sampleObjectEntity : sampleObjectEntities) {
-			response.add(new SampleObject(sampleObjectEntity));
+		return getQuestionsFromEntities(questionDao.getQuestionsByFormId(id));
+	}
+	
+
+	private List<Question> getQuestionsFromEntities(List<QuestionEntity> questionEntities) {
+		List<Question> response = new ArrayList<Question>();
+		for (QuestionEntity questionEntity : questionEntities) {
+			response.add(new Question(questionEntity));
 		}
 
 		return response;
@@ -97,16 +113,16 @@ SampleObjectService {
 	
 	
 
-//	public List<SampleObject> getRecentSampleObjects(int numberOfDaysToLookBack) {
-//		List<SampleObjectEntity> recentSampleObjects = sampleObjectDao
-//				.getRecentSampleObjects(numberOfDaysToLookBack);
+//	public List<Question> getRecentQuestions(int numberOfDaysToLookBack) {
+//		List<QuestionEntity> recentQuestions = questionDao
+//				.getRecentQuestions(numberOfDaysToLookBack);
 //
-//		return getSampleObjectsFromEntities(recentSampleObjects);
+//		return getQuestionsFromEntities(recentQuestions);
 //	}
 
 	@Override
-	public int getNumberOfSampleObjects() {
-		int totalNumber = sampleObjectDao.getNumberOfSampleObjects();
+	public int getNumberOfQuestions() {
+		int totalNumber = questionDao.getNumberOfQuestions();
 
 		return totalNumber;
 
@@ -118,27 +134,27 @@ SampleObjectService {
 	
 	@Override
 	@Transactional
-	public void updateFullySampleObject(SampleObject sampleObject) throws AppException {
+	public void updateFullyQuestion(Question question) throws AppException {
 		
 		
 		
-		SampleObject verifySampleObjectExistenceById = verifySampleObjectExistenceById(sampleObject
+		Question verifyQuestionExistenceById = verifyQuestionExistenceById(question
 				.getId());
-		if (verifySampleObjectExistenceById == null) {
+		if (verifyQuestionExistenceById == null) {
 			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
 					404,
 					"The resource you are trying to update does not exist in the database",
 					"Please verify existence of data in the database for the id - "
-							+ sampleObject.getId(),
+							+ question.getId(),
 							AppConstants.DASH_POST_URL);
 		}
-		copyAllProperties(verifySampleObjectExistenceById, sampleObject);
+		copyAllProperties(verifyQuestionExistenceById, question);
 
-		sampleObjectDao.updateSampleObject(new SampleObjectEntity(verifySampleObjectExistenceById));
+		questionDao.updateQuestion(new QuestionEntity(verifyQuestionExistenceById));
 
 	}
 
-	private void copyAllProperties(SampleObject verifySampleObjectExistenceById, SampleObject sampleObject) {
+	private void copyAllProperties(Question verifyQuestionExistenceById, Question question) {
 		//If you would like to allow null values use the following line.
 		//Reference PostServiceImpl in the VolunteerManagementApp for more details.
 		//BeanUtilsBean withNull=new BeanUtilsBean();
@@ -146,7 +162,7 @@ SampleObjectService {
 		//Assuming the NullAwareBeanUtilsBean is sufficient this code can be used.
 		BeanUtilsBean notNull=new NullAwareBeanUtilsBean();
 		try {
-			notNull.copyProperties(verifySampleObjectExistenceById, sampleObject);
+			notNull.copyProperties(verifyQuestionExistenceById, question);
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,54 +178,54 @@ SampleObjectService {
 
 	@Override
 	@Transactional
-	public void deleteSampleObject(SampleObject sampleObject) {
+	public void deleteQuestion(Question question) {
 
-		sampleObjectDao.deleteSampleObjectById(sampleObject);
-		aclController.deleteACL(sampleObject);
+		questionDao.deleteQuestionById(question);
+		aclController.deleteACL(question);
 
 	}
 
 	@Override
 	@Transactional
 	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
-	// SampleObjects to delete
-	public void deleteSampleObjects() {
-		sampleObjectDao.deleteSampleObjects();
+	// Questions to delete
+	public void deleteQuestions() {
+		questionDao.deleteQuestions();
 	}
 
 	@Override
 	
-	public SampleObject verifySampleObjectExistenceById(Long id) {
-		SampleObjectEntity sampleObjectById = sampleObjectDao.getSampleObjectById(id);
-		if (sampleObjectById == null) {
+	public Question verifyQuestionExistenceById(Long id) {
+		QuestionEntity questionById = questionDao.getQuestionById(id);
+		if (questionById == null) {
 			return null;
 		} else {
-			return new SampleObject(sampleObjectById);
+			return new Question(questionById);
 		}
 	}
 
 	@Override
 	@Transactional
-	public void updatePartiallySampleObject(SampleObject sampleObject) throws AppException {
+	public void updatePartiallyQuestion(Question question) throws AppException {
 		//do a validation to verify existence of the resource
-		SampleObject verifySampleObjectExistenceById = verifySampleObjectExistenceById(sampleObject.getId());
-		if (verifySampleObjectExistenceById == null) {
+		Question verifyQuestionExistenceById = verifyQuestionExistenceById(question.getId());
+		if (verifyQuestionExistenceById == null) {
 			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
 					404,
 					"The resource you are trying to update does not exist in the database",
 					"Please verify existence of data in the database for the id - "
-							+ sampleObject.getId(), AppConstants.DASH_POST_URL);
+							+ question.getId(), AppConstants.DASH_POST_URL);
 		}
-		copyPartialProperties(verifySampleObjectExistenceById, sampleObject);
-		sampleObjectDao.updateSampleObject(new SampleObjectEntity(verifySampleObjectExistenceById));
+		copyPartialProperties(verifyQuestionExistenceById, question);
+		questionDao.updateQuestion(new QuestionEntity(verifyQuestionExistenceById));
 
 	}
 
-	private void copyPartialProperties(SampleObject verifySampleObjectExistenceById, SampleObject sampleObject) {
+	private void copyPartialProperties(Question verifyQuestionExistenceById, Question question) {
 
 		BeanUtilsBean notNull=new NullAwareBeanUtilsBean();
 		try {
-			notNull.copyProperties(verifySampleObjectExistenceById, sampleObject);
+			notNull.copyProperties(verifyQuestionExistenceById, question);
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

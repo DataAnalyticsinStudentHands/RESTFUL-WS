@@ -2,6 +2,7 @@ package dash.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import dash.errorhandling.AppException;
@@ -50,8 +51,11 @@ public interface FormService {
 	 * @throws AppException
 	 */
 	//Enable post filter to restrict read access to a collection
-	//@PostFilter("hasPermission(filterObject, 'READ')"
+	//@PostFilter("hasPermission(filterObject, 'READ')")
 	public List<Form> getForms(int numberOfForms, Long startIndex) throws AppException;
+	
+	@PostFilter("hasPermission(filterObject, 'WRITE')")
+	public List<Form> getMyForms(int numberOfForms, Long startIndex) throws AppException;
 	
 	/**
 	 * Returns a form given its id

@@ -24,6 +24,8 @@ public interface QuestionDao {
 	 */
 	public QuestionEntity getQuestionById(Long id);
 	
+	public List<QuestionEntity> getQuestionsByFormId( Long id);
+	
 	public void deleteQuestionById(Question question);
 
 	public Long createQuestion(QuestionEntity question);

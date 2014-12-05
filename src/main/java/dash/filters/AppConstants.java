@@ -8,4 +8,7 @@ public class AppConstants {
 	public enum QuestionType{
 		SHORT_TEXT
 	}
+	public enum InputValidation{
+		NONE, NUMBER, EMAIL, URL
+	}
 }

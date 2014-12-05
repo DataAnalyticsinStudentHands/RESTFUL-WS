@@ -26,7 +26,7 @@ public class QuestionDaoJPA2Impl implements QuestionDao {
 	public List<QuestionEntity> getQuestions(int numberOfQuestions, Long startIndex) {
 		String sqlString = null;
 
-		sqlString = "SELECT u FROM QuestionEntity u WHERE u.id < ?1 ORDER BY u.time_stamp_sample DESC";
+		sqlString = "SELECT u FROM QuestionEntity u WHERE u.id < ?1 ORDER BY u.insertion_date DESC";
 
 		TypedQuery<QuestionEntity> query = entityManager.createQuery(sqlString,
 				QuestionEntity.class);
@@ -52,6 +52,19 @@ public class QuestionDaoJPA2Impl implements QuestionDao {
 			return null;
 		}
 	}
+	
+	public List<QuestionEntity> getQuestionsByFormId( Long id){
+		String sqlString = null;
+
+		sqlString = "SELECT u FROM QuestionEntity u WHERE u.form_id == ?1 ORDER BY u.index ASC";
+
+		TypedQuery<QuestionEntity> query = entityManager.createQuery(sqlString,
+				QuestionEntity.class);
+		query.setParameter(1, id);
+
+		return query.getResultList();
+		
+	}
 
 	@Override
 	public void deleteQuestionById(Question questionPojo) {
@@ -65,7 +78,8 @@ public class QuestionDaoJPA2Impl implements QuestionDao {
 	@Override
 	public Long createQuestion(QuestionEntity question) {
 
-		question.setTime_stamp_sample(new Date());
+		question.setInsertion_date(new Date());
+		question.setLatest_update(new Date());
 		entityManager.persist(question);
 		entityManager.flush();// force insert to receive the id of the question
 
@@ -77,12 +91,13 @@ public class QuestionDaoJPA2Impl implements QuestionDao {
 	@Override
 	public void updateQuestion(QuestionEntity question) {
 		// TODO think about partial update and full update
+		question.setLatest_update(new Date());
 		entityManager.merge(question);
 	}
 
 	@Override
 	public void deleteQuestions() {
-		Query query = entityManager.createNativeQuery("TRUNCATE TABLE question");
+		Query query = entityManager.createNativeQuery("TRUNCATE TABLE questions");
 		query.executeUpdate();
 	}
 

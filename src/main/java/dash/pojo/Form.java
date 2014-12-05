@@ -30,6 +30,7 @@ public class Form implements  IAclObject {
 	/** id of the form */
 	@XmlElement(name = "id")
 	private Long id;
+	
 
 	/** name of the form */
 	@XmlElement(name = "name")

@@ -68,6 +68,12 @@ FormService {
 		return getFormsFromEntities(forms);
 	}
 	
+	@Override
+	public List<Form> getMyForms(int numberOfForms, Long startIndex) throws AppException{
+		
+		return getForms(numberOfForms, startIndex);
+	}
+	
 
 	@Override
 	public Form getFormById(Long id) throws AppException {

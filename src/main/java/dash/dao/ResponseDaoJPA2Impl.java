@@ -27,7 +27,7 @@ public class ResponseDaoJPA2Impl implements ResponseDao {
 	public List<ResponseEntity> getResponses(int numberOfResponses, Long startIndex) {
 		String sqlString = null;
 
-		sqlString = "SELECT u FROM ResponseEntity u WHERE u.id < ?1 ORDER BY u.time_stamp_sample DESC";
+		sqlString = "SELECT u FROM ResponseEntity u WHERE u.id < ?1 ORDER BY u.insertion_date DESC";
 
 		TypedQuery<ResponseEntity> query = entityManager.createQuery(sqlString,
 				ResponseEntity.class);
@@ -85,7 +85,7 @@ public class ResponseDaoJPA2Impl implements ResponseDao {
 
 	@Override
 	public void deleteResponses() {
-		Query query = entityManager.createNativeQuery("TRUNCATE TABLE response");
+		Query query = entityManager.createNativeQuery("TRUNCATE TABLE responses");
 		query.executeUpdate();
 	}
 

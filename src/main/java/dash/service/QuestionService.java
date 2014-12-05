@@ -30,9 +30,9 @@ public interface QuestionService {
 	public Long createQuestion(Question question) throws AppException;
 
 	/*
-	 * Create multiple questions as ROOT, testing purposes only.
+	 * Create multiple questions
 	 */
-	@PreAuthorize("hasRole('ROLE_ROOT')")
+	
 	public void createQuestions(List<Question> questions) throws AppException;
 
 	/*
@@ -64,6 +64,8 @@ public interface QuestionService {
 	//Enable the following line of code to restrict read access to a single object.
 	//@PostAuthrorize("hasPermission(#returnObject, 'read')")
 	public Question getQuestionById(Long id) throws AppException;
+	
+	public List<Question> getQuestionsByFormId(Long id) throws AppException;
 
 	/*
 	 * ******************** Update related methods **********************

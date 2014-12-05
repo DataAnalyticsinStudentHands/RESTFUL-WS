@@ -1,10 +1,10 @@
 package dash.pojo;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,8 +20,13 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dash.errorhandling.AppException;
 import dash.service.FormService;
+import dash.service.QuestionService;
 
 /**
  *
@@ -37,6 +42,10 @@ public class FormResource {
 
 	@Autowired
 	private FormService formService;
+	
+	@Autowired
+	private QuestionService questionService;
+	
 
 	// ************************************* CREATE
 	// ************************************
@@ -48,14 +57,26 @@ public class FormResource {
 	 * @param form
 	 * @return
 	 * @throws AppException
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response createForm(Form form)
-			throws AppException {
-		Long createFormId = formService
-				.createForm(form);
+	public Response createForm(Form form,
+			List<Question> questions)
+			throws AppException, JsonParseException, JsonMappingException, IOException
+	{
+		
+		Long createFormId = formService.createForm(form);
+		
+		//For security we ensure that every question in the Json is labled as belonging to only this
+		//form.
+		for (Question question : questions) {
+			question.setForm_id(createFormId);;
+		}
+		questionService.createQuestions(questions);
 		return Response
 				.status(Response.Status.CREATED)
 				// 201
@@ -73,7 +94,12 @@ public class FormResource {
 	 * @return
 	 * @throws AppException
 	 */
-	@POST
+	
+	/*This service is disabled because it does not appear to be a use case.
+	 * 
+	 * Before enabling be sure to implement the creation of questions for each form in a secure way.
+	 * 
+	 * @POST
 	@Path("list")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response createForms(List<Form> forms)
@@ -83,7 +109,7 @@ public class FormResource {
 				// 201
 				.entity("List of forms was successfully created")
 				.build();
-	}
+	}*/
 
 	// *************************************
 	// READ************************************
@@ -109,6 +135,17 @@ public class FormResource {
 				.getForms(numberOfForms, startIndex);
 		return forms;
 	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Form> getMyForms(
+			@QueryParam("numberOfForms") @DefaultValue("25") int numberOfForms,
+			@QueryParam("startIndex") @DefaultValue("0") Long startIndex)
+			throws IOException, AppException {
+		List<Form> forms = formService
+				.getMyForms(numberOfForms, startIndex);
+		return forms;
+	}
 
 	@GET
 	@Path("{id}")
@@ -122,6 +159,22 @@ public class FormResource {
 				.entity(new GenericEntity<Form>(formById) {
 				}).header("Access-Control-Allow-Headers", "X-extra-header")
 				.allow("OPTIONS").build();
+	}
+	
+	@GET
+	@Path("{id}/questions")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Question> getQuestionsByFormId(@PathParam("id") Long id,
+			@QueryParam("detailed") boolean detailed) throws IOException,
+			AppException {
+		
+		//Check that the form exists, formService will throw an exception if not
+		//Could also potentially be used to secure the form to only users that have READ permission
+		@SuppressWarnings("unused")
+		Form formById = formService.getFormById(id);
+		
+		List<Question> questions = questionService.getQuestionsByFormId(id);
+		return questions;
 	}
 
 	// ************************************* UPDATE

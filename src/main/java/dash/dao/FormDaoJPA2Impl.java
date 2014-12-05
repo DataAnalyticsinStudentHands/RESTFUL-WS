@@ -82,7 +82,7 @@ public class FormDaoJPA2Impl implements FormDao {
 
 	@Override
 	public void deleteForms() {
-		Query query = entityManager.createNativeQuery("TRUNCATE TABLE form");
+		Query query = entityManager.createNativeQuery("TRUNCATE TABLE forms");
 		query.executeUpdate();
 	}
 
