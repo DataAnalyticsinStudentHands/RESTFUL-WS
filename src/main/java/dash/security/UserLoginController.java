@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.object.SqlUpdate;
 
 import dash.pojo.User;
+
 /**
  * Handles the authorities table by adding and removing roles for the UserResource.
  * 
@@ -17,7 +18,6 @@ import dash.pojo.User;
  * @author Tyler.swensen@gmail.com
  *
  */
-
 public class UserLoginController  extends JdbcDaoSupport {
 
 

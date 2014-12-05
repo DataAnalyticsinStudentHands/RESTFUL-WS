@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<version>0.0.1</version>
 	<groupId>RESTFUL-WS</groupId>
-	<artifactId>CoreAcl</artifactId>
+	<artifactId>RESTFUL-WS</artifactId>
 	<packaging>war</packaging>
 	<name>RESTFUL-WS</name>
 	<description>REST-FUL web services for DASH backend</description>
@@ -129,6 +129,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- MySQL JDBC connector -->
@@ -136,6 +137,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- tomcat jdbc -->
@@ -146,7 +148,6 @@
 		</dependency>
 
 		<!-- Spring ACL (c3p0 may be temporary) -->
-
 	    <dependency>
 	    	<groupId>net.sf.ehcache</groupId>
 	    	<artifactId>ehcache-core</artifactId>
@@ -154,13 +155,12 @@
 	    	<type>jar</type>
 	    	<scope>compile</scope>
 	    	<exclusions>
-	    		<exclusion>
+				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
 			</exclusions>
 	    </dependency>
-	    
 
 		<!-- ******* JPA/Hibernate ******** -->
 		<dependency>
@@ -194,10 +194,10 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-		<dependency>                                    
-			<groupId>org.slf4j</groupId>                
-			<artifactId>jcl-over-slf4j</artifactId>     
-			<version>${jcloverslf4j.version}</version>  
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcloverslf4j.version}</version>
 		</dependency>
 
 		<dependency>

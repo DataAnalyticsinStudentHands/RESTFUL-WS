@@ -20,6 +20,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import dash.dao.UserDao;
@@ -37,7 +38,7 @@ import dash.security.UserLoginController;
  * @author Tyler.swensen@gmail.com
  *
  */
-
+@Component("userService")
 public class UserServiceDbAccessImpl extends ApplicationObjectSupport implements
 UserService {
 
@@ -126,10 +127,8 @@ UserService {
 	}
 	
 	@Override
-	public List<User> getMyUser(String orderByInsertionDate,
-			Integer numberDaysToLookBack) throws AppException {
-		return getUsers(orderByInsertionDate, numberDaysToLookBack);
-		
+	public List<User> getMyUser() throws AppException {
+		return getUsers(null, null);
 	}
 
 	private boolean isOrderByInsertionDateParameterValid(
@@ -244,24 +243,7 @@ UserService {
 
 	}
 
-	/********************* DELETE-related methods implementation **********************/
-	 
-	@Override
-	@Transactional
-	public void deleteUser(User user) {
-		userDao.deleteUserById(user);
-	}
-
-//	@Override
-//	@Transactional
-//	// TODO: This shouldn't exist? If it must, then it needs to accept a list of
-//	// Users to delete
-//	public void deleteUsers() {
-//		userDao.deleteUsers();
-//	}
-
-	@Override
-	public User verifyUserExistenceById(Long id) {
+	private User verifyUserExistenceById(Long id) {
 		UserEntity userById = userDao.getUserById(id);
 		if (userById == null) {
 			return null;
@@ -321,8 +303,6 @@ UserService {
 	}
 
 	/****************** Methods for Acl *****************/
-
-
 
 	// Creates/Updates the ACL of user
 	// Is also an example of how to implement class specific ACL helper methods.

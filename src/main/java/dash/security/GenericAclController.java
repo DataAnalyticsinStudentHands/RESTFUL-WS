@@ -1,6 +1,5 @@
 package dash.security;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +16,9 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-/**
- * An implementation of Spring Security ACLs.  The class can register a new object
- * to be secured (create ACL) and can also edit individual permissions set on that object
- * (add and delete ACE).
- * 
- * @author Tyler.swensen@gmail.com
- *
- * @param <T> The Type of the object which you will be creating ACL/ACES for. Must impl IAclObject
- * 
- */
-
+@Component("aclController")
 public class GenericAclController<T> extends ApplicationObjectSupport {
 
 	@Autowired
@@ -58,7 +48,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			acl = mutableAclService.createAcl(oid);
 		}
 
-		acl.setOwner(new PrincipalSid("Root"));
+		acl.setOwner(recipient);
 		mutableAclService.updateAcl(acl);
 
 		logger.debug("Added Acl for Sid " + recipient + " contact " + object);
@@ -66,7 +56,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 	}
 
 	/*
-	 * Creates new Acl with Root as owner
+	 * Creates new Acl with current user as owner
 	 * 
 	 * Params object- the object to generate an ACL for
 	 */
@@ -89,42 +79,13 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			acl = mutableAclService.createAcl(oid);
 		}
 
-		acl.setOwner(new PrincipalSid("Root"));
+		acl.setOwner(new PrincipalSid(getUsername()));
 		mutableAclService.updateAcl(acl);
 
-		logger.debug("Added Acl for Sid " + getUsername() + " object "
+		logger.debug("Added Acl for Sid " + getUsername() + " contact "
 				+ object);
 		return true;
 	}
-	
-	//Creates an acl with a parent acl object.  Allows for situations where a permission on
-	//another object, grants access to the object being created.
-//	public boolean createACL(T object, MutableAcl parentAcl) {
-//		MutableAcl acl;
-//		ObjectIdentity oid;
-//
-//		try {
-//			oid = new ObjectIdentityImpl(object.getClass(),
-//					((IAclObject) object).getId());
-//		} catch (ClassCastException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//
-//		try {
-//			acl = (MutableAcl) mutableAclService.readAclById(oid);
-//		} catch (NotFoundException nfe) {
-//			acl = mutableAclService.createAcl(oid);
-//		}
-//
-//		acl.setOwner(new PrincipalSid(getUsername()));
-//		acl.setParent(parentAcl);
-//		mutableAclService.updateAcl(acl);
-//
-//		logger.debug("Added Acl for Sid " + getUsername() + " contact "
-//				+ object);
-//		return true;
-//	}
 
 	/*
 	 * create ace will generate new permission entries in the acl_entries table
@@ -151,18 +112,9 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			nfe.printStackTrace();
 			return false;
 		}
-		
-		List<AccessControlEntry> entries = acl.getEntries();
-		for (int i = 0; i < entries.size(); i++) {
-			if (entries.get(i).getSid().equals(recipient)
-					&& entries.get(i).getPermission().equals(permission)) {
-				acl.deleteAce(i);
-			}
-		}
 
 		acl.insertAce(acl.getEntries().size(), permission, recipient,
 				true);
-		mutableAclService.updateAcl(acl);
 		return true;
 	}
 
@@ -189,53 +141,6 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(
 				getUsername()),
 				true);
-		mutableAclService.updateAcl(acl);
-		return true;
-	}
-	
-	public boolean setOwner(T object, Sid recipient){
-		MutableAcl acl;
-		ObjectIdentity oid;
-
-		try {
-			oid = new ObjectIdentityImpl(object.getClass(),
-					((IAclObject) object).getId());
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return false;
-		}
-		try {
-			acl = (MutableAcl) mutableAclService.readAclById(oid);
-		} catch (NotFoundException nfe) {
-			nfe.printStackTrace();
-			return false;
-		}
-		
-		acl.setOwner(recipient);
-		
-		return true;
-	}
-	
-	public boolean setOwner(T object){
-		MutableAcl acl;
-		ObjectIdentity oid;
-
-		try {
-			oid = new ObjectIdentityImpl(object.getClass(),
-					((IAclObject) object).getId());
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return false;
-		}
-		try {
-			acl = (MutableAcl) mutableAclService.readAclById(oid);
-		} catch (NotFoundException nfe) {
-			nfe.printStackTrace();
-			return false;
-		}
-		
-		acl.setOwner(new PrincipalSid(getUsername()));
-		
 		return true;
 	}
 
@@ -248,7 +153,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -294,7 +199,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 					+ ((IAclObject) object).getId()
 					+ " ACL permissions for recipient " + recipient);
 		}
-		
+
 		return true;
 
 	}
@@ -337,46 +242,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		return true;
 
 	}
-	
-	public boolean hasPermission(T object, Permission permission, Sid recipient)
-	{
-		
-		MutableAcl acl;
-		ObjectIdentity oid;
 
-		try {
-			oid = new ObjectIdentityImpl(object.getClass(),
-					((IAclObject) object).getId());
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return false;
-		}
-		try {
-			acl = (MutableAcl) mutableAclService.readAclById(oid);
-		} catch (NotFoundException nfe) {
-			nfe.printStackTrace();
-			return false;
-		}
-		try{
-		acl.isGranted(Arrays.asList(permission) , Arrays.asList(recipient), false);
-		}catch (Exception e){return false;}
-		return true;
-
-	}
-
-	public MutableAcl getAcl(T object){
-		MutableAcl acl;
-		ObjectIdentity oid;
-
-	
-		oid = new ObjectIdentityImpl(object.getClass(),
-				((IAclObject) object).getId());
-		acl = (MutableAcl) mutableAclService.readAclById(oid);
-		
-		return acl;
-		
-	}
-	
 	// Gets the username of the current "logged in" user
 	protected String getUsername() {
 		Authentication auth = SecurityContextHolder.getContext()
@@ -388,7 +254,5 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			return auth.getPrincipal().toString();
 		}
 	}
-	
-	
 
 }

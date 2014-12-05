@@ -28,6 +28,9 @@ public class SampleObject implements  IAclObject {
 	/** id of the object */
 	@XmlElement(name = "id")
 	private Long id;
+	
+	@XmlElement(name = "document_folder")
+	private String document_folder;
 
 	/** basic_field_sample of the object */
 	@XmlElement(name = "basic_field_sample")
@@ -73,6 +76,14 @@ public class SampleObject implements  IAclObject {
 
 	public void setId( Long id) {
 		this.id = id;
+	}
+
+	public String getDocument_folder() {
+		return document_folder;
+	}
+
+	public void setDocument_folder(String document_folder) {
+		this.document_folder = document_folder;
 	}
 
 	public Date getTime_stamp_sample() {

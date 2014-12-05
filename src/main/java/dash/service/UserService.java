@@ -39,13 +39,13 @@ public interface UserService {
 	 * @return list with users corresponding to search criteria
 	 * @throws AppException
 	 */
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public List<User> getUsers(String orderByInsertionDate,
 			Integer numberDaysToLookBack) throws AppException;
 	
 	@PostFilter("hasPermission(filterObject, 'READ')")
-	public List<User> getMyUser(String orderByInsertionDate,
-			Integer numberDaysToLookBack) throws AppException;
+	public List<User> getMyUser() throws AppException;
+	
 	/**
 	 * Returns a user given its id
 	 *
@@ -53,7 +53,6 @@ public interface UserService {
 	 * @return
 	 * @throws AppException
 	 */
-	
 	public User getUserById(Long id) throws AppException;
 	
 	public List<String> getRole(User user);
@@ -80,28 +79,8 @@ public interface UserService {
 	public void setRoleAdmin(User user);
 	
 	/*
-	 * ******************** Delete related methods **********************
-	 */
-	@PreAuthorize("hasPermission(#user, 'DELETE') or hasRole('ROLE_ADMIN')")
-	public void deleteUser(User user);
-	/** removes all users */
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
-//	public void deleteUsers();
-
-	/*
 	 * ******************** Helper methods **********************
 	 */
-	// TODO: This also should not exist, or it should be changed to
-	// private/protected. Redundant
-	// Could be made a boolean so it was not a security vulnerability
-	public User verifyUserExistenceById(Long id);
-
 	public int getNumberOfUsers();
-
-
-	
-
-	
-
 }
 

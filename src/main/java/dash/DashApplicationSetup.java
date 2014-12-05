@@ -13,7 +13,6 @@ import dash.filters.LoggingResponseFilter;
 import dash.pojo.SampleObjectResource;
 import dash.pojo.UsersResource;
 
-
 /**
  * Registers the components to be used by the JAX-RS application
  *

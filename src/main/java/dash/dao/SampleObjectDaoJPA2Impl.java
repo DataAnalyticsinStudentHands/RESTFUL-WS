@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Component;
+
 import dash.pojo.SampleObject;
 
 /**
@@ -17,7 +19,7 @@ import dash.pojo.SampleObject;
  * @author Tyler.swensen@gmail.com
  *
  */
-
+@Component("sampleObjectDao")
 public class SampleObjectDaoJPA2Impl implements SampleObjectDao {
 	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
