@@ -115,6 +115,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 
 		acl.insertAce(acl.getEntries().size(), permission, recipient,
 				true);
+		mutableAclService.updateAcl(acl);
 		return true;
 	}
 
@@ -141,6 +142,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 		acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(
 				getUsername()),
 				true);
+		mutableAclService.updateAcl(acl);
 		return true;
 	}
 
@@ -149,6 +151,7 @@ public class GenericAclController<T> extends ApplicationObjectSupport {
 			ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(),
 					((IAclObject) object).getId());
 			mutableAclService.deleteAcl(oid, false);
+			
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			return false;

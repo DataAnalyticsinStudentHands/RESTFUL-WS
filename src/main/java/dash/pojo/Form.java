@@ -1,12 +1,18 @@
 package dash.pojo;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -41,6 +47,11 @@ public class Form implements  IAclObject {
 	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date insertion_date;
 
+	
+	@XmlElement(name= "questions")
+	private Set<Question> questions= new HashSet<Question>();
+
+
 	public Form(FormEntity formEntity) {
 		try {
 			BeanUtils.copyProperties(this, formEntity);
@@ -53,13 +64,23 @@ public class Form implements  IAclObject {
 		}
 	}
 
-	public Form( String name) {
-
+	public Form(String name , Set<Question> questions) {
+		super();
 		this.name = name;
-		
+		this.questions = questions;
 	}
 
 	public Form() {
+	}
+
+
+
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
 	}
 
 	public String getName() {

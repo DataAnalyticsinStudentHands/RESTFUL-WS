@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import dash.dao.FormDao;
@@ -28,6 +29,7 @@ import dash.security.GenericAclController;
  * @author Tyler.swensen@gmail.com
  *
  */
+@Component("formService")
 public class FormServiceDbAccessImpl extends ApplicationObjectSupport implements
 FormService {
 
@@ -71,6 +73,10 @@ FormService {
 	@Override
 	public List<Form> getMyForms(int numberOfForms, Long startIndex) throws AppException{
 		
+		//TODO: Instead of returning the getAll function we should do a lookup
+				// in the ACL tables to compile a list of all objects where the user has
+				// the required permission and then do a select query to build a collection
+				// of only those objects.
 		return getForms(numberOfForms, startIndex);
 	}
 	

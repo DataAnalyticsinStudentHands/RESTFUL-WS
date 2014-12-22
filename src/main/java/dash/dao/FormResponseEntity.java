@@ -2,20 +2,38 @@ package dash.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+
+
+
+
+
+
+
+
 
 import org.apache.commons.beanutils.BeanUtils;
 
 import dash.helpers.DateISO8601Adapter;
-import dash.pojo.Response;
+import dash.pojo.FormResponse;
+import dash.pojo.Entry;
 
 /**
  * This is an example implementation of an entity for a simple object (non-user)
@@ -24,8 +42,8 @@ import dash.pojo.Response;
  *
  */
 @Entity
-@Table(name="sample_object")
-public class ResponseEntity implements Serializable {
+@Table(name="form_responses")
+public class FormResponseEntity implements Serializable {
 
 	private static final long serialVersionUID = -8039686696076337053L;
 
@@ -36,24 +54,31 @@ public class ResponseEntity implements Serializable {
 	@Column(name="id")
 	private Long id;
 	
+	@Column(name = "form_id")
+	private Long form_id;
+	
 	@Column(name = "owner_id")
 	private Long owner_id;
 	
 	@Column(name = "insertion_date")
 	private Date insertion_date;
 	
-	@Column(name = "latest_date")
+	@Column(name = "latest_update")
 	private Date latest_update;
 	
 	@Column(name = "is_complete")
 	private boolean is_complete;
+	
+	@ElementCollection(fetch= FetchType.EAGER)
+	@CollectionTable(name = "form_response_entries", joinColumns = {@JoinColumn(name="form_response_id")})
+    private Set<Entry> entries = new HashSet<Entry>();
 
-	public ResponseEntity(){}
+	public FormResponseEntity(){}
 
 
-	public ResponseEntity(Response response) {
+	public FormResponseEntity(FormResponse formResponse) {
 		try {
-			BeanUtils.copyProperties(this, response);
+			BeanUtils.copyProperties(this, formResponse);
 		} catch ( IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,14 +88,15 @@ public class ResponseEntity implements Serializable {
 		}
 	}
 
-
-	public ResponseEntity(Long owner_id, Date insertion_date,
-			Date latest_update, boolean is_complete) {
+	public FormResponseEntity(Long form_id, Long owner_id, Date insertion_date,
+			Date latest_update, boolean is_complete, Set<Entry> entries) {
 		super();
+		this.form_id = form_id;
 		this.owner_id = owner_id;
 		this.insertion_date = insertion_date;
 		this.latest_update = latest_update;
 		this.is_complete = is_complete;
+		this.entries = entries;
 	}
 
 
@@ -81,6 +107,16 @@ public class ResponseEntity implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+	public Long getForm_id() {
+		return form_id;
+	}
+
+
+	public void setForm_id(Long form_id) {
+		this.form_id = form_id;
 	}
 
 
@@ -126,6 +162,16 @@ public class ResponseEntity implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+	public Set<Entry> getEntries() {
+		return entries;
+	}
+
+
+	public void setEntries(Set<Entry> entries) {
+		this.entries = entries;
 	}
 
 

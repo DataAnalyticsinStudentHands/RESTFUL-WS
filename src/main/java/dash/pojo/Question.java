@@ -1,17 +1,30 @@
 package dash.pojo;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+import javax.persistence.PrePersist;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import dash.dao.QuestionEntity;
+
+
+
+
+
+
 import dash.filters.AppConstants;
 import dash.filters.AppConstants.InputValidation;
 import dash.filters.AppConstants.QuestionType;
@@ -19,92 +32,78 @@ import dash.helpers.DateISO8601Adapter;
 import dash.security.IAclObject;
 
 /**
- * object resource placeholder for json/xml representation
+ * An embeddable object resource  for json/xml representation
  *
  * @author tyler.swensen@gmail.com
  *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Question implements  IAclObject {
+@Embeddable
+public class Question  implements Serializable {
+		
 	
-	/** id of the object */
-	@XmlElement(name = "id")
-	private Long id;
-	
-	/** Represents the form this question is a part of*/
-	@XmlElement(name = "form_id")
-	private Long form_id;
-	
+	private static final long serialVersionUID = -8334607009238618323L;
+
 	/** Defines the type of question, ie. TextInput, MultipleChoice, Checkbox... ect */
 	@XmlElement(name = "component")
+	@Column(name = "component")
 	private  String component;
 	
-	/** Can this question be changed, possibly usefull to prevent accidental removal of a
-	 * question which is critical to an orginiztion or is a dependency for an external application */
+	/** Can this question be changed, possibly useful to prevent accidental removal of a
+	 * question which is critical to an organization or is a dependency for an external application */
 	@XmlElement(name = "editable")
+	@Column (name = "editable")
 	private boolean editable;
 
 	/** The order in which this question appears on the form it belongs to. */
 	@XmlElement(name = "index")
+	@Column (name = "form_index")
 	private int index;
 	
 	/** This is the primary text that identifies the question to both the person filling out the form
 	 * and to the user building the form.
 	 */
 	@XmlElement(name = "label")
+	@Column (name = "label")
 	private String label;
 	
 	/** This is displayed as a low profile hint beneath the input area */
 	@XmlElement(name = "description")
+	@Column (name = "description")
 	private String description;
 	
 	/** A string which appears as ghosted text inside the input area */
 	@XmlElement(name = "placeholder")
+	@Column (name = "placeholder")
 	private String placeholder;
 	
 	/** An array of strings which hold possible responses to multiple choice and checkbox questions. */
+	
 	@XmlElement(name = "options")
-	private String options[];
+	@Column(name="options")
+	private String options;
 	
 	/** Must the question have a response in order to submit the form */
 	@XmlElement(name = "required")
+	@Column(name = "required")
 	private boolean required;
 	
 	/** Are there any constraints on what text may be submitted as input, ie. email, number, url ect.. */
 	@XmlElement(name = "validation")
+	@Column(name = "validation")
 	private AppConstants.InputValidation validation;
 
-	/** insertion date in the database */
-	@XmlElement(name = "insertion_date")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	private Date insertion_date;
-	
-	/** insertion date in the database */
-	@XmlElement(name = "latest_update")
-	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
-	private Date latest_update;
 
-	public Question(QuestionEntity objectEntity) {
-		try {
-			BeanUtils.copyProperties(this, objectEntity);
-		} catch ( IllegalAccessException e) {
 
-			e.printStackTrace();
-		} catch ( InvocationTargetException e) {
-
-			e.printStackTrace();
-		}
-	}
 
 	public Question() {
 	}
 
 	public Question(Long form_id, String component, boolean editable,
 			int index, String label, String description, String placeholder,
-			String[] options, boolean required, InputValidation validation) {
+			String options, boolean required, InputValidation validation) {
 		super();
-		this.form_id = form_id;
 		this.component = component;
 		this.editable = editable;
 		this.index = index;
@@ -116,21 +115,7 @@ public class Question implements  IAclObject {
 		this.validation = validation;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getForm_id() {
-		return form_id;
-	}
-
-	public void setForm_id(Long form_id) {
-		this.form_id = form_id;
-	}
+	
 
 	public String getComponent() {
 		return component;
@@ -180,11 +165,12 @@ public class Question implements  IAclObject {
 		this.placeholder = placeholder;
 	}
 
-	public String[] getOptions() {
+
+	public String getOptions() {
 		return options;
 	}
 
-	public void setOptions(String[] options) {
+	public void setOptions(String options) {
 		this.options = options;
 	}
 
@@ -204,21 +190,7 @@ public class Question implements  IAclObject {
 		this.validation = validation;
 	}
 
-	public Date getInsertion_date() {
-		return insertion_date;
-	}
-
-	public void setInsertion_date(Date insertion_date) {
-		this.insertion_date = insertion_date;
-	}
 	
-	public Date getLatest_update() {
-		return insertion_date;
-	}
-
-	public void setLatest_update(Date latest_update) {
-		this.latest_update = latest_update;
-	}
 
 	
 }

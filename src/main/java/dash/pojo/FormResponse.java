@@ -2,16 +2,19 @@ package dash.pojo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import dash.dao.ResponseEntity;
+import dash.dao.FormResponseEntity;
 import dash.helpers.DateISO8601Adapter;
 import dash.security.IAclObject;
 
@@ -23,11 +26,14 @@ import dash.security.IAclObject;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Response implements  IAclObject {
+public class FormResponse implements  IAclObject {
 
 	/** id of the object */
 	@XmlElement(name = "id")
 	private Long id;
+	
+	@XmlElement(name = "form_id")
+	private Long form_id;
 	
 	@XmlElement(name = "owner_id")
 	private Long owner_id;
@@ -36,14 +42,18 @@ public class Response implements  IAclObject {
 	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date insertion_date;
 	
-	@XmlElement(name = "latest_date")
+	@XmlElement(name = "latest_update")
 	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date latest_update;
 	
 	@XmlElement(name = "is_complete")
 	private boolean is_complete;
+	
+	
+	@XmlElement(name= "entries")
+	private Set<Entry> entries= new HashSet<Entry>();
 
-	public Response(ResponseEntity objectEntity) {
+	public FormResponse(FormResponseEntity objectEntity) {
 		try {
 			BeanUtils.copyProperties(this, objectEntity);
 		} catch ( IllegalAccessException e) {
@@ -55,15 +65,16 @@ public class Response implements  IAclObject {
 		}
 	}
 
-	public Response() {
+	public FormResponse() {
 	}
 
-	public Response(Long owner_id, String basic_field_sample,
-			Date insertion_date, Date latest_update) {
+	public FormResponse(Long form_id, Long owner_id, boolean is_complete,
+			Set<Entry> entries) {
 		super();
+		this.form_id = form_id;
 		this.owner_id = owner_id;
-		this.insertion_date = insertion_date;
-		this.latest_update = latest_update;
+		this.is_complete = is_complete;
+		this.entries = entries;
 	}
 
 	public Long getId() {
@@ -72,6 +83,14 @@ public class Response implements  IAclObject {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getForm_id() {
+		return form_id;
+	}
+
+	public void setForm_id(Long form_id) {
+		this.form_id = form_id;
 	}
 
 	public Long getOwner_id() {
@@ -97,6 +116,23 @@ public class Response implements  IAclObject {
 	public void setLatest_update(Date latest_update) {
 		this.latest_update = latest_update;
 	}
+
+	public boolean isIs_complete() {
+		return is_complete;
+	}
+
+	public void setIs_complete(boolean is_complete) {
+		this.is_complete = is_complete;
+	}
+
+	public Set<Entry> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(Set<Entry> entries) {
+		this.entries = entries;
+	}
+	
 	
 
 }

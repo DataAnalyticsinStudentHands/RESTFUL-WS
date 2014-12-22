@@ -2,17 +2,28 @@ package dash.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import dash.pojo.Entry;
 import dash.pojo.Form;
+import dash.pojo.Question;
 
 /**
  * This is an example implementation of an entity for a simple object (non-user)
@@ -40,16 +51,18 @@ public class FormEntity implements Serializable {
 	/** insertion date in the database */
 	@Column(name = "insertion_date")
 	private Date insertion_date;
+	
+	@ElementCollection (fetch= FetchType.EAGER)
+	@CollectionTable(name = "questions", joinColumns = {@JoinColumn(name="form_id")})
+	private Set<Question> questions= new HashSet<Question>();
 
 	public FormEntity(){}
 
-
-	
-	public FormEntity(String name) {
+	public FormEntity(String name, Set<Question> questions) {
 		super();
 		this.name = name;
+		this.questions = questions;
 	}
-
 
 
 	public FormEntity(Form form) {
@@ -100,6 +113,15 @@ public class FormEntity implements Serializable {
 		this.insertion_date = insertion_date;
 	}
 
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+
+	
 	
 
 }

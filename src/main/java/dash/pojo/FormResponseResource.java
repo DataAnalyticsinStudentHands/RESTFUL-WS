@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dash.errorhandling.AppException;
-import dash.service.FormService;
+import dash.service.FormResponseService;
 
 /**
  *
@@ -35,12 +35,12 @@ import dash.service.FormService;
  * @author tyler.swensen@gmail.com
  *
  */
-@Component("formResource")
-@Path("/forms")
-public class FormResource {
+@Component("formResponseResource")
+@Path("/formResponses")
+public class FormResponseResource {
 
 	@Autowired
-	private FormService formService;
+	private FormResponseService formResponseService;
 	
 	
 
@@ -48,10 +48,10 @@ public class FormResource {
 	// ************************************
 
 	/**
-	 * Adds a new resource (form) from the given json format (at least
-	 * formname and password elements are required at the DB level)
+	 * Adds a new resource (formResponse) from the given json formResponseat (at least
+	 * formResponsename and password elements are required at the DB level)
 	 *
-	 * @param form
+	 * @param formResponse
 	 * @return
 	 * @throws AppException
 	 * @throws IOException 
@@ -61,44 +61,44 @@ public class FormResource {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response createForm(Form form)
+	public Response createFormResponse(FormResponse formResponse)
 			throws AppException, JsonParseException, JsonMappingException, IOException
 	{
 		
-		Long createFormId = formService.createForm(form);
+		Long createFormResponseId = formResponseService.createFormResponse(formResponse);
 		
 		
 		return Response
 				.status(Response.Status.CREATED)
 				// 201
-				.entity("A new form has been created at index")
-				.header("Location", String.valueOf(createFormId))
-				.header("ObjectId", String.valueOf(createFormId))
+				.entity("A new formResponse has been created at index")
+				.header("Location", String.valueOf(createFormResponseId))
+				.header("ObjectId", String.valueOf(createFormResponseId))
 				.build();
 	}
 
 	/**
-	 * A list of resources (here forms) provided in json format will be
+	 * A list of resources (here formResponses) provided in json formResponseat will be
 	 * added to the database.
 	 *
-	 * @param forms
+	 * @param formResponses
 	 * @return
 	 * @throws AppException
 	 */
 	
 	/*This service is disabled because it does not appear to be a use case.
 	 * 
-	 * Before enabling be sure to implement the creation of questions for each form in a secure way.
+	 * Before enabling be sure to implement the creation of questions for each formResponse in a secure way.
 	 * 
 	 * @POST
 	@Path("list")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response createForms(List<Form> forms)
+	public Response createFormResponses(List<FormResponse> formResponses)
 			throws AppException {
-		formService.createForms(forms);
+		formResponseService.createFormResponses(formResponses);
 		return Response.status(Response.Status.CREATED)
 				// 201
-				.entity("List of forms was successfully created")
+				.entity("List of formResponses was successfully created")
 				.build();
 	}*/
 
@@ -106,11 +106,11 @@ public class FormResource {
 	// READ************************************
 
 	/**
-	 * Returns a list of forms via pagination. The order the list is
+	 * Returns a list of formResponses via pagination. The order the list is
 	 * sorted is set in the DAO implementation. Number of sample objects is the
 	 * page size, and start index is the id of the last sample object received.
 	 * 
-	 * @param numberOfForms
+	 * @param numberOfFormResponses
 	 * @param startIndex
 	 * @return
 	 * @throws IOException
@@ -118,37 +118,37 @@ public class FormResource {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Form> getForms(
-			@QueryParam("numberOfForms") @DefaultValue("25") int numberOfForms,
+	public List<FormResponse> getFormResponses(
+			@QueryParam("numberOfFormResponses") @DefaultValue("25") int numberOfFormResponses,
 			@QueryParam("startIndex") @DefaultValue("0") Long startIndex)
 			throws IOException, AppException {
-		List<Form> forms = formService
-				.getForms(numberOfForms, startIndex);
-		return forms;
+		List<FormResponse> formResponses = formResponseService
+				.getFormResponses(numberOfFormResponses, startIndex);
+		return formResponses;
 	}
 	
 	@GET
-	@Path("/myForms")
+	@Path("/myFormResponses")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<Form> getMyForms(
-			@QueryParam("numberOfForms") @DefaultValue("25") int numberOfForms,
+	public List<FormResponse> getMyFormResponses(
+			@QueryParam("numberOfFormResponses") @DefaultValue("25") int numberOfFormResponses,
 			@QueryParam("startIndex") @DefaultValue("0") Long startIndex)
 			throws IOException, AppException {
-		List<Form> forms = formService
-				.getMyForms(numberOfForms, startIndex);
-		return forms;
+		List<FormResponse> formResponses = formResponseService
+				.getMyFormResponses(numberOfFormResponses, startIndex);
+		return formResponses;
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getFormById(@PathParam("id") Long id,
+	public Response getFormResponseById(@PathParam("id") Long id,
 			@QueryParam("detailed") boolean detailed) throws IOException,
 			AppException {
-		Form formById = formService
-				.getFormById(id);
+		FormResponse formResponseById = formResponseService
+				.getFormResponseById(id);
 		return Response.status(200)
-				.entity(new GenericEntity<Form>(formById) {
+				.entity(new GenericEntity<FormResponse>(formResponseById) {
 				}).header("Access-Control-Allow-Headers", "X-extra-header")
 				.allow("OPTIONS").build();
 	}
@@ -159,12 +159,12 @@ public class FormResource {
 
 	/**
 	 * The method offers both Creation and Update resource functionality. If
-	 * there is no resource yet at the specified location, then a form
+	 * there is no resource yet at the specified location, then a formResponse
 	 * creation is executed and if there is then the resource will be full
 	 * updated.
 	 *
 	 * @param id
-	 * @param form
+	 * @param formResponse
 	 * @return
 	 * @throws AppException
 	 */
@@ -172,30 +172,30 @@ public class FormResource {
 	@Path("{id}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response putFormById(@PathParam("id") Long id,
-			Form form) throws AppException {
+	public Response putFormResponseById(@PathParam("id") Long id,
+			FormResponse formResponse) throws AppException {
 
-		Form formById = formService
-				.verifyFormExistenceById(id);
+		FormResponse formResponseById = formResponseService
+				.verifyFormResponseExistenceById(id);
 
-		if (formById == null) {
+		if (formResponseById == null) {
 			// resource not existent yet, and should be created under the
 			// specified URI
-			Long createFormId = formService
-					.createForm(form);
+			Long createFormResponseId = formResponseService
+					.createFormResponse(formResponse);
 			return Response
 					.status(Response.Status.CREATED)
 					// 201
-					.entity("A new form has been created AT THE LOCATION you specified")
-					.header("Location", String.valueOf(createFormId))
+					.entity("A new formResponse has been created AT THE LOCATION you specified")
+					.header("Location", String.valueOf(createFormResponseId))
 					.build();
 		} else {
 			// resource is existent and a full update should occur
-			formService.updateFullyForm(form);
+			formResponseService.updateFullyFormResponse(formResponse);
 			return Response
 					.status(Response.Status.OK)
 					// 200
-					.entity("The form you specified has been fully updated created AT THE LOCATION you specified")
+					.entity("The formResponse you specified has been fully updated created AT THE LOCATION you specified")
 					.header("Location", String.valueOf(id)).build();
 		}
 	}
@@ -205,14 +205,14 @@ public class FormResource {
 	@Path("{id}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response partialUpdateForm(@PathParam("id") Long id,
-			Form form) throws AppException {
-		form.setId(id);
-		formService.updatePartiallyForm(form);
+	public Response partialUpdateFormResponse(@PathParam("id") Long id,
+			FormResponse formResponse) throws AppException {
+		formResponse.setId(id);
+		formResponseService.updatePartiallyFormResponse(formResponse);
 		return Response
 				.status(Response.Status.OK)
 				// 200
-				.entity("The form you specified has been successfully updated")
+				.entity("The formResponse you specified has been successfully updated")
 				.build();
 	}
 }

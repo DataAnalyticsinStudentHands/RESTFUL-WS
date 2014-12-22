@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
@@ -43,7 +44,7 @@ BasicAuthenticationEntryPoint {
 		if (isPreflight(request)) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else if (isRestRequest(request)) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+			response.sendError(418,
 					"Unauthorized");
 		} else {
 			super.commence(request, response, authException);

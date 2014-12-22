@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Component;
+
 import dash.pojo.Form;
 
 /**
@@ -17,7 +19,7 @@ import dash.pojo.Form;
  * @author Tyler.swensen@gmail.com
  *
  */
-
+@Component("formDao")
 public class FormDaoJPA2Impl implements FormDao {
 	@PersistenceContext(unitName = "dashPersistence")
 	private EntityManager entityManager;
@@ -26,7 +28,7 @@ public class FormDaoJPA2Impl implements FormDao {
 	public List<FormEntity> getForms(int numberOfForms, Long startIndex) {
 		String sqlString = null;
 
-		sqlString = "SELECT u FROM FormEntity u WHERE u.id < ?1 ORDER BY u.time_stamp_sample DESC";
+		sqlString = "SELECT u FROM FormEntity u WHERE u.id < ?1 ORDER BY u.insertion_date DESC";
 
 		TypedQuery<FormEntity> query = entityManager.createQuery(sqlString,
 				FormEntity.class);
