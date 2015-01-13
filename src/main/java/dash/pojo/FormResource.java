@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -214,5 +215,18 @@ public class FormResource {
 				// 200
 				.entity("The form you specified has been successfully updated")
 				.build();
+	}
+	
+	@DELETE
+	@Path("{id}")
+	@Produces({ MediaType.TEXT_HTML })
+	public Response deletePost(@PathParam("id") Long id)
+			throws AppException {
+		Form form = formService.verifyFormExistenceById(id);
+		
+		
+		formService.deleteForm(form);
+		return Response.status(Response.Status.NO_CONTENT)// 204
+				.entity("Form successfully removed from database").build();
 	}
 }

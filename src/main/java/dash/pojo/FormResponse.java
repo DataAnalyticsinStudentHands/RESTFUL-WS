@@ -49,6 +49,9 @@ public class FormResponse implements  IAclObject {
 	@XmlElement(name = "is_complete")
 	private boolean is_complete;
 	
+	@XmlElement(name = "document_folder")
+	private String document_folder;
+	
 	
 	@XmlElement(name= "entries")
 	private Set<Entry> entries= new HashSet<Entry>();
@@ -69,12 +72,13 @@ public class FormResponse implements  IAclObject {
 	}
 
 	public FormResponse(Long form_id, Long owner_id, boolean is_complete,
-			Set<Entry> entries) {
+			Set<Entry> entries, String document_folder) {
 		super();
 		this.form_id = form_id;
 		this.owner_id = owner_id;
 		this.is_complete = is_complete;
 		this.entries = entries;
+		this.document_folder= document_folder;
 	}
 
 	public Long getId() {
@@ -132,6 +136,15 @@ public class FormResponse implements  IAclObject {
 	public void setEntries(Set<Entry> entries) {
 		this.entries = entries;
 	}
+
+	public String getDocument_folder() {
+		return document_folder;
+	}
+
+	public void setDocument_folder(String document_folder) {
+		this.document_folder = document_folder;
+	}
+	
 	
 	
 

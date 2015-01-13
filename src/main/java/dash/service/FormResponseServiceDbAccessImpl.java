@@ -12,7 +12,9 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.Response;
 
@@ -27,7 +29,10 @@ import dash.dao.FormResponseEntity;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.helpers.NullAwareBeanUtilsBean;
+import dash.pojo.Entry;
+import dash.pojo.Form;
 import dash.pojo.FormResponse;
+import dash.pojo.Question;
 import dash.security.CustomPermission;
 import dash.security.GenericAclController;
 
@@ -45,6 +50,9 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 
 	@Autowired
 	FormResponseDao formResponseDao;
+	
+	@Autowired
+	FormService formService;
 
 	@Autowired
 	private GenericAclController<FormResponse> aclController;
@@ -55,6 +63,22 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 	public Long createFormResponse(FormResponse formResponse)
 			throws AppException {
 
+		//Generate empty form response entries for each question
+		Set<Entry> entries= new HashSet<Entry>();
+		Form form = formService.getFormById(formResponse.getForm_id());
+		Set<Question> questions= form.getQuestions();
+		
+		if(questions != null && formResponse.getEntries().isEmpty()){
+			for (Question question : questions) {
+			    Entry entry= new Entry();
+			    entry.setQuestion_id(question.getQuestion_id());
+				entries.add(entry);
+			}
+			formResponse.setEntries(entries);
+		}
+		
+		
+		
 		long formResponseId = formResponseDao
 				.createFormResponse(new FormResponseEntity(formResponse));
 		formResponse.setId(formResponseId);
@@ -288,7 +312,53 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 
 	}
 	
-	
+	@Override
+	public void deleteUploadFile(String uploadedFileLocation) throws AppException {
+		Path path = Paths.get(uploadedFileLocation);
+		try {
+		    Files.delete(path);
+		} catch (NoSuchFileException x) {
+			x.printStackTrace();
+			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
+					404,
+					"NoSuchFileException thrown, Operation unsuccesful.", "Please ensure the file you are attempting to"
+					+ " delete exists at "+path+".", AppConstants.DASH_POST_URL);
+			
+					
+		} catch (DirectoryNotEmptyException x) {
+			x.printStackTrace();
+			throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+					404,
+					"DirectoryNotEmptyException thrown, operation unsuccesful.", "This method should not attempt to delete,"
+							+ " This should be considered a very serious error. Occured at "+path+".",
+					AppConstants.DASH_POST_URL);
+		} catch (IOException x) {
+			x.printStackTrace();
+			throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+					500,
+					"IOException thrown and the designated file was not deleted.", 
+					" Permission problems occured at "+path+".",
+					AppConstants.DASH_POST_URL);
+		}
+		
+	}
+
+	@Override
+	public List<String> getFileNames(FormResponse formResponse) {
+		List<String> results = new ArrayList<String>();
+		
+		File[] files = new File(AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER+"/" + formResponse.getDocument_folder()).listFiles();
+		//If this pathname does not denote a directory, then listFiles() returns null. 
+
+		if(files != null){
+			for (File file : files) {
+			    if (file.isFile()) {
+			        results.add(file.getName());
+			    }
+			}
+		}
+		return results;
+	}
 
 	
 }

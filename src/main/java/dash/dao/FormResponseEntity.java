@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 
+
 import org.apache.commons.beanutils.BeanUtils;
 
 import dash.helpers.DateISO8601Adapter;
@@ -69,6 +70,9 @@ public class FormResponseEntity implements Serializable {
 	@Column(name = "is_complete")
 	private boolean is_complete;
 	
+	@Column(name = "document_folder")
+	private String document_folder;
+	
 	@ElementCollection(fetch= FetchType.EAGER)
 	@CollectionTable(name = "form_response_entries", joinColumns = {@JoinColumn(name="form_response_id")})
     private Set<Entry> entries = new HashSet<Entry>();
@@ -89,7 +93,7 @@ public class FormResponseEntity implements Serializable {
 	}
 
 	public FormResponseEntity(Long form_id, Long owner_id, Date insertion_date,
-			Date latest_update, boolean is_complete, Set<Entry> entries) {
+			Date latest_update, boolean is_complete, Set<Entry> entries, String document_folder) {
 		super();
 		this.form_id = form_id;
 		this.owner_id = owner_id;
@@ -97,6 +101,17 @@ public class FormResponseEntity implements Serializable {
 		this.latest_update = latest_update;
 		this.is_complete = is_complete;
 		this.entries = entries;
+		this.document_folder=document_folder;
+	}
+
+
+	public String getDocument_folder() {
+		return document_folder;
+	}
+
+
+	public void setDocument_folder(String document_folder) {
+		this.document_folder = document_folder;
 	}
 
 

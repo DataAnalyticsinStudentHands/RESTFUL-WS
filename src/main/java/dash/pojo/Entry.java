@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,9 +35,14 @@ public class Entry implements Serializable{
 	private static final long serialVersionUID = -3313914953151072441L;
 
 	/**Corresponds to the question.index that this is an answer to*/
-	@XmlElement(name = "index")
-	@Column(name = "form_index")
-	private Long index;
+	@XmlElement(name = "question_id")
+	@Column(name = "question_id")
+	private Long question_id;
+	
+	@GeneratedValue
+	@XmlElement(name= "entry_id")
+	@Column(name= "entry_id")
+	private Long entry_id;
 	
 	/** Corresponds to the question.label that this is an answer to*/
 	@XmlElement(name = "label")
@@ -54,25 +60,41 @@ public class Entry implements Serializable{
 
 	
 
-	public Entry(Long index, String label, String value) {
+	public Entry(Long question_id, String label, String value) {
 		super();
-		this.index = index;
+		this.question_id = question_id;
 		this.label = label;
 		this.value = value;
 	}
 
+	
 
-
-	public Long getIndex() {
-		return index;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 
 
-	public void setIndex(Long index) {
-		this.index = index;
+	public Long getEntry_id() {
+		return entry_id;
 	}
 
+
+
+	public void setEntry_id(Long entry_id) {
+		this.entry_id = entry_id;
+	}
+
+
+
+	public Long getQuestion_id() {
+		return question_id;
+	}
+
+
+	public void setQuestion_id(Long question_id) {
+		this.question_id = question_id;
+	}
 
 
 	public String getLabel() {
@@ -94,10 +116,7 @@ public class Entry implements Serializable{
 		this.value = value;
 	}
 
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 
 
 }

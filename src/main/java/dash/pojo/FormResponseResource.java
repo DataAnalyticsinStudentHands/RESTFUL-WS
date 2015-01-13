@@ -1,12 +1,15 @@
 package dash.pojo;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -16,7 +19,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +32,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dash.errorhandling.AppException;
+import dash.filters.AppConstants;
 import dash.service.FormResponseService;
 
 /**
@@ -215,4 +223,110 @@ public class FormResponseResource {
 				.entity("The formResponse you specified has been successfully updated")
 				.build();
 	}
+	
+	@DELETE
+	@Path("{id}")
+	@Produces({ MediaType.TEXT_HTML })
+	public Response deletePost(@PathParam("id") Long id)
+			throws AppException {
+		FormResponse formResponse = formResponseService.verifyFormResponseExistenceById(id);
+		
+		
+		formResponseService.deleteFormResponse(formResponse);
+		return Response.status(Response.Status.NO_CONTENT)// 204
+				.entity("FormResponse successfully removed from database").build();
+	}
+	
+	//FILE UPLOAD
+	@POST
+	@Path("/upload")
+	@Consumes({ MediaType.MULTIPART_FORM_DATA })
+	public Response uploadFile(
+			@QueryParam("responseId") Long id,
+			@QueryParam("entryId") Long entryId,
+		@FormDataParam("file") InputStream uploadedInputStream,
+		@FormDataParam("file") FormDataContentDisposition fileDetail,
+		@HeaderParam("Content-Length") final long fileSize) throws AppException {
+		
+		FormResponse formResponse= formResponseService.getFormResponseById(id);
+			
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER+"/"
+				+ formResponse.getDocument_folder()+"/" + entryId +"/" + fileDetail.getFileName().replaceAll("%20", "_").toLowerCase();;
+		// save it
+				formResponseService.uploadFile(uploadedInputStream, uploadedFileLocation);
+ 
+		String output = "File uploaded to : " + uploadedFileLocation;
+ 
+		return Response.status(200).entity(output).build();
+ 
+	}
+	
+	/*Might get rid about 
+	 * 
+	 * @GET
+	@Path("/upload")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getFileNames(@QueryParam("responseId") Long id,
+			 @QueryParam("entryId") Long entryId) throws AppException{
+		
+		
+		JaxbList<String> fileNames=new JaxbList<String>(formResponseService.getFileNames(formResponse));
+		return Response.status(200).entity(fileNames).build();
+	}*/
+	
+	//Gets a specific file and allows the user to download the pdf
+	@GET
+	@Path("/download")
+	public Response getFile(@QueryParam("responseId") Long id, 
+			@QueryParam("entryId") Long entryId,
+			@QueryParam("fileName") String fileName) throws AppException {
+		
+		FormResponse formResponse= formResponseService.getFormResponseById(id);
+		
+		if(formResponse == null){
+			return Response.status(Response.Status.BAD_REQUEST)
+					.entity("Invalid applicationId, unable to locate application with id: "+id).build();
+		}
+		
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER + formResponse.getId()+"/" + fileName;
+		
+		
+		return Response.ok(formResponseService.getUploadFile(uploadedFileLocation))
+				.type("application/pdf").build(); 
+	}
+	
+	@DELETE
+	@Path("/upload")
+	public Response deleteUpload(
+			@QueryParam("responseId") Long id,
+			@QueryParam("entryId") Long entryId,
+			@QueryParam("fileName") String fileName) throws AppException{
+		
+		FormResponse formResponse= formResponseService.getFormResponseById(id);
+		
+		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER + formResponse.getId()+"/" + fileName;
+		// save it
+		formResponseService.deleteUploadFile(uploadedFileLocation);
+ 
+		String output = "File removed from: " + uploadedFileLocation;
+		
+		return Response.status(200).entity(output).build();
+	}
+	
+	@XmlRootElement(name="fileNames")
+	public static class JaxbList<T>{
+	    protected List<T> list;
+
+	    public JaxbList(){}
+
+	    public JaxbList(List<T> list){
+	    	this.list=list;
+	    }
+
+	    @XmlElement(name="fileName")
+	    public List<T> getList(){
+	    	return list;
+	    }
+	}
+	
 }

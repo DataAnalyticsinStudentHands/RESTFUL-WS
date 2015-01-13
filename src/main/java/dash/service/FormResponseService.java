@@ -1,5 +1,6 @@
 package dash.service;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PostFilter;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import dash.errorhandling.AppException;
 import dash.pojo.FormResponse;
+import dash.pojo.SampleObject;
 
 /**
  * Example service interface for a basic object.
@@ -101,5 +103,14 @@ public interface FormResponseService {
 	public FormResponse verifyFormResponseExistenceById(Long id);
 
 	public int getNumberOfFormResponses();
+
+	public void uploadFile(InputStream uploadedInputStream,
+			String uploadedFileLocation) throws AppException;
+
+	public List<String> getFileNames(FormResponse formResponse)throws AppException;
+
+	public Object getUploadFile(String uploadedFileLocation)throws AppException;
+
+	public void deleteUploadFile(String uploadedFileLocation)throws AppException;
 
 }
