@@ -27,6 +27,8 @@ public interface FormResponseDao {
 	 */
 	public FormResponseEntity getFormResponseById(Long id);
 	
+	public List<FormResponseEntity> getFormResponsesByFormId(Long id, int numberOfFormResponses, int page);
+	
 	public void deleteFormResponseById(FormResponse formResponse);
 
 	public Long createFormResponse(FormResponseEntity formResponse);

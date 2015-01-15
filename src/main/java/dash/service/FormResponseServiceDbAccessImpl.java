@@ -134,6 +134,22 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 
 		return new FormResponse(formResponseDao.getFormResponseById(id));
 	}
+	
+	@Override
+	public List<FormResponse> getFormResponsesByFormId(Long id, int numberOfFormResponses, int page) throws AppException {
+		List<FormResponseEntity> formResponsesByFormId = formResponseDao
+				.getFormResponsesByFormId(id, numberOfFormResponses, page);
+		if (formResponsesByFormId == null) {
+			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
+					404, "The formResponse you requested with id " + id
+							+ " was not found in the database",
+					"Verify the existence of the formResponse with the id "
+							+ id + " in the database",
+					AppConstants.DASH_POST_URL);
+		}
+		
+		return getFormResponsesFromEntities(formResponsesByFormId);
+	}
 
 	private List<FormResponse> getFormResponsesFromEntities(
 			List<FormResponseEntity> formResponseEntities) {

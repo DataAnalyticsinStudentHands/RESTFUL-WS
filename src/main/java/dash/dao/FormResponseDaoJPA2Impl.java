@@ -56,6 +56,26 @@ public class FormResponseDaoJPA2Impl implements FormResponseDao {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<FormResponseEntity> getFormResponsesByFormId(Long id, int numberOfFormResponses, int page) {
+
+		try {
+			String qlString = "SELECT u FROM FormResponseEntity u WHERE u.form_id = ?1 ORDER BY u.latest_update DESC";
+			TypedQuery<FormResponseEntity> query = entityManager.createQuery(qlString,
+					FormResponseEntity.class);
+			
+			
+			query.setFirstResult((page-1) * numberOfFormResponses); 
+			query.setParameter(1, id);
+			query.setMaxResults(numberOfFormResponses);
+
+			return query.getResultList();
+		
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 
 	@Override
 	public void deleteFormResponseById(FormResponse formResponsePojo) {

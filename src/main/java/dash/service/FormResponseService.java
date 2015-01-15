@@ -3,6 +3,7 @@ package dash.service;
 import java.io.InputStream;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -53,7 +54,7 @@ public interface FormResponseService {
 	 * @throws AppException
 	 */
 	//Enable post filter to restrict read access to a collection
-	//@PostFilter("hasPermission(filterObject, 'READ')"
+	@PostFilter("hasPermission(filterObject, 'READ') or hasRole('ROLE_ADMIN')")
 	public List<FormResponse> getFormResponses(int numberOfFormResponses, Long startIndex) throws AppException;
 	
 	@PostFilter("hasPermission(filterObject, 'WRITE')")
@@ -67,8 +68,11 @@ public interface FormResponseService {
 	 */
 	
 	//Enable the following line of code to restrict read access to a single object.
-	//@PostAuthrorize("hasPermission(#returnObject, 'read')")
+	@PostAuthorize("hasPermission(#returnObject, 'read') or hasRole('ROLE_ADMIN')")
 	public FormResponse getFormResponseById(Long id) throws AppException;
+	
+	@PostFilter("hasPermission(filterObject, 'read') or hasRole('ROLE_ADMIN')")
+	public List<FormResponse> getFormResponsesByFormId(Long id, int numberOfFormResponses, int page) throws AppException;
 
 	/*
 	 * ******************** Update related methods **********************

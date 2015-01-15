@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.service.FormResponseService;
+import dash.service.FormService;
 
 /**
  *
@@ -49,6 +50,9 @@ public class FormResponseResource {
 
 	@Autowired
 	private FormResponseService formResponseService;
+	
+	@Autowired
+	private FormService formService;
 	
 	
 
@@ -146,6 +150,20 @@ public class FormResponseResource {
 				.getMyFormResponses(numberOfFormResponses, startIndex);
 		return formResponses;
 	}
+	
+	@GET
+	@Path("/byFormId/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<FormResponse> getFormResponseByFormId(@PathParam("id") Long id,
+			@QueryParam("numberOfFormResponses")@DefaultValue("25") int numberOfFormResponses,
+			@QueryParam("page") @DefaultValue("1") int page) throws IOException,
+			AppException {
+		Form formById = formService
+				.verifyFormExistenceById(id);
+		List<FormResponse> formResponsesByFormId= formResponseService.getFormResponsesByFormId(id, numberOfFormResponses, page);
+		return formResponsesByFormId;
+	}
+	
 
 	@GET
 	@Path("{id}")

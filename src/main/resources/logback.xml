@@ -16,10 +16,10 @@
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/var/log/tomcat7/FormBuilder.log</file>
+		<file>/var/log/tomcat7/formBuilder.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>FormBuilder.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>formBuilder.%d{yyyy-MM-dd}.log</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
 			<maxHistory>30</maxHistory>
