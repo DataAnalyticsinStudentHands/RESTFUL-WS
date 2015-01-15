@@ -47,12 +47,12 @@ public class Entry implements Serializable{
 	/** Corresponds to the question.label that this is an answer to*/
 	@XmlElement(name = "label")
 	@Column(name = "label")
-	private String label;
+	private String label="";
 
 	/** Contains the actual data entered by the person completing the form */
 	@XmlElement(name = "value")
 	@Column(name = "value")
-	private String value;
+	private String value="";
 
 
 	public Entry() {
