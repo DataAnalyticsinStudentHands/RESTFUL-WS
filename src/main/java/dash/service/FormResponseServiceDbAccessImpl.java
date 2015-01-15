@@ -72,6 +72,7 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 			for (Question question : questions) {
 			    Entry entry= new Entry();
 			    entry.setQuestion_id(question.getQuestion_id());
+			    entry.setLabel(question.getLabel());
 				entries.add(entry);
 			}
 			formResponse.setEntries(entries);

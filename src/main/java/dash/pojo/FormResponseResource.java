@@ -83,7 +83,7 @@ public class FormResponseResource {
 		return Response
 				.status(Response.Status.CREATED)
 				// 201
-				.entity("A new formResponse has been created at index")
+				.entity(createFormResponseId.toString())
 				.header("Location", String.valueOf(createFormResponseId))
 				.header("ObjectId", String.valueOf(createFormResponseId))
 				.build();

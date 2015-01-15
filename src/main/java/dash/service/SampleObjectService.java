@@ -68,7 +68,7 @@ public interface SampleObjectService {
 	 */
 	
 	//Enable the following line of code to restrict read access to a single object.
-	//@PostAuthrorize("hasPermission(#returnObject, 'read')")
+	//@PostAuthrorize("hasPermission(returnObject, 'read')")
 	public SampleObject getSampleObjectById(Long id) throws AppException;
 	
 	@PreAuthorize("hasPermission(#sampleObject, 'read') or hasRole('ROLE_ADMIN')")

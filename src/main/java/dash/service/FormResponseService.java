@@ -68,7 +68,7 @@ public interface FormResponseService {
 	 */
 	
 	//Enable the following line of code to restrict read access to a single object.
-	@PostAuthorize("hasPermission(#returnObject, 'read') or hasRole('ROLE_ADMIN')")
+	@PostAuthorize("hasPermission(returnObject, 'read') or hasRole('ROLE_ADMIN')")
 	public FormResponse getFormResponseById(Long id) throws AppException;
 	
 	@PostFilter("hasPermission(filterObject, 'read') or hasRole('ROLE_ADMIN')")

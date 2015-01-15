@@ -62,7 +62,7 @@ public class Question  implements Serializable {
 	 * question which is critical to an organization or is a dependency for an external application */
 	@XmlElement(name = "editable")
 	@Column (name = "editable")
-	private boolean editable;
+	private boolean editable=true;
 
 	/** The order in which this question appears on the form it belongs to. */
 	@XmlElement(name = "index")
@@ -74,23 +74,23 @@ public class Question  implements Serializable {
 	 */
 	@XmlElement(name = "label")
 	@Column (name = "label")
-	private String label;
+	private String label="";
 	
 	/** This is displayed as a low profile hint beneath the input area */
 	@XmlElement(name = "description")
 	@Column (name = "description")
-	private String description;
+	private String description="";
 	
 	/** A string which appears as ghosted text inside the input area */
 	@XmlElement(name = "placeholder")
 	@Column (name = "placeholder")
-	private String placeholder;
+	private String placeholder="";
 	
 	/** An array of strings which hold possible responses to multiple choice and checkbox questions. */
 	
 	@XmlElement(name = "options")
 	@Column(name="options")
-	private String options;
+	private String options="[]";
 	
 	/** Must the question have a response in order to submit the form */
 	@XmlElement(name = "required")
