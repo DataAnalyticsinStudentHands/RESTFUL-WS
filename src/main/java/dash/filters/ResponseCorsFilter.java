@@ -37,6 +37,7 @@ public class ResponseCorsFilter implements Filter {
 		response.addHeader("Access-Control-Allow-Methods",
 				"GET, POST, PUT, OPTIONS, DELETE");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
+		response.addHeader("Access-Control-Expose-Headers", "ObjectId,Location");
 		response.addHeader(
 				"Access-Control-Allow-Headers",
 				"Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, X-XSRF-TOKEN");
