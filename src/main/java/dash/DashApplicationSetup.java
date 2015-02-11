@@ -10,6 +10,7 @@ import dash.errorhandling.AppExceptionMapper;
 import dash.errorhandling.GenericExceptionMapper;
 import dash.errorhandling.NotFoundExceptionMapper;
 import dash.filters.LoggingResponseFilter;
+import dash.pojo.FileUploadResource;
 import dash.pojo.FormResource;
 import dash.pojo.FormResponseResource;
 import dash.pojo.SampleObjectResource;
@@ -32,6 +33,7 @@ public class DashApplicationSetup extends ResourceConfig {
 		register(SampleObjectResource.class);
 		register(FormResource.class);
 		register(FormResponseResource.class);
+		register(FileUploadResource.class);
 
 		// register filters
 		register(RequestContextFilter.class);
