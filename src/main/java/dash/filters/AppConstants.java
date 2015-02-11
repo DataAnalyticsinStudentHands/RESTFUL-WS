@@ -11,4 +11,7 @@ public class AppConstants {
 	public enum InputValidation{
 		NONE, NUMBER, EMAIL, URL
 	}
+	public enum TOKEN_TYPE{ 
+		PASSWORD_RESET, EMAIL_ACTIVATION 
+	}
 }

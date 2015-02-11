@@ -154,12 +154,12 @@ public class FormResponseServiceDbAccessImpl extends ApplicationObjectSupport
 
 	private List<FormResponse> getFormResponsesFromEntities(
 			List<FormResponseEntity> formResponseEntities) {
-		List<FormResponse> response = new ArrayList<FormResponse>();
+		List<FormResponse> responses = new ArrayList<FormResponse>();
 		for (FormResponseEntity formResponseEntity : formResponseEntities) {
-			response.add(new FormResponse(formResponseEntity));
+			responses.add(new FormResponse(formResponseEntity));
 		}
-
-		return response;
+		
+		return responses;
 	}
 
 	/**
