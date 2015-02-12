@@ -27,6 +27,7 @@ import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.helpers.NullAwareBeanUtilsBean;
 import dash.pojo.FileUpload;
+import dash.pojo.Form;
 import dash.security.CustomPermission;
 import dash.security.GenericAclController;
 
@@ -135,7 +136,7 @@ public class FileUploadServiceDbAccessImpl extends ApplicationObjectSupport
 
 	}
 
-	public File getUploadFile(FileUpload fileUpload) throws AppException {
+	public File getUploadFile(FileUpload fileUpload, Form form) throws AppException {
 		
 		return new File(fileUpload.getPath());
 	}
@@ -207,7 +208,7 @@ public class FileUploadServiceDbAccessImpl extends ApplicationObjectSupport
 
 	@Override
 	@Transactional
-	public void deleteFileUpload(FileUpload fileUpload) throws AppException{
+	public void deleteFileUpload(FileUpload fileUpload, Form form) throws AppException{
 		
 		//first remove the actual file
 		Path path = Paths.get(fileUpload.getPath()+fileUpload.getFile_name());

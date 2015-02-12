@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.service.FileUploadService;
+import dash.service.FormService;
 import dash.service.UserService;
 
 /**
@@ -47,6 +48,9 @@ public class FileUploadResource {
 
 	@Autowired
 	private FileUploadService fileUploadService;
+	
+	@Autowired
+	private FormService formService;
 	
 	@Autowired
 	private UserService userService;
@@ -66,6 +70,7 @@ public class FileUploadResource {
 	@Consumes({ MediaType.MULTIPART_FORM_DATA })
 	@Produces({ MediaType.TEXT_HTML })
 	public Response createFileUpload(@QueryParam("user_id") Long user_id,
+			@QueryParam("form_id") Long form_id,
 			@QueryParam("content_type") String content_type,
 			@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
@@ -85,7 +90,7 @@ public class FileUploadResource {
 		String path= AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER+"/"
 				+ user.getId()+"/" + fileDetail.getFileName().replaceAll("%20", "_").toLowerCase();
 		
-		FileUpload fileUpload = new FileUpload(user_id, path, fileDetail.getFileName().replaceAll("%20", "_").toLowerCase()
+		FileUpload fileUpload = new FileUpload(user_id, form_id, path, fileDetail.getFileName().replaceAll("%20", "_").toLowerCase()
 				, content_type);
 		Long createFileUploadId = fileUploadService
 				.createFileUpload(fileUpload, uploadedInputStream);
@@ -104,7 +109,8 @@ public class FileUploadResource {
 	public Response deleteFileUpload(@PathParam("id") Long id)
 			throws AppException {
 		FileUpload fileUpload = fileUploadService.verifyFileUploadExistenceById(id);
-		fileUploadService.deleteFileUpload(fileUpload);
+		Form form = formService.verifyFormExistenceById(fileUpload.getForm_id());
+		fileUploadService.deleteFileUpload(fileUpload, form);
 		return Response.status(Response.Status.NO_CONTENT)// 204
 				.entity("FileUpload successfully removed from database").build();
 	}
@@ -164,7 +170,8 @@ public class FileUploadResource {
 			AppException {
 		FileUpload fileUploadById = fileUploadService
 				.getFileUploadById(id);
-		return Response.ok(fileUploadService.getUploadFile(fileUploadById))
+		Form form = formService.verifyFormExistenceById(fileUploadById.getForm_id());
+		return Response.ok(fileUploadService.getUploadFile(fileUploadById, form))
 				.type(Files.probeContentType(Paths.get(fileUploadById.getPath()))).build(); 
 	}
 

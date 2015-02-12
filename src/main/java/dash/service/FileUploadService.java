@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import dash.errorhandling.AppException;
 import dash.pojo.FileUpload;
+import dash.pojo.Form;
 
 /**
  * Example service interface for a basic object.
@@ -71,8 +72,8 @@ public interface FileUploadService {
 	//@PostAuthrorize("hasPermission(returnObject, 'read')")
 	public FileUpload getFileUploadById(Long id) throws AppException;
 	
-	@PreAuthorize("hasPermission(#fileUpload, 'read') or hasRole('ROLE_ADMIN')")
-	public File getUploadFile(FileUpload fileUpload) throws AppException;
+	@PreAuthorize("hasPermission(#fileUpload, 'read') or hasPermission(#form, 'write') or hasRole('ROLE_ADMIN')")
+	public File getUploadFile(FileUpload fileUpload, Form form) throws AppException;
 
 	/*
 	 * ******************** Update related methods **********************
@@ -87,8 +88,8 @@ public interface FileUploadService {
 	 * ******************** Delete related methods **********************
 	 */
 
-	@PreAuthorize("hasPermission(#fileUpload, 'delete') or hasRole('ROLE_ADMIN')")
-	public void deleteFileUpload(FileUpload fileUpload) throws AppException;
+	@PreAuthorize("hasPermission(#fileUpload, 'delete') or hasPermission(#form, 'write') or hasRole('ROLE_ADMIN')")
+	public void deleteFileUpload(FileUpload fileUpload, Form form) throws AppException;
 	/** removes all fileUploads
 	 * DO NOT USE, IMPROPERLY UPDATES ACL_OBJECT table
 	 * Functional but does not destroy old acl's which doesnt hurt anything

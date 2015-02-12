@@ -50,6 +50,10 @@ public class FileUpload implements  IAclObject {
 	@Column(name = "user_id")
 	private Long user_id;
 	
+	@XmlElement(name = "form_id")
+	@Column(name = "form_id")
+	private Long form_id;
+	
 	/**The path of the file relative to the applications root uploads folder.*/
 	@XmlElement(name = "path")
 	@Column(name = "path")
@@ -75,9 +79,10 @@ public class FileUpload implements  IAclObject {
 		super();
 	}
 	
-	public FileUpload(Long user_id, String path, String file_name, String content_type) {
+	public FileUpload(Long user_id, Long form_id, String path, String file_name, String content_type) {
 		super();
 		this.user_id = user_id;
+		this.form_id = form_id;
 		this.path = path;
 		this.file_name = file_name;
 		this.content_type= content_type;
@@ -93,6 +98,15 @@ public class FileUpload implements  IAclObject {
 
 	public Long getUser_id() {
 		return user_id;
+	}
+	
+
+	public Long getForm_id() {
+		return form_id;
+	}
+
+	public void setForm_id(Long form_id) {
+		this.form_id = form_id;
 	}
 
 	public void setUser_id(Long user_id) {
