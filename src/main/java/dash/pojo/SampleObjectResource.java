@@ -210,7 +210,7 @@ public class SampleObjectResource {
 		//TODO: Generate directory if not set
 		//if(application.getDocument_folder()==null)	
 		String uploadedFileLocation = AppConstants.APPLICATION_UPLOAD_LOCATION_FOLDER+"/"
-				+ sampleObject.getDocument_folder()+"/" + fileDetail.getFileName().replaceAll("%20", "_").toLowerCase();;
+				+ sampleObject.getDocument_folder()+"/" + fileDetail.getFileName().replaceAll("%20", "_").toLowerCase();
 		// save it
 				sampleObjectService.uploadFile(uploadedInputStream, uploadedFileLocation);
  

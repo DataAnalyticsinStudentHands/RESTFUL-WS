@@ -2,12 +2,21 @@ package dash.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -67,14 +76,25 @@ public class UserEntity implements Serializable {
 	/** insertion date in the database */
 	@Column(name = "insertion_date")
 	private Date insertionDate;
+	
+	@Column(name = "is_email_verified")
+	private boolean is_email_verified= false;
+	
+	
+	@ElementCollection (fetch= FetchType.EAGER)
+	@CollectionTable(name = "validation_tokens", joinColumns = {@JoinColumn(name="user_id")})
+	private List<ValidationTokenEntity> validation_tokens=new ArrayList<ValidationTokenEntity>();
 
 	public UserEntity(){}
 
-	public UserEntity( String username, 
-			String firstName,  String lastName,  String city,
-			String homePhone,  String cellPhone,  String email,
-			String picturePath) {
+	
 
+	public UserEntity(Long id, String username, String firstName,
+			String lastName, String city, String homePhone, String cellPhone,
+			String email, String picturePath, Date insertionDate,
+			boolean is_email_verified) {
+		super();
+		this.id = id;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -83,8 +103,11 @@ public class UserEntity implements Serializable {
 		this.cellPhone = cellPhone;
 		this.email = email;
 		this.picturePath = picturePath;
-
+		this.insertionDate = insertionDate;
+		this.is_email_verified = is_email_verified;
 	}
+
+
 
 	public UserEntity(User user) {
 		try {
@@ -177,6 +200,42 @@ public class UserEntity implements Serializable {
 
 	public void setInsertionDate(Date insertionDate) {
 		this.insertionDate = insertionDate;
+	}
+
+
+
+	public boolean isIs_email_verified() {
+		return is_email_verified;
+	}
+
+
+
+	public void setIs_email_verified(boolean is_email_verified) {
+		this.is_email_verified = is_email_verified;
+	}
+
+
+
+	public String getPicturePath() {
+		return picturePath;
+	}
+
+
+
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
+	}
+
+
+
+	public List<ValidationTokenEntity> getValidation_tokens() {
+		return validation_tokens;
+	}
+
+
+
+	public void setValidation_tokens(List<ValidationTokenEntity> validation_tokens) {
+		this.validation_tokens = validation_tokens;
 	}
 
 }

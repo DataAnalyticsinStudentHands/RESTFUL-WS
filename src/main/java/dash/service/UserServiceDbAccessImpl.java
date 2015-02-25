@@ -1,14 +1,24 @@
  package dash.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -25,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dash.dao.UserDao;
 import dash.dao.UserEntity;
+import dash.dao.ValidationTokenEntity;
 import dash.errorhandling.AppException;
 import dash.filters.AppConstants;
 import dash.helpers.NullAwareBeanUtilsBean;
@@ -44,14 +55,33 @@ UserService {
 
 	@Autowired
 	UserDao userDao;
+	
+	@PersistenceContext(unitName = "dashPersistence")
+	private EntityManager entityManager;
 
 	@Autowired
 	private MutableAclService mutableAclService;
 
 	@Autowired
 	private UserLoginController authoritiesController;
+	
+	@Autowired
+	private MailSender mailSender;
+	
+	@Autowired
+	private SimpleMailMessage templateMessage;
 
 	public static final String userRole = "ROLE_USER";
+	
+	
+	
+	public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void setTemplateMessage(SimpleMailMessage templateMessage) {
+        this.templateMessage = templateMessage;
+    }
 
 	/********************* Create related methods implementation ***********************/
 	@Override
@@ -151,6 +181,22 @@ UserService {
 
 		return new User(userDao.getUserById(id));
 	}
+	
+	@Override
+	public User getUserByUsername(String username) throws AppException {
+		UserEntity userByName = userDao.getUserByName(username);
+		if (userByName == null) {
+			throw new AppException(Response.Status.NOT_FOUND.getStatusCode(),
+					404,
+					"The user you requested with username " + username
+					+ " was not found in the database",
+					"Verify the existence of the user with the username " + username
+					+ " in the database", AppConstants.DASH_POST_URL);
+		}
+
+		return new User(userByName);
+	}
+
 
 	private List<User> getUsersFromEntities(List<UserEntity> userEntities) {
 		List<User> response = new ArrayList<User>();
@@ -284,6 +330,80 @@ UserService {
 
 	}
 	
+	
+	@Transactional
+	public void requestPasswordReset(User user, UriInfo uri) throws AppException{
+		UserEntity userEntity=userDao.getUserById(user.getId());
+		if(userEntity.isIs_email_verified())
+		{
+			ValidationTokenEntity tokenEntity= new ValidationTokenEntity(
+					ValidationTokenEntity.TOKEN_TYPE.PASSWORD_RESET);
+			userEntity.getValidation_tokens().add(tokenEntity);
+			//Then email the token
+			SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+			msg.setSubject("Password Reset Request");
+	        msg.setTo(userEntity.getEmail());
+	        msg.setText(
+	            "Dear " + userEntity.getFirstName()+ " "
+	                + userEntity.getLastName()
+	                + ", \n\nWe recieved a request to reset you password for "+AppConstants.APPLICATION_NAME+"."
+            		+ "  To reset your password please click the following link.\n\n"
+	                + uri.getBaseUri() + "users/"+userEntity.getId()+"/tokenValidation?token="
+	                + tokenEntity.getToken()
+	                +"\n\n\nIf you did not attempt to reset your password please contact us immidiately.");
+	        try{
+	            this.mailSender.send(msg);
+	        }
+	        catch (MailException ex) {
+	            // simply log it and go on...
+	            throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+					500,
+					"The mail server has expirienced a critical error, we were unable to email the user",
+					ex.getMessage(),
+					AppConstants.DASH_POST_URL);
+	        }
+		}
+		
+	}
+	
+	@Override
+	@Transactional
+	public Response validateToken(Long id, String token) throws AppException{
+		User user=this.getUserById(id);
+		for(ValidationTokenEntity tokenEntity:user.getValidation_tokens()){
+			if(tokenEntity.getToken()==token && tokenEntity.getExpiration_date().before(new Date())){
+				switch(tokenEntity.getToken_type()){
+				case PASSWORD_RESET: 
+				{
+					try{
+					return Response.seeOther(new URI("../PasswordReset.jsp?user_id="
+						+user.getId()+"&"+"token="+tokenEntity.getToken())).build();
+					}catch (URISyntaxException e){
+						throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+						500,
+						"Oops, there was an error Redirecting to password reset form",
+						e.getMessage(), AppConstants.DASH_POST_URL);
+					}
+				}
+				case EMAIL_ACTIVATION:
+				{
+					/*TODO: activate email*/
+					 return Response.status(200).
+							entity("Thank you for activating your account!").build();
+				}
+						
+				default: return Response.status(500).
+						entity("Internal Server Error: Token Type Invalid").build();
+				}
+			}
+		}
+		
+	
+		return Response.status(500).
+				entity("Internal Server Error: Token Invalid").build();
+		
+	}
+	
 	@Override
 	@Transactional
 	public void resetPassword(User user) throws AppException{
@@ -300,6 +420,18 @@ UserService {
 		}
 		
 		
+	}
+	
+	public void tokenPasswordReset(Long id, String token, String password) throws AppException{
+		User user=this.getUserById(id);
+		boolean tokenIsValid=false;
+		for(ValidationTokenEntity tokenEntity:user.getValidation_tokens()){
+			if(tokenEntity.getToken()==token && tokenEntity.getExpiration_date().before(new Date())
+					&& tokenEntity.getToken_type() == ValidationTokenEntity.TOKEN_TYPE.PASSWORD_RESET){
+				user.setPassword(password);
+				this.resetPassword(user);
+			}
+		}
 	}
 
 	/****************** Methods for Acl *****************/
@@ -348,4 +480,7 @@ UserService {
 	public void setRoleAdmin(User user) {
 		userDao.updateUserRole("ROLE_ADMIN", user.getUsername());		
 	}
+	
+	
+	
 }

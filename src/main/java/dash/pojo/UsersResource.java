@@ -1,6 +1,7 @@
 package dash.pojo;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,9 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import dash.dao.ValidationTokenEntity;
 import dash.errorhandling.AppException;
 import dash.service.UserService;
 
@@ -39,6 +43,8 @@ public class UsersResource {
 
 	@Autowired
 	private UserService userService;
+	
+
 
 	// *********************************** CREATE
 
@@ -61,17 +67,9 @@ public class UsersResource {
 				.header("ObjectId", String.valueOf(createUserId)).build();
 	}
 
-	/**
-	 * Adds a new user (resource) from "form" (at least title and feed elements
-	 * are required at the DB level)
-	 *
-	 * @param username
-	 * @param password
-	 * @param firstName
-	 * @param lastNameuser
-	 * @return
-	 * @throws AppException
-	 */
+	
+	
+	/*
 	@POST
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
@@ -100,7 +98,7 @@ public class UsersResource {
 				.header("Location",
 						"http://localhost:8888/services/users/"
 								+ String.valueOf(createUserid)).build();
-	}
+	}*/
 
 	/**
 	 * A list of resources (here users) provided in json format will be added to
@@ -298,4 +296,41 @@ public class UsersResource {
 				.entity("The user you specified has been successfully updated")
 				.build();
 	}
+	
+	@GET
+	@Path("{username}/forgotPassword")
+	public Response forgotPassword(@PathParam("username")  String username, @Context UriInfo uri){
+		
+		try{
+		User user=userService.getUserByUsername(username);
+		userService.requestPasswordReset(user, uri);
+		}catch (AppException e){
+			System.out.print(e.getDeveloperMessage()+"\n"+e.getMessage()+"\n");
+			e.printStackTrace();
+		}
+		
+		return Response.status(Response.Status.OK)
+			.entity("An email has been sent to the address registered to this username.")
+			.build();
+	}
+	
+	@GET
+	@Path("{id}/tokenValidation")
+	@Produces({MediaType.TEXT_HTML})
+	public Response tokenValidation(@PathParam("id") Long id,
+			@QueryParam("token") String token) throws AppException{
+
+		return userService.validateToken(id, token);
+	}
+		
+	@POST
+	@Path("{id}/tokenPasswordReset")
+	@Produces({MediaType.TEXT_HTML})
+	public String tokenPasswordReset(@PathParam("id") Long id,
+			@FormParam("token") String token,
+			@FormParam("password") String password) throws AppException{
+		userService.tokenPasswordReset(id, token, password);
+		return "Your password has been successfully reset";
+	}
+	
 }
