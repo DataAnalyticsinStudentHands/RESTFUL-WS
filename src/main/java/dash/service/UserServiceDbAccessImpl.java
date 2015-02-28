@@ -370,8 +370,16 @@ UserService {
 	@Transactional
 	public Response validateToken(Long id, String token) throws AppException{
 		User user=this.getUserById(id);
+		String debugInfo="token failed debug out:";
 		for(ValidationTokenEntity tokenEntity:user.getValidation_tokens()){
-			if(tokenEntity.getToken()==token && tokenEntity.getExpiration_date().before(new Date())){
+			debugInfo="<br>tokenmatchcheck=";
+			if(tokenEntity.getToken().equals(token)){debugInfo+="true";}
+			else{debugInfo+="false<br>"+tokenEntity.getToken()+"<br>"+token;}
+			debugInfo+="  <br>expirationCheck=";
+			if(tokenEntity.getExpiration_date().after(new Date())){debugInfo+="true";}
+			else{debugInfo+="false";}
+			
+			if(tokenEntity.getToken().equals(token) && tokenEntity.getExpiration_date().after(new Date())){
 				switch(tokenEntity.getToken_type()){
 				case PASSWORD_RESET: 
 				{
@@ -400,7 +408,7 @@ UserService {
 		
 	
 		return Response.status(500).
-				entity("Internal Server Error: Token Invalid").build();
+				entity(debugInfo).build();
 		
 	}
 	
