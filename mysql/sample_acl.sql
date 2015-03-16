@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2014 at 09:08 PM
--- Server version: 5.6.20
+-- Generation Time: Mar 16, 2015 at 09:51 PM
+-- Server version: 5.6.20-log
 -- PHP Version: 5.5.15
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `sampleacldb`
 --
+CREATE DATABASE IF NOT EXISTS `sampleacldb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `sampleacldb`;
 
 -- --------------------------------------------------------
 
@@ -27,17 +29,25 @@ SET time_zone = "+00:00";
 -- Table structure for table `acl_class`
 --
 
+DROP TABLE IF EXISTS `acl_class`;
 CREATE TABLE IF NOT EXISTS `acl_class` (
 `id` bigint(20) NOT NULL,
   `class` varchar(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
+--
+-- Truncate table before insert `acl_class`
+--
+
+TRUNCATE TABLE `acl_class`;
 --
 -- Dumping data for table `acl_class`
 --
 
 INSERT INTO `acl_class` (`id`, `class`) VALUES
-(10, 'dash.pojo.SampleObject'),
+(7, 'dash.pojo.Group'),
+(9, 'dash.pojo.Post'),
+(8, 'dash.pojo.Task'),
 (4, 'dash.pojo.User');
 
 -- --------------------------------------------------------
@@ -46,6 +56,7 @@ INSERT INTO `acl_class` (`id`, `class`) VALUES
 -- Table structure for table `acl_entry`
 --
 
+DROP TABLE IF EXISTS `acl_entry`;
 CREATE TABLE IF NOT EXISTS `acl_entry` (
 `id` bigint(20) NOT NULL,
   `acl_object_identity` bigint(20) NOT NULL,
@@ -55,8 +66,13 @@ CREATE TABLE IF NOT EXISTS `acl_entry` (
   `granting` tinyint(1) NOT NULL,
   `audit_success` tinyint(1) NOT NULL,
   `audit_failure` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=233 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=215 ;
 
+--
+-- Truncate table before insert `acl_entry`
+--
+
+TRUNCATE TABLE `acl_entry`;
 --
 -- Dumping data for table `acl_entry`
 --
@@ -77,18 +93,11 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
 (195, 64, 0, 42, 1, 1, 0, 0),
 (196, 64, 1, 42, 2, 1, 0, 0),
 (197, 64, 2, 42, 8, 1, 0, 0),
-(212, 65, 0, 43, 1, 1, 0, 0),
-(213, 65, 1, 43, 2, 1, 0, 0),
-(214, 65, 2, 43, 8, 1, 0, 0),
-(218, 66, 0, 35, 1, 1, 0, 0),
-(219, 66, 1, 35, 2, 1, 0, 0),
-(220, 66, 2, 35, 8, 1, 0, 0),
-(224, 67, 0, 35, 1, 1, 0, 0),
-(225, 67, 1, 35, 2, 1, 0, 0),
-(226, 67, 2, 35, 8, 1, 0, 0),
-(230, 68, 0, 35, 1, 1, 0, 0),
-(231, 68, 1, 35, 2, 1, 0, 0),
-(232, 68, 2, 35, 8, 1, 0, 0);
+(198, 59, 0, 35, 128, 1, 0, 0),
+(199, 59, 1, 41, 64, 1, 0, 0),
+(200, 59, 2, 42, 64, 1, 0, 0),
+(207, 63, 0, 41, 128, 1, 0, 0),
+(208, 63, 1, 42, 64, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -96,6 +105,7 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
 -- Table structure for table `acl_object_identity`
 --
 
+DROP TABLE IF EXISTS `acl_object_identity`;
 CREATE TABLE IF NOT EXISTS `acl_object_identity` (
 `id` bigint(20) NOT NULL,
   `object_id_class` bigint(20) NOT NULL,
@@ -103,8 +113,13 @@ CREATE TABLE IF NOT EXISTS `acl_object_identity` (
   `parent_object` bigint(20) DEFAULT NULL,
   `owner_sid` bigint(20) NOT NULL DEFAULT '4',
   `entries_inheriting` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=66 ;
 
+--
+-- Truncate table before insert `acl_object_identity`
+--
+
+TRUNCATE TABLE `acl_object_identity`;
 --
 -- Dumping data for table `acl_object_identity`
 --
@@ -114,12 +129,11 @@ INSERT INTO `acl_object_identity` (`id`, `object_id_class`, `object_id_identity`
 (45, 4, 7, NULL, 4, 1),
 (46, 4, 8, NULL, 4, 1),
 (57, 4, 12, NULL, 4, 1),
+(59, 7, 16, NULL, 4, 1),
 (60, 4, 14, NULL, 4, 1),
+(63, 8, 5, NULL, 4, 1),
 (64, 4, 15, NULL, 4, 1),
-(65, 4, 18, NULL, 4, 1),
-(66, 10, 1, NULL, 4, 1),
-(67, 10, 2, NULL, 4, 1),
-(68, 10, 3, NULL, 4, 1);
+(65, 4, 18, NULL, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -127,6 +141,7 @@ INSERT INTO `acl_object_identity` (`id`, `object_id_class`, `object_id_identity`
 -- Table structure for table `acl_sid`
 --
 
+DROP TABLE IF EXISTS `acl_sid`;
 CREATE TABLE IF NOT EXISTS `acl_sid` (
 `id` bigint(20) NOT NULL,
   `principal` tinyint(1) NOT NULL,
@@ -134,12 +149,16 @@ CREATE TABLE IF NOT EXISTS `acl_sid` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
+-- Truncate table before insert `acl_sid`
+--
+
+TRUNCATE TABLE `acl_sid`;
+--
 -- Dumping data for table `acl_sid`
 --
 
 INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 (39, 1, 'Admin'),
-(43, 1, 'BrokenTest'),
 (4, 1, 'Root'),
 (41, 1, 'TaskManagerDemo'),
 (42, 1, 'taskUser'),
@@ -152,6 +171,7 @@ INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 -- Table structure for table `authorities`
 --
 
+DROP TABLE IF EXISTS `authorities`;
 CREATE TABLE IF NOT EXISTS `authorities` (
 `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -159,12 +179,16 @@ CREATE TABLE IF NOT EXISTS `authorities` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
+-- Truncate table before insert `authorities`
+--
+
+TRUNCATE TABLE `authorities`;
+--
 -- Dumping data for table `authorities`
 --
 
 INSERT INTO `authorities` (`id`, `username`, `authority`) VALUES
 (1, 'Admin', 'ROLE_ADMIN'),
-(7, 'BrokenTest', 'ROLE_USER'),
 (2, 'Root', 'ROLE_ROOT'),
 (3, 'TaskManagerDemo', 'ROLE_USER'),
 (4, 'taskUser', 'ROLE_USER'),
@@ -177,6 +201,7 @@ INSERT INTO `authorities` (`id`, `username`, `authority`) VALUES
 -- Table structure for table `login`
 --
 
+DROP TABLE IF EXISTS `login`;
 CREATE TABLE IF NOT EXISTS `login` (
   `username` varchar(50) NOT NULL,
   `password` varchar(128) NOT NULL,
@@ -184,6 +209,11 @@ CREATE TABLE IF NOT EXISTS `login` (
 `id` int(11) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
+--
+-- Truncate table before insert `login`
+--
+
+TRUNCATE TABLE `login`;
 --
 -- Dumping data for table `login`
 --
@@ -194,29 +224,7 @@ INSERT INTO `login` (`username`, `password`, `enabled`, `id`) VALUES
 ('User', 'test', 1, 8),
 ('Admin', 'test', 1, 12),
 ('TaskManagerDemo', 'test', 1, 14),
-('taskUser', 'test', 1, 15),
-('BrokenTest', 'test', 1, 18);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sample_object`
---
-
-CREATE TABLE IF NOT EXISTS `sample_object` (
-`id` int(11) NOT NULL,
-  `basic_field_sample` varchar(64) DEFAULT NULL,
-  `time_stamp_sample` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `sample_object`
---
-
-INSERT INTO `sample_object` (`id`, `basic_field_sample`, `time_stamp_sample`) VALUES
-(1, NULL, '2014-11-05 15:52:12'),
-(2, NULL, '2014-11-05 15:57:19'),
-(3, 'This is a test', '2014-11-05 16:06:03');
+('taskUser', 'test', 1, 15);
 
 -- --------------------------------------------------------
 
@@ -224,6 +232,7 @@ INSERT INTO `sample_object` (`id`, `basic_field_sample`, `time_stamp_sample`) VA
 -- Table structure for table `user_data`
 --
 
+DROP TABLE IF EXISTS `user_data`;
 CREATE TABLE IF NOT EXISTS `user_data` (
   `username` varchar(50) NOT NULL,
 `id` int(11) NOT NULL,
@@ -234,21 +243,55 @@ CREATE TABLE IF NOT EXISTS `user_data` (
   `cellPhone` varchar(10) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `picture` varchar(200) DEFAULT NULL,
-  `insertion_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `insertion_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_email_verified` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
+--
+-- Truncate table before insert `user_data`
+--
+
+TRUNCATE TABLE `user_data`;
 --
 -- Dumping data for table `user_data`
 --
 
-INSERT INTO `user_data` (`username`, `id`, `firstName`, `lastName`, `city`, `homePhone`, `cellPhone`, `email`, `picture`, `insertion_date`) VALUES
-('Root', 1, '', '', NULL, NULL, NULL, NULL, NULL, '2014-07-09 16:41:51'),
-('Visitor', 7, 'Client', 'Device', NULL, NULL, NULL, NULL, NULL, '2014-07-18 12:12:54'),
-('User', 8, 'Demo', 'ofUser', NULL, NULL, NULL, NULL, NULL, '2014-07-18 12:14:26'),
-('Admin', 12, 'Demo', 'ofAdmin', NULL, NULL, NULL, NULL, NULL, '2014-07-24 10:38:34'),
-('TaskManagerDemo', 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-29 16:17:31'),
-('taskUser', 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-08-01 12:23:02'),
-('BrokenTest', 18, 'first', 'last', 'houston', '2818888208', '1234567890', 'test@gmail.com', NULL, '2014-10-22 21:26:16');
+INSERT INTO `user_data` (`username`, `id`, `firstName`, `lastName`, `city`, `homePhone`, `cellPhone`, `email`, `picture`, `insertion_date`, `is_email_verified`) VALUES
+('Root', 1, '', '', NULL, NULL, NULL, NULL, NULL, '2014-07-09 16:41:51', 0),
+('Visitor', 7, 'Client', 'Device', NULL, NULL, NULL, NULL, NULL, '2014-07-18 12:12:54', 0),
+('User', 8, 'Demo', 'ofUser', NULL, NULL, NULL, 'tyler.swensen@gmail.com', NULL, '2014-07-18 12:14:26', 1),
+('Admin', 12, 'Demo', 'ofAdmin', NULL, NULL, NULL, NULL, NULL, '2014-07-24 10:38:34', 0),
+('TaskManagerDemo', 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-29 16:17:31', 0),
+('taskUser', 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-08-01 12:23:02', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `validation_tokens`
+--
+
+DROP TABLE IF EXISTS `validation_tokens`;
+CREATE TABLE IF NOT EXISTS `validation_tokens` (
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expiration_date` datetime NOT NULL,
+  `token_type` enum('PASSWORD_RESET','EMAIL_ACTIVATION') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Truncate table before insert `validation_tokens`
+--
+
+TRUNCATE TABLE `validation_tokens`;
+--
+-- Dumping data for table `validation_tokens`
+--
+
+INSERT INTO `validation_tokens` (`user_id`, `token`, `expiration_date`, `token_type`) VALUES
+(8, 'gdkAr1uXptJJ8BEmALjA7k7fgl5I4ZmcMAJCgMfNVj0rkrnOBJOA2ywWJZ67b4KN', '2015-02-11 09:50:38', 'PASSWORD_RESET'),
+(8, '6XL2fc5x3qvle4fir7Ebmy76fbeWpJeXCEiWWGy2CxUz0hd943jG92EE5chMmm8i', '2015-02-28 14:00:44', 'PASSWORD_RESET'),
+(8, '2VdrEwi5xmwOwdBfRVsm6KHBGDvQ8t8vWmVr0lemp6bLf2MjkQAFslNe2lhZ2rUg', '2015-02-28 14:47:54', 'PASSWORD_RESET'),
+(8, 'AsYHarW7SgA0ylDhbRsh6kX16Z36SizuUVBr89zly9B1Eno57S1xFLwjLqhRgdyO', '2015-03-02 16:24:25', 'PASSWORD_RESET');
 
 --
 -- Indexes for dumped tables
@@ -291,12 +334,6 @@ ALTER TABLE `login`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `sample_object`
---
-ALTER TABLE `sample_object`
- ADD PRIMARY KEY (`id`), ADD KEY `time_stamp_sample` (`time_stamp_sample`);
-
---
 -- Indexes for table `user_data`
 --
 ALTER TABLE `user_data`
@@ -310,17 +347,17 @@ ALTER TABLE `user_data`
 -- AUTO_INCREMENT for table `acl_class`
 --
 ALTER TABLE `acl_class`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `acl_entry`
 --
 ALTER TABLE `acl_entry`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=233;
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=215;
 --
 -- AUTO_INCREMENT for table `acl_object_identity`
 --
 ALTER TABLE `acl_object_identity`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=69;
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `acl_sid`
 --
@@ -336,11 +373,6 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 ALTER TABLE `login`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
---
--- AUTO_INCREMENT for table `sample_object`
---
-ALTER TABLE `sample_object`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user_data`
 --

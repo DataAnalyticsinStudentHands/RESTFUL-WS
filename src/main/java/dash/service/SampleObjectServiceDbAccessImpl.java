@@ -191,7 +191,7 @@ public class SampleObjectServiceDbAccessImpl extends ApplicationObjectSupport
 		// If you would like to allow null values use the following line.
 		// Reference PostServiceImpl in the VolunteerManagementApp for more
 		// details.
-		// BeanUtilsBean withNull=new BeanUtilsBean();
+		 BeanUtilsBean withNull=new BeanUtilsBean();
 
 		// Assuming the NullAwareBeanUtilsBean is sufficient this code can be
 		// used.

@@ -384,7 +384,7 @@ UserService {
 				case PASSWORD_RESET: 
 				{
 					try{
-					return Response.seeOther(new URI("../PasswordReset.jsp?user_id="
+					return Response.seeOther(new URI("../../PasswordReset.jsp?user_id="
 						+user.getId()+"&"+"token="+tokenEntity.getToken())).build();
 					}catch (URISyntaxException e){
 						throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),

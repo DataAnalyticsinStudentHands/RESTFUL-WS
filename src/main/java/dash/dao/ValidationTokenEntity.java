@@ -42,7 +42,7 @@ public class ValidationTokenEntity implements Serializable {
 		PASSWORD_RESET, EMAIL_ACTIVATION 
 	}
 		
-	public static final int token_life_minutes=30;
+	public static final int token_life_minutes=120;
 
 	private static final long serialVersionUID = -8039686696076337053L;
 /** id of the user
@@ -92,14 +92,7 @@ public class ValidationTokenEntity implements Serializable {
 	}
 
 
-	public Long getUser_id() {
-		return user_id;
-	}
-
-
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
-	}
+	
 
 
 	public String getToken() {
