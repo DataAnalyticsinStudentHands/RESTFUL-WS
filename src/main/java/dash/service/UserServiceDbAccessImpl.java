@@ -385,7 +385,7 @@ UserService {
 				{
 					try{
 					return Response.seeOther(new URI("../../PasswordReset.jsp?user_id="
-						+user.getId()+"&"+"token="+tokenEntity.getToken())).build();
+						+user.getId()+"&"+"token="+tokenEntity.getToken()+"&username="+user.getUsername())).build();
 					}catch (URISyntaxException e){
 						throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
 						500,
@@ -434,7 +434,7 @@ UserService {
 		User user=this.getUserById(id);
 		boolean tokenIsValid=false;
 		for(ValidationTokenEntity tokenEntity:user.getValidation_tokens()){
-			if(tokenEntity.getToken()==token && tokenEntity.getExpiration_date().before(new Date())
+			if(tokenEntity.getToken().equals(token) && tokenEntity.getExpiration_date().after(new Date())
 					&& tokenEntity.getToken_type() == ValidationTokenEntity.TOKEN_TYPE.PASSWORD_RESET){
 				user.setPassword(password);
 				this.resetPassword(user);
