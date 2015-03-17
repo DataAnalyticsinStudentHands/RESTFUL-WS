@@ -348,7 +348,7 @@ UserService {
 	                + userEntity.getLastName()
 	                + ", \n\nWe recieved a request to reset you password for "+AppConstants.APPLICATION_NAME+"."
             		+ "  To reset your password please click the following link.\n\n"
-	                + uri.getBaseUri() + "users/"+userEntity.getId()+"/tokenValidation?token="
+	                + "http://localhost:8100/#/resetPassword/uid/"+userEntity.getId()+"/token/"
 	                + tokenEntity.getToken()
 	                +"\n\n\nIf you did not attempt to reset your password please contact us immidiately.");
 	        try{
@@ -383,15 +383,8 @@ UserService {
 				switch(tokenEntity.getToken_type()){
 				case PASSWORD_RESET: 
 				{
-					try{
-					return Response.seeOther(new URI("../../PasswordReset.jsp?user_id="
-						+user.getId()+"&"+"token="+tokenEntity.getToken()+"&username="+user.getUsername())).build();
-					}catch (URISyntaxException e){
-						throw new AppException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-						500,
-						"Oops, there was an error Redirecting to password reset form",
-						e.getMessage(), AppConstants.DASH_POST_URL);
-					}
+					 return Response.status(200).
+								entity("Token is valid! Proceed to password reset...").build();
 				}
 				case EMAIL_ACTIVATION:
 				{
